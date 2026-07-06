@@ -1,33 +1,43 @@
-# Structural Analysis Research
+# Structural Analysis Foundations
 
 [![LaTeX validation](actions/workflows/latex.yml/badge.svg)](actions/workflows/latex.yml)
 
-This repository contains a three-paper mathematical research program on dependency, canonical structural analysis, and foundations for structural analysis.
+Structural Analysis Foundations is a three-paper research program investigating the mathematical foundations of structural analysis.
 
-## Research progression
+The program develops progressively:
 
-### Paper 1
+- **Paper 1** formalizes workload-relative dependency.
+- **Paper 2** defines canonical structural objects and deterministic, representation-invariant structural analysis.
+- **Paper 3** investigates the minimal mathematical interface required for admissible structural analysis operators.
 
-**The Mathematics of Dependency**
+Together, the papers progress from a specific structural analysis, to canonical structural representations, to the general theory of structural analysis itself.
 
-**Question:** What is dependency?
+## Research Program
 
-↓
+### Paper 1 — The Mathematics of Dependency
 
-### Paper 2
+**Research Question:** What is dependency?
 
-**Canonical Structural Analysis**
+**Contribution:**
+Formalizes workload-relative dependency as a mathematical object, treating dependency as a property relative to a specified workload and observational context rather than as an informal graph relation.
 
-**Question:** What is the graph?
+---
 
-↓
+### Paper 2 — Canonical Structural Analysis
 
-### Paper 3
+**Research Question:** What is the canonical structural object?
 
-**Foundations for Structural Analysis**
+**Contribution:**
+Develops deterministic, representation-invariant structural analysis over canonical structural objects, separating structural meaning from implementation-specific graph representations.
 
-**Question:** What is a structural analysis?
+---
 
+### Paper 3 — Foundations for Structural Analysis
+
+**Research Question:** What characterizes a structural analysis?
+
+**Contribution:**
+Investigates the minimal mathematical interface required for admissible structural analysis operators and studies the foundational properties shared by structural analyses independent of any specific application.
 
 ## Current repository status
 
@@ -73,4 +83,4 @@ Each paper is organized as a self-contained directory intended to hold its manus
 - `paper-3-foundations-structural-analysis/` — Paper 3: Foundations for Structural Analysis
 - `figures/` — top-level figure organization by paper
 
-Each paper can be compiled independently once its manuscript sources are present in its directory. The trilogy forms a progressive research program: Paper 1 develops dependency, Paper 2 develops the canonical graph perspective, and Paper 3 develops the foundations for structural analysis.
+Each paper can be compiled independently once its manuscript sources are present in its directory. The trilogy forms a progressive research program: Paper 1 develops workload-relative dependency, Paper 2 develops canonical structural representations, and Paper 3 develops the foundations for structural analysis.
