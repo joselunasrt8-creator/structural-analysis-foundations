@@ -173,3 +173,114 @@ Composition does **not** require genuinely new mathematics to support counterfac
 **Unresolved drift risks**
 - Treating evidence-producing operators as if evidence automatically composes would introduce an unstated propagation rule; avoid this unless explicitly required.
 - Treating arbitrary `Y_1\to Y_2` maps as structural analysis operators would silently widen the operator domain; avoid this unless a minimal post-observation-map definition is deliberately added.
+
+---
+
+## Characterization Audit — Admissible Structural Analysis Operators
+
+**Date:** 2026-07-06
+
+**Intent**
+- Open an internal research section for determining whether admissible structural analysis operators can be characterized by a finite independent axiom set, or whether Paper 3 is converging toward a rigorously specified finite interface.
+
+**Exact scope**
+- Mutated only:
+  - `paper-3-foundations-structural-analysis/v0_3_theorems.tex`
+  - `paper-3-foundations-structural-analysis/THEOREM_DEPENDENCY_GRAPH.md`
+  - `paper-3-foundations-structural-analysis/PROOF_LOG.md`
+- Did not modify `main.tex`, bibliography files, PDFs, Paper 1, Paper 2, GitHub Actions, or build scripts.
+
+**Preserved invariants**
+- No manuscript text changed.
+- No proof constructed.
+- No new mathematical object introduced.
+- No post-observation operator class introduced.
+- No output-side perturbation, metric, preorder, algebraic structure, or evidence propagation rule introduced.
+- Dependency graph remains acyclic.
+
+**Mutation-capable surfaces**
+- Internal theorem scratchpad.
+- Internal dependency graph.
+- Internal proof/audit log.
+
+**Replay implications**
+- Future characterization work should replay this audit before promoting any theorem-level statement.
+- Redundant properties should not be reintroduced as independent axioms unless a later proof obligation demonstrates genuine independence.
+
+**Proof requirements deliberately not initiated**
+- No proof of a Characterization Theorem.
+- No proof of finite sufficiency.
+- No proof of independence beyond the audit-level dependency classification.
+
+**Validation requirements**
+- Confirm that every accepted property receives an explicit classification.
+- Confirm that corollary properties are not promoted into axioms.
+- Confirm that the dependency matrix is acyclic.
+- Run `git diff --check`.
+- Run `git status --short`.
+
+### Accepted-property inventory and classification
+
+| Property | Classification | Audit decision |
+| --- | --- | --- |
+| Typed Well-Formedness | Both; independent root interface clause | Necessary for admissibility and sufficient for the minimal typed-map component. |
+| Determinism | Necessary; independent unless definitionally embedded | Required for unique observable values; may remain folded into the operator definition. |
+| Canonical Structural Objects | Necessary; independent | Fixes the domain boundary inherited from Paper 2. |
+| Representation Invariance | Necessary for invariant observables; independent | Not derivable from typing, determinism, or canonical-domain choice. |
+| Domain Compatibility | Derivable for ordinary analyses; conditionally independent for proposed external pre-analysis maps | Usually a corollary of typed domain/codomain matching. |
+| Counterfactual Evaluability | Derivable | Follows from perturbation endomaps `Sigma -> Sigma` and operators `Sigma -> Y`. |
+| Perturbation Compatibility (minimal interpretation) | Derivable; redundant theorem-level candidate | Equivalent to typed evaluability of perturbed analyses under the current minimal reading. |
+| Canonical Intermediate Boundary | Necessary for composition-like downstream invariance; independent of single-stage admissibility | Required only when intermediate artifacts can introduce representational divergence. |
+| Downstream Invariance Distribution | Derivable | Follows from representation invariance plus controlled intermediate boundaries and downstream respectfulness. |
+
+### Dependency matrix summary
+
+- Root/independent clauses at the current horizon:
+  - Typed Well-Formedness.
+  - Determinism, unless retained as part of typed well-formedness.
+  - Canonical Structural Objects.
+  - Representation Invariance.
+  - Canonical Intermediate Boundary.
+- Corollary path:
+  - Typed Well-Formedness + Canonical Structural Objects imply ordinary Domain Compatibility.
+  - Domain Compatibility + perturbation endomap typing imply Counterfactual Evaluability.
+  - Counterfactual Evaluability implies Perturbation Compatibility under the minimal interpretation.
+  - Representation Invariance + Canonical Intermediate Boundary + downstream respectfulness imply Downstream Invariance Distribution.
+
+### Characterization Existence Gate
+
+**Q1. Can admissible structural analysis operators be characterized by a finite independent axiom set?**
+
+Not presently. The framework has a finite property/interface list, but the accepted list is not independent because several properties are corollaries or audit labels.
+
+**Q2. Which accepted properties are logically independent?**
+
+At the current audit horizon: Typed Well-Formedness, Determinism if not definitionally embedded, Canonical Structural Objects, Representation Invariance, and Canonical Intermediate Boundary.
+
+**Q3. Which accepted properties are corollaries of others?**
+
+Domain Compatibility, Counterfactual Evaluability, Perturbation Compatibility under the minimal interpretation, and Downstream Invariance Distribution are corollaries/redundant theorem-level candidates under the current interface.
+
+**Q4. Does the framework admit a Characterization Theorem, a finite interface specification, or neither?**
+
+The framework presently admits a finite interface specification. A Characterization Theorem should be recorded as Candidate only, pending a future sufficiency and independence argument.
+
+### Theorem horizon assessment
+
+- Paper 3 is currently converging toward a rigorously specified finite interface rather than a proven Characterization Theorem.
+- A Characterization Theorem appears possible only as a future candidate if the independent root clauses can be shown sufficient for all intended admissibility judgments without treating corollaries as axioms.
+- No additional axioms should be invented merely to obtain theorem form.
+
+### Redundant propositions discovered
+
+- Perturbation Compatibility under the minimal interpretation is redundant with Counterfactual Evaluability / typed domain compatibility.
+- Domain Compatibility is redundant for ordinary structural analysis operators, though useful as an audit label when pre-analysis maps are proposed.
+- Downstream Invariance Distribution is a consequence of controlled invariance boundaries, not an independent axiom.
+
+**Remaining reconciliation gaps**
+- Decide later whether a Characterization Theorem is narratively necessary or whether a finite interface specification is the correct final contribution.
+- If composition-like pipelines become central, decide whether to keep Canonical Intermediate Boundary internal or promote only the minimal boundary condition needed for downstream invariance.
+
+**Unresolved drift risks**
+- Promoting corollaries into independent axioms would obscure the minimal interface.
+- Introducing post-observation map classes or output-side compatibility structures without proof pressure would widen the framework beyond the current audit.

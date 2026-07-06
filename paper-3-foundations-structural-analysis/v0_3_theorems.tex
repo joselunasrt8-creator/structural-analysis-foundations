@@ -580,4 +580,153 @@ y\equiv_{Y_1}y'
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{comment}
 
+% ------------------------------------------------------------
+% Internal Research Section: Candidate Characterization
+% ------------------------------------------------------------
+\begin{comment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Candidate Characterization:
+% Admissible Structural Analysis Operators
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Status:
+%   Internal research audit only.
+%   Existence Gate for a possible characterization theorem or finite
+%   interface specification.
+%   No proof construction.
+%   No new mathematical objects introduced.
+%
+% Intent:
+%   Inventory the accepted properties currently defining or constraining
+%   admissible structural analysis operators and decide whether they support a
+%   finite independent axiom set, a characterization theorem, or only a
+%   rigorously specified minimal interface.
+%
+% Accepted-property inventory:
+%   P1. Typed Well-Formedness.
+%       Operators have an admitted observation codomain and are total maps on
+%       canonical structural objects.
+%   P2. Determinism.
+%       Each canonical structural object has a unique observable value, with a
+%       unique returned pair in the evidence-producing typing convention.
+%   P3. Canonical Structural Objects.
+%       The operator domain is the canonical structural-object boundary supplied
+%       by Paper 2.
+%   P4. Representation Invariance.
+%       Observable values do not change across representation-artifact
+%       equivalent canonical structural objects, when the chosen observable is
+%       representation-invariant.
+%   P5. Domain Compatibility.
+%       Any admissible operation used before analysis must land in the canonical
+%       structural-object domain consumed by the operator.
+%   P6. Counterfactual Evaluability.
+%       Counterfactual structural perturbations may be evaluated by applying an
+%       ordinary structural analysis operator to the perturbed canonical object.
+%   P7. Perturbation Compatibility (minimal interpretation).
+%       Compatibility currently means typed evaluability of \mathsf A(\delta(W))
+%       for perturbation endomaps \delta:\Sigma\to\Sigma; no output-side
+%       stability, monotonicity, refinement, simulation, commutation, or
+%       evidence propagation is implied.
+%   P8. Canonical Intermediate Boundary.
+%       Composition-like reasoning must control representational divergence at
+%       the intermediate codomain before a second-stage map is applied.
+%   P9. Downstream Invariance Distribution.
+%       Representation invariance of a downstream value is preserved only when
+%       each boundary that can introduce representational divergence is itself
+%       invariant/respectful for the relevant equivalence.
+%
+% Characterization matrix:
+%   Property                                      Classification
+%   -------------------------------------------------------------------------
+%   P1 Typed Well-Formedness                     Both; independent as the
+%                                                root typing/interface clause.
+%   P2 Determinism                               Necessary; independent unless
+%                                                folded into P1 by definition.
+%   P3 Canonical Structural Objects              Necessary; independent domain
+%                                                boundary inherited from Paper 2.
+%   P4 Representation Invariance                 Necessary for invariant
+%                                                observables; independent of
+%                                                typing/determinism/domain.
+%   P5 Domain Compatibility                      Derivable from P1 and P3 for
+%                                                ordinary analyses; independent
+%                                                when external pre-analysis maps
+%                                                are admitted.
+%   P6 Counterfactual Evaluability               Derivable from P1, P3, and
+%                                                perturbation endomap typing.
+%   P7 Perturbation Compatibility (minimal)      Derivable from P6; redundant
+%                                                as a theorem-level property.
+%   P8 Canonical Intermediate Boundary           Necessary for composition-like
+%                                                downstream invariance; independent
+%                                                of single-stage admissibility.
+%   P9 Downstream Invariance Distribution        Derivable from P4 and P8 plus
+%                                                respectfulness of each downstream
+%                                                stage; not independent.
+%
+% Dependency matrix (acyclic logical relationships):
+%   P1 -> P5, P6, P7.
+%   P2 -> P1 when P1 is read as deterministic typed well-formedness; otherwise
+%         P2 is a sibling root interface clause used by P1's uniqueness wording.
+%   P3 -> P1, P5, P6, P7.
+%   P4 -> P9.
+%   P5 -> P6.
+%   P6 -> P7.
+%   P8 -> P9.
+%   No dependency is recorded from P9 back to P4 or P8; the matrix is acyclic.
+%
+% Existence Gate:
+%   Q1. Can admissible structural analysis operators be characterized by a
+%       finite independent axiom set?
+%       Not presently. A finite interface list exists, but accepted properties
+%       include deliberate corollaries/redundant boundary statements. The audit
+%       does not justify inventing additional axioms merely to force theorem
+%       form.
+%
+%   Q2. Which accepted properties are logically independent?
+%       Independent at the current audit horizon:
+%         - Typed Well-Formedness, if not expanded to absorb all clauses.
+%         - Determinism, unless it remains definitionally embedded in Typed
+%           Well-Formedness / structural-analysis-operator typing.
+%         - Canonical Structural Objects.
+%         - Representation Invariance.
+%         - Canonical Intermediate Boundary, for composition-like downstream
+%           reasoning.
+%
+%   Q3. Which accepted properties are corollaries of others?
+%       Corollaries or redundant theorem-level candidates:
+%         - Domain Compatibility is a typing corollary for ordinary analyses.
+%         - Counterfactual Evaluability follows from perturbation endomap typing
+%           and the structural-analysis-operator domain.
+%         - Perturbation Compatibility under the minimal interpretation follows
+%           from Counterfactual Evaluability and is not independent.
+%         - Downstream Invariance Distribution follows from Representation
+%           Invariance plus the Canonical Intermediate Boundary and downstream
+%           respectfulness assumptions.
+%
+%   Q4. Does the framework admit a Characterization Theorem, a finite interface
+%       specification, or neither?
+%       The framework presently admits a finite interface specification. A
+%       Characterization Theorem remains a Candidate only if future work shows
+%       that the independent root clauses are also sufficient for all intended
+%       admissibility judgments without relying on the currently redundant
+%       corollaries as axioms.
+%
+% Classification decision:
+%   Record this as a Candidate Characterization only. The current framework is
+%   best modeled as a minimal finite interface specification, not yet as a
+%   characterization theorem. Do not add new axioms, post-observation operator
+%   classes, perturbation actions, output relations, algebraic structures, or
+%   proof obligations to obtain theorem form.
+%
+% Redundant propositions discovered:
+%   - Perturbation Compatibility, under the minimal interpretation, is redundant
+%     with Counterfactual Evaluability / domain typing.
+%   - Domain Compatibility is redundant for ordinary structural analysis
+%     operators, though still useful as an audit label when a pre-analysis map
+%     is proposed.
+%   - Downstream Invariance Distribution is not a new axiom; it is a boundary
+%     propagation consequence once the intermediate boundary is controlled.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{comment}
+
+% End of internal characterization audit.
+
 % End of file.
