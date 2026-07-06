@@ -1,6 +1,6 @@
 # Structural Analysis Foundations
 
-[![LaTeX validation](actions/workflows/latex.yml/badge.svg)](actions/workflows/latex.yml)
+![Three-paper research progression](figures/research-program-progression.svg)
 
 Structural Analysis Foundations is a three-paper research program investigating the mathematical foundations of structural analysis.
 
