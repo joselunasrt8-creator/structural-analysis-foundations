@@ -10,7 +10,7 @@ This directory is the self-contained workspace for Paper 2, including manuscript
 
 ## Build instructions
 
-From this directory, compile `main.tex` with the LaTeX engine and bibliography workflow used by the paper, for example:
+When `main.tex` and `references.bib` are present, compile `main.tex` from this directory with the LaTeX engine and bibliography workflow used by the paper, for example:
 
 ```sh
 latexmk -pdf main.tex
@@ -20,6 +20,6 @@ latexmk -pdf main.tex
 
 The generated PDF for this paper should be stored at:
 
-```text
-pdf/paper2.pdf
-```
+[pdf/paper2.pdf](pdf/paper2.pdf)
+
+Current blocker: `main.tex` and `references.bib` are not present in this paper directory, so LaTeX builds are not validated.

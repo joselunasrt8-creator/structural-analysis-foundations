@@ -26,6 +26,17 @@ This repository contains a three-paper mathematical research program on dependen
 
 **Question:** What is a structural analysis?
 
+
+## Current repository status
+
+Canonical paper PDFs are present at:
+
+- [paper-1-dependency/pdf/paper1.pdf](paper-1-dependency/pdf/paper1.pdf)
+- [paper-2-canonical-structural-analysis/pdf/paper2.pdf](paper-2-canonical-structural-analysis/pdf/paper2.pdf)
+- [paper-3-foundations-structural-analysis/pdf/paper3.pdf](paper-3-foundations-structural-analysis/pdf/paper3.pdf)
+
+Remaining blocker: `main.tex` and `references.bib` are still absent from each paper directory, so LaTeX builds are not validated.
+
 ## Repository organization
 
 Each paper is organized as a self-contained directory intended to hold its manuscript source, bibliography, appendices, figures, and generated PDF output.
