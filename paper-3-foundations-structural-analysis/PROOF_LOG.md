@@ -137,7 +137,7 @@ This file tracks the *development status and history* of theorem work for Paper 
    - **Decision: selected for basic counterfactual structural perturbations.**
    - Paper 3 already defines a perturbation family as deterministic transformations `\delta:\Sigma\to\Sigma`, explicitly intended to model counterfactual edits.
    - Paper 3 already defines a structural analysis operator as a deterministic operator `\mathsf A:\Sigma\to Y` for some `Y\in\mathsf{Obs}`.
-   - Therefore, for any admitted perturbation `\delta\in\Delta`, the perturbed object `\delta(\Sigma)` is already in the same canonical-object domain consumed by `\mathsf A`. The expression `\mathsf A(\delta(\Sigma))` is well-typed without introducing a new object.
+   - Notation normalized: `\Sigma` denotes the domain of canonical structural objects, while `W\in\Sigma` denotes an individual structural object. Therefore, for any admitted perturbation `\delta\in\Delta`, the perturbed object `\delta(W)` is already in the same canonical-object domain consumed by `\mathsf A`. The expression `\mathsf A(\delta(W))` is well-typed without introducing a new object.
    - Paper 1 supplies a concrete instance of this pattern through deletion and reachability: dependency is defined by applying a counterfactual removal operator and then evaluating reachability.
    - Paper 2 lifts the same semantics to canonical structural objects by defining counterfactual deletion on structural graphs and proving that projection and counterfactual deletion commute up to structural equivalence.
    - Consequence: **Composition does not require genuinely new mathematics merely to support counterfactual structural perturbations.**
@@ -146,6 +146,8 @@ This file tracks the *development status and history* of theorem work for Paper 
    - **Decision: applicable only if a citable internal statement is desired.**
    - A lemma could record the typing fact: if `\delta:\Sigma\to\Sigma` is in a perturbation family and `\mathsf A:\Sigma\to Y` is a structural analysis operator, then `\mathsf A\circ\delta:\Sigma\to Y` is a deterministic total map into an admitted observation space.
    - This would be a lemma/proposition-level typing consequence, not a new theorem and not a new mathematical object.
+   - The Perturbation Compatibility candidate is closed at the Existence Gate under this minimal typed-evaluability interpretation.
+   - Stronger compatibility notions---stability, monotonicity, refinement, simulation, commutation, or output-side compatibility predicates---remain possible future theorem candidates and are intentionally deferred/uninstantiated.
    - No lemma is required before the framework can express counterfactual structural analyses; it would only prevent repeated re-explanation.
 
 3. **Existing framework is insufficient.**
