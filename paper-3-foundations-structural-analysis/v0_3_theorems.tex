@@ -1,0 +1,195 @@
+% v0_3_theorems.tex
+% Framework Theorems (working draft)
+%
+% This file is intentionally NOT included from main.tex while Paper 3 is frozen at v0.2.
+% Use it as a scratchpad for fully-formal theorem statements, dependency auditing, and proof development.
+%
+% Canonical theorem-workflow protocol (self-governing):
+%   - To add ANY new mathematical claim (definition/remark/proposition/lemma/theorem),
+%     COPY the canonical template block below and fill it in.
+%   - Do not create ad-hoc formats; the template is the interface.
+%
+% ============================================================================
+% CANONICAL CANDIDATE-RESULT TEMPLATE (COPY FROM HERE FOR EVERY NEW CLAIM)
+% ============================================================================
+%\begin{comment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Candidate Result
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Status:
+%   Candidate
+%   Definition
+%   Remark
+%   Proposition
+%   Lemma
+%   Theorem
+%
+% ------------------------------------------------------------
+% Existence Gate
+% ------------------------------------------------------------
+% Q1. Exact statement:
+% Q2. Minimal definitions required:
+% Q3. Counterexample attempts:
+% Q4. Classification (circle one): Definition / Remark / Proposition / Lemma / Theorem
+%
+% Decision:
+%
+%\begin{theorem}[Working title] % or definition/remark/proposition/lemma
+%\label{...}
+%\deps{...}
+%...
+%\end{theorem}
+%
+% ------------------------------------------------------------
+% Dependency Audit
+% ------------------------------------------------------------
+% Logical dependencies:
+% Interface dependencies:
+% Downstream users:
+%
+% ------------------------------------------------------------
+% Proof Development
+% ------------------------------------------------------------
+% Sketch:
+% Missing obligations:
+% Failed proof attempts:
+%
+% ------------------------------------------------------------
+% Manuscript Promotion Gate
+% ------------------------------------------------------------
+% Necessity:
+% Independence:
+% Narrative role:
+% Final decision: Stay internal / Promote to main.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\end{comment}
+% ============================================================================
+% END CANONICAL TEMPLATE
+% ============================================================================
+
+\section*{Framework Theorems (v0.3 working draft)}
+
+% ------------------------------------------------------------
+% Proposition 1: Typed well-formedness (downgraded from planned Theorem 1)
+% ------------------------------------------------------------
+\begin{proposition}[Typed well-formedness of structural analysis operators]
+\label{prop:typed-well-formedness}
+\deps{Definitions~\ref{def:observation-spaces} and~\ref{def:structural-analysis-operator}.}
+Let $\mathsf A$ be a structural analysis operator. Then there exists an observation space $Y\in\mathsf{Obs}$ such that $\mathsf A: \Sigma\to Y$ is a deterministic total map on canonical structural objects. In particular, for every canonical structural object $\Sigma$, there exists a unique observable value $y\in Y$ with $y=\mathsf A(\Sigma)$. If $\mathsf A$ is evidence-producing, then for every $\Sigma$ there exists a unique pair $(y,e)$ such that $\mathsf A(\Sigma)=(y,e)$ with $y\in Y$ and $e\in\mathsf{Ev}$.
+
+% Classification (Q4): definitional consequence / typing sanity check.
+% Rationale: Definition~\ref{def:structural-analysis-operator} already fixes $\mathsf A$ as a deterministic total function $\Sigma\to Y$ for some $Y\in\mathsf{Obs}$.
+\end{proposition}
+
+% Pre-proof checkpoint (answer these before attempting any proof sketch):
+%
+%  (Q1) What exactly is the statement?
+%   - Drafted above (typed existence/uniqueness; evidence-producing case included).
+%
+%  (Q2) Which definitions are necessary and sufficient?
+%   - Necessary (for the statement as written):
+%       * Def.~\ref{def:observation-spaces} (to quantify $Y\in\mathsf{Obs}$)
+%       * Def.~\ref{def:structural-analysis-operator} (to interpret “$\mathsf A$ is a structural analysis operator”)
+%       * (If keeping the evidence clause) Def.~\ref{def:witness-object} only for the *type* $\mathsf{Ev}$.
+%       * Canonical structural object $\Sigma$ (from Paper~2) as the domain.
+%   - Not currently used by this statement (so should not be dependencies unless we strengthen the claim):
+%       * Def.~\ref{def:structural-observable}
+%       * Def.~\ref{def:representation-invariant-observable}
+%       * Def.~\ref{def:perturbation-family}
+%   - Sufficiency check: if Def.~\ref{def:structural-analysis-operator} already includes determinism and a total map $\Sigma\to Y$, then the theorem reduces to typed well-formedness.
+%
+%  (Q3) Could the statement fail for any taxonomy family? (counterexample attempt)
+%   - Evidence-producing operators: OK (still functional), unless evidence is intended to be non-unique.
+%   - Partial operators: would break existence for some $\Sigma$ (but are excluded if “operator” means total function).
+%   - Nondeterministic analyses: would break uniqueness (excluded by “deterministic” in Def.~\ref{def:structural-analysis-operator}).
+%   - Probabilistic outputs: would require $Y$ to be, e.g., a distribution space; allowed only if such $Y\in\mathsf{Obs}$ and the operator is still deterministic as a map into that $Y$.
+%   - Multi-output analyses: allowed only if product/tuple spaces are in $\mathsf{Obs}$, or the operator is reframed to return a structured $y$.
+%   - Transformational analyses returning a new structural object: allowed only if $\Sigma\in\mathsf{Obs}$ (or a wrapper type is), otherwise this is outside the current interface.
+%   - Key fork: if Def.~\ref{def:structural-analysis-operator} is intended to permit partiality or nondeterminism, then Q1 must be tightened (or the definition must be revised).
+%
+%  (Q4) Is this a theorem, or a consequence of the definitions?
+%   - Pending Q2/Q3 resolution. Likely a proposition/remark unless “well-definedness” is strengthened beyond typing.
+%
+% Proof idea (comments only; only after Q1--Q4 pass):
+% - If kept as a result, the “proof” should be a short typing argument.
+% - If we want a nontrivial theorem, strengthen the conclusion (e.g., well-definedness relative to $\equiv$, or closure/totality conditions that are not definitional).
+
+% ------------------------------------------------------------
+% Theorem 2: Representation invariance
+% ------------------------------------------------------------
+\begin{theorem}[Representation invariance]
+\label{thm:representation-invariance}
+\deps{Definition~\ref{def:representation-invariant-observable}; the chosen representation-artifact equivalence $\equiv$ from Paper~2; Definition~\ref{def:structural-analysis-operator}.}
+Fix an observation space $Y\in\mathsf{Obs}$ and a representation-invariant structural observable $\mathcal O: \Sigma\to Y$ (with respect to $\equiv$). Define a structural analysis operator $\mathsf A$ by $\mathsf A(\Sigma)\coloneqq \mathcal O(\Sigma)$. Then for all canonical structural objects $\Sigma_1,\Sigma_2$,
+\[
+\Sigma_1\equiv \Sigma_2 \implies \mathsf A(\Sigma_1)=\mathsf A(\Sigma_2).
+\]
+If $\mathsf A$ is evidence-producing, the invariance requirement applies to the observable value $y$; evidence objects $e$ need not be invariant across representations.
+\end{theorem}
+
+% Existence gate (answer these before attempting any proof sketch):
+%
+%  (Q1) What exactly is the statement?
+%   - Drafted above as: “representation-invariant observables induce representation-invariant analysis results.”
+%
+%  (Q2) Which definitions are necessary and sufficient?
+%   - Necessary:
+%       * Def.~\ref{def:representation-invariant-observable} (the hypothesis)
+%       * Def.~\ref{def:structural-analysis-operator} (to package $\mathcal O$ as an operator $\mathsf A$)
+%       * Equivalence relation $\equiv$ from Paper~2
+%   - Not used (unless we strengthen the theorem): witness/evidence definition; perturbation families.
+%
+%  (Q3) Counterexample attempt:
+%   - If $\mathsf A$ is not definitionally tied to a representation-invariant observable (i.e., we allow arbitrary operators), the claim can fail.
+%   - If we require invariance of evidence $e$ (not just $y$), the claim can fail for standard witnesses (paths, traces) that depend on naming/order.
+%
+%  (Q4) Theorem vs. definitional consequence?
+%   - Risk: as stated, this is essentially a one-line unfolding of Def.~\ref{def:representation-invariant-observable}.
+%   - If we want a substantive theorem, strengthen it to cover a broader class of operators (not just $\mathsf A\coloneqq\mathcal O$) or connect to Paper~2 canonicalization guarantees.
+%
+% Proof idea (comments only; only after Q1--Q4 pass):
+% - Unfold the definition of representation invariance and substitute $\mathsf A=\mathcal O$.
+% - Keep evidence out of the equality claim; treat evidence via “checkability” only.
+
+% ------------------------------------------------------------
+% Theorem 3: Composition
+% ------------------------------------------------------------
+\begin{theorem}[Composition of admissible analyses]
+\label{thm:composition}
+\deps{Definitions~\ref{def:observation-spaces} and~\ref{def:structural-analysis-operator}.}
+% TODO (fully formal): let $\mathsf A_1: \Sigma\to Y_1$ and $\mathsf A_2: Y_1\to Y_2$ (or a lifted form) with $Y_1,Y_2\in\mathsf{Obs}$.
+% TODO: state sufficient conditions under which $\mathsf A_2\circ \mathsf A_1$ is admissible.
+% TODO: account for optional evidence (propagation/combination rules, if any).
+\end{theorem}
+
+% Theorem viability pass (answer before attempting any proof sketch):
+%  (1) Meaningful?  [TODO]
+%  (2) Nontrivial?  [TODO: identify a hypothesis whose removal breaks the claim]
+%  (3) Needed?     [TODO: list downstream theorems/lemmas that require it]
+%  (4) Likely true under current definitions? [TODO]
+%
+% Proof idea (comments only):
+% - You may need a minimal closure condition on $\mathsf{Obs}$ (e.g., if you want paired outputs, require $Y_1\times Y_2\in\mathsf{Obs}$).
+% - Keep the theorem conditional: “If $\mathsf{Obs}$ is closed under X and evidence-combinators exist, then …”.
+
+% ------------------------------------------------------------
+% Theorem 4: Perturbation compatibility
+% ------------------------------------------------------------
+\begin{theorem}[Perturbation compatibility]
+\label{thm:perturbation-compatibility}
+\deps{Definition~\ref{def:perturbation-family}; the admissibility conditions for analyses and perturbations.}
+% TODO (fully formal): define the compatibility notion (commutation, monotonicity, Lipschitz/stability, simulation, etc.).
+% TODO: quantify over $\delta\in\Delta$ and relate $\mathsf A(\Sigma)$ to $\mathsf A(\delta(\Sigma))$.
+\end{theorem}
+
+% Theorem viability pass (answer before attempting any proof sketch):
+%  (1) Meaningful?  [TODO]
+%  (2) Nontrivial?  [TODO: identify a hypothesis whose removal breaks the claim]
+%  (3) Needed?     [TODO: list downstream theorems/lemmas that require it]
+%  (4) Likely true under current definitions? [TODO]
+%
+% Proof idea (comments only):
+% - Full commutativity is often too strong; consider a weaker relation (e.g., a refinement preorder on outputs, a bound, or an explicit “delta observable”).
+% - If the output space is quantitative, compatibility may become a stability inequality.
+
+% End of file.
