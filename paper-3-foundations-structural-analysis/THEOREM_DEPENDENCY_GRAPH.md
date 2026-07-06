@@ -47,15 +47,18 @@ Notes:
 Depends on:
 - Definition (Admissible observation spaces): `def:observation-spaces` (Paper 3)
 - Definition (Structural analysis operator): `def:structural-analysis-operator` (Paper 3)
-- (Optional) Theorem 2 (Representation invariance), if admissibility includes invariance
-- Any closure conditions on $\mathsf{Obs}$ needed by the statement (e.g., products, function spaces)
+- Ordinary typed function composition, if the result is weakened to a typing lemma/proposition
+- A future post-observation-map admissibility definition only if the statement insists that arbitrary maps $Y_1\to Y_2$ participate in the structural-analysis interface
 
 Produces:
-- Theorem 4 (Perturbation compatibility) (if compatibility is preserved under composition)
+- No required perturbation semantics. Counterfactual structural perturbations are already supported by `def:perturbation-family` together with `def:structural-analysis-operator`.
+- Theorem 4 (Perturbation compatibility) only if a later compatibility statement explicitly cites a typed-composition lemma.
 
 Notes:
-- Avoid assuming closure: state conditional results ("if $\mathsf{Obs}$ is closed under X, then...").
-- If evidence is propagated, may require a definition of an evidence-combination operator (or explicitly avoid it).
+- Definition Sufficiency Audit (2026-07-06): Composition does not require a new mathematical object to support counterfactual structural perturbations.
+- Existing perturbation families provide deterministic maps $\delta:\Sigma\to\Sigma$; existing structural analysis operators consume canonical structural objects, so $\mathsf A(\delta(\Sigma))$ is already well-typed.
+- Do not introduce perturbation propagation, evidence-combination operators, algebraic structures, or product/function-space closure for this audit.
+- If future proof obligations require chained post-observation processing, the single minimal missing concept is an admissible deterministic post-observation map $f:Y_1\to Y_2$ with $Y_1,Y_2\in\mathsf{Obs}$; this audit does not require adding it.
 
 ---
 
