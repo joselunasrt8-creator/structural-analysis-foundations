@@ -41,7 +41,7 @@ jobs:
         with:
           root_file: main.tex
           working_directory: ${{ matrix.paper.directory }}
-          texlive_version: 2026
+          texlive_version: 2025
           os: debian
           compiler: latexmk
           args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
