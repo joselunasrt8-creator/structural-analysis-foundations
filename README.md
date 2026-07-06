@@ -36,3 +36,7 @@ Each paper is organized as a self-contained directory intended to hold its manus
 - `figures/` — top-level figure organization by paper
 
 Each paper can be compiled independently once its manuscript sources are present in its directory. The trilogy forms a progressive research program: Paper 1 develops dependency, Paper 2 develops the canonical graph perspective, and Paper 3 develops the foundations for structural analysis.
+
+## Repository audit
+
+A structural repository audit is available in [`REPOSITORY_AUDIT.md`](REPOSITORY_AUDIT.md). The audit tracks source-file presence, build readiness, PDF organization, documentation consistency, and paper independence without modifying research content.
