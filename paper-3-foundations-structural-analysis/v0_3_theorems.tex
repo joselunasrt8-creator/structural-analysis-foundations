@@ -371,7 +371,7 @@ y\equiv_{Y_1}y'
 % Candidate Result: Perturbation Compatibility
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Status:
-%   Candidate
+%   Candidate closed at the Existence Gate under the minimal interpretation
 %
 % ------------------------------------------------------------
 % Existence Gate
@@ -379,11 +379,13 @@ y\equiv_{Y_1}y'
 % Scope discipline for this gate:
 %   Only the already-available interfaces are in scope:
 %   \[
+%   W\in\Sigma,
+%   \qquad
 %   \delta:\Sigma\to\Sigma,
 %   \qquad
 %   \mathsf A:\Sigma\to Y,
 %   \qquad
-%   \mathsf A(\delta(\Sigma)).
+%   \mathsf A(\delta(W)).
 %   \]
 %   No new definition is introduced here. The gate decides what a future
 %   compatibility predicate would have to mean before any proof attempt.
@@ -393,15 +395,15 @@ y\equiv_{Y_1}y'
 %     If \delta:\Sigma\to\Sigma is an admitted perturbation and
 %     \mathsf A:\Sigma\to Y is a structural analysis operator with
 %     Y\in\mathsf{Obs}, then the perturbed analysis value
-%     \mathsf A(\delta(\Sigma)) is well-typed for every canonical structural
-%     object \Sigma. In this reading, "compatibility" means only that
+%     \mathsf A(\delta(W)) is well-typed for every canonical structural
+%     object W\in\Sigma. In this reading, "compatibility" means only that
 %     perturbations land back in the domain consumed by \mathsf A.
 %
 %   Option B -- paired counterfactual comparison:
 %     If \delta:\Sigma\to\Sigma and \mathsf A:\Sigma\to Y are admitted, then
 %     the pair
 %     \[
-%       (\mathsf A(\Sigma),\mathsf A(\delta(\Sigma)))\in Y\times Y
+%       (\mathsf A(W),\mathsf A(\delta(W)))\in Y\times Y
 %     \]
 %     is available for a chosen comparison discipline on Y. In this reading,
 %     "compatibility" means that original and perturbed observations can be
@@ -412,15 +414,15 @@ y\equiv_{Y_1}y'
 %   Option C -- relation-preservation / stability:
 %     For a specified relation, preorder, metric, or tolerance on Y, a pair
 %     (\delta,\mathsf A) is compatible when
-%     \mathsf A(\Sigma) and \mathsf A(\delta(\Sigma)) satisfy that specified
-%     output-side constraint for all \Sigma in the intended domain of the
+%     \mathsf A(W) and \mathsf A(\delta(W)) satisfy that specified
+%     output-side constraint for all W in the intended domain of the
 %     perturbation. This is the first nontrivial reading, but the output-side
 %     relation is not currently part of the minimal interface and must not be
 %     silently invented in this candidate.
 %
 %   Option D -- commutation with an output perturbation:
 %     Given a separately specified map \bar\delta:Y\to Y, require
-%     \mathsf A(\delta(\Sigma))=\bar\delta(\mathsf A(\Sigma)). This is a strong
+%     \mathsf A(\delta(W))=\bar\delta(\mathsf A(W)). This is a strong
 %     functorial/commutation reading. It is not available under the present
 %     scope because \bar\delta is a new object and many analyses have no
 %     natural output-side perturbation.
@@ -461,26 +463,26 @@ y\equiv_{Y_1}y'
 %       total \Sigma\to Y. This supports Option A as a typing proposition, not
 %       as a substantive theorem.
 %   - Partial perturbations:
-%       If \delta is undefined on some \Sigma, then \mathsf A(\delta(\Sigma))
+%       If \delta is undefined on some W\in\Sigma, then \mathsf A(\delta(W))
 %       is not guaranteed to exist. Totality of \delta is required.
 %   - Non-canonical perturbation outputs:
-%       If \delta(\Sigma) leaves the canonical structural-object class, then
+%       If \delta(W) leaves the canonical structural-object class, then
 %       \mathsf A cannot necessarily consume it. Endomap status is required.
 %   - Partial analyses:
 %       If \mathsf A is partial, perturbed inputs may fall outside its domain.
 %       Totality of \mathsf A is required.
 %   - Nondeterministic analyses:
 %       If \mathsf A is nondeterministic or sampling-based, the value
-%       \mathsf A(\delta(\Sigma)) is not a deterministic observable without a
+%       \mathsf A(\delta(W)) is not a deterministic observable without a
 %       determinization convention. Current structural analysis operators avoid
 %       this by definition.
 %   - Evidence-producing analyses:
-%       The observable value can be evaluated on \delta(\Sigma), but witnesses
+%       The observable value can be evaluated on \delta(W), but witnesses
 %       may change, fail to be representation-invariant, or require different
 %       checking data. No evidence compatibility follows from the minimal
 %       interface.
 %   - Representation-sensitive outputs:
-%       Even when \mathsf A(\delta(\Sigma)) is well-typed, equality or
+%       Even when \mathsf A(\delta(W)) is well-typed, equality or
 %       invariance between original and perturbed observations can fail.
 %       Option A survives; commutation or invariance readings do not.
 %   - Monotone / order-valued analyses:
@@ -498,7 +500,7 @@ y\equiv_{Y_1}y'
 %       Y must be chosen before stating compatibility.
 %   - Transformational analyses:
 %       If Y itself is a canonical structural-object space, then iteration
-%       \mathsf A(\delta(\Sigma)) is still well-typed as an observation, but no
+%       \mathsf A(\delta(W)) is still well-typed as an observation, but no
 %       claim follows about applying further structural analyses unless the
 %       output is admitted as a canonical input.
 %   - Probabilistic-valued analyses:
@@ -515,7 +517,7 @@ y\equiv_{Y_1}y'
 %     perturbations produce canonical structural objects, and structural
 %     analysis operators consume canonical structural objects. That is a direct
 %     typing consequence. It is useful because it authorizes the expression
-%     \mathsf A(\delta(\Sigma)), but it is not theorem-level unless a
+%     \mathsf A(\delta(W)), but it is not theorem-level unless a
 %     nontrivial output-side comparison discipline is added.
 %
 %   Future theorem threshold:
@@ -525,12 +527,15 @@ y\equiv_{Y_1}y'
 %     do not introduce new definitions.
 %
 % Decision:
-%   Keep open as Candidate. Record the minimal supported meaning as typed
-%   evaluability of perturbed analyses: \mathsf A(\delta(\Sigma)) is valid
-%   because \delta is an endomap on canonical structural objects and \mathsf A
-%   is a total map out of canonical structural objects. Treat stronger meanings
-%   as taxonomy-specific future options requiring explicit output-side
-%   structure.
+%   Candidate closed at the Existence Gate under the minimal interpretation.
+%   Record the minimal supported meaning as typed evaluability of perturbed
+%   analyses: for W\in\Sigma, \mathsf A(\delta(W)) is valid because
+%   \delta is an endomap on canonical structural objects and \mathsf A is a
+%   total map out of canonical structural objects. Classify this
+%   typed-evaluability interpretation as a proposition/remark. Treat stronger
+%   meanings---stability, monotonicity, refinement, simulation, commutation, or
+%   output-side compatibility predicates---as possible future theorem
+%   candidates that are intentionally left uninstantiated.
 %
 % ------------------------------------------------------------
 % Dependency Audit
@@ -546,7 +551,7 @@ y\equiv_{Y_1}y'
 % Downstream users:
 %   Future counterfactual analyses, robustness/sensitivity statements,
 %   resilience/redundancy/blast-radius operators, and any result that compares
-%   \mathsf A(\Sigma) with \mathsf A(\delta(\Sigma)).
+%   \mathsf A(W) with \mathsf A(\delta(W)).
 %
 % ------------------------------------------------------------
 % Proof Development
