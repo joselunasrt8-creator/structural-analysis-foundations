@@ -152,25 +152,146 @@ If $\mathsf A$ is evidence-producing, the invariance requirement applies to the 
 % - Keep evidence out of the equality claim; treat evidence via “checkability” only.
 
 % ------------------------------------------------------------
-% Theorem 3: Composition
+% Candidate Theorem: Composition
 % ------------------------------------------------------------
-\begin{theorem}[Composition of admissible analyses]
-\label{thm:composition}
-\deps{Definitions~\ref{def:observation-spaces} and~\ref{def:structural-analysis-operator}.}
-% TODO (fully formal): let $\mathsf A_1: \Sigma\to Y_1$ and $\mathsf A_2: Y_1\to Y_2$ (or a lifted form) with $Y_1,Y_2\in\mathsf{Obs}$.
-% TODO: state sufficient conditions under which $\mathsf A_2\circ \mathsf A_1$ is admissible.
-% TODO: account for optional evidence (propagation/combination rules, if any).
-\end{theorem}
-
-% Theorem viability pass (answer before attempting any proof sketch):
-%  (1) Meaningful?  [TODO]
-%  (2) Nontrivial?  [TODO: identify a hypothesis whose removal breaks the claim]
-%  (3) Needed?     [TODO: list downstream theorems/lemmas that require it]
-%  (4) Likely true under current definitions? [TODO]
+\begin{comment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Candidate Result: Composition
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Status:
+%   Candidate
 %
-% Proof idea (comments only):
-% - You may need a minimal closure condition on $\mathsf{Obs}$ (e.g., if you want paired outputs, require $Y_1\times Y_2\in\mathsf{Obs}$).
-% - Keep the theorem conditional: “If $\mathsf{Obs}$ is closed under X and evidence-combinators exist, then …”.
+% ------------------------------------------------------------
+% Existence Gate
+% ------------------------------------------------------------
+% Q1. Exact statement attempt:
+%   Let $Y_1,Y_2\in\mathsf{Obs}$. Let
+%   \[
+%   \mathsf A_1:\Sigma\to Y_1
+%   \qquad\text{and}\qquad
+%   \mathsf A_2:Y_1\to Y_2
+%   \]
+%   be deterministic total maps. If $Y_1$ is an admissible input domain for
+%   $\mathsf A_2$ and the composite output space $Y_2$ is admitted as an
+%   observation space, then
+%   \[
+%   \mathsf A_2\circ\mathsf A_1:\Sigma\to Y_2
+%   \]
+%   is a deterministic total map on canonical structural objects.
+%
+%   Candidate promotion form, if second-stage maps are admitted as structural
+%   analysis operators or as post-observation maps:
+%   If $\mathsf A_1$ is an admissible structural analysis into $Y_1$ and
+%   $\mathsf A_2$ is an admissible deterministic total post-observation map
+%   from $Y_1$ to $Y_2$, then $\mathsf A_2\circ\mathsf A_1$ is an admissible
+%   structural analysis into $Y_2$.
+%
+% Q2. Minimal dependency list:
+%   - Canonical structural objects $\Sigma$ as the first-stage domain.
+%   - Definition~\ref{def:observation-spaces}, only to require
+%     $Y_1,Y_2\in\mathsf{Obs}$.
+%   - Definition~\ref{def:structural-analysis-operator}, only for the
+%     determinism/totality/admissibility expectations on maps out of $\Sigma$.
+%   - A still-unresolved admissibility clause for maps whose domain is an
+%     observation space rather than $\Sigma$:
+%       * either structural analysis operators are generalized to permit
+%         $Y_1\to Y_2$ stages;
+%       * or a separate class of deterministic total post-observation maps is
+%         admitted;
+%       * or the theorem is weakened to a plain typed-composition fact rather
+%         than a structural-analysis-operator closure result.
+%
+% Q3. Counterexample attempts across taxonomy families:
+%   - Plain typed maps: if $\mathsf A_1$ and $\mathsf A_2$ are deterministic
+%     total maps with matching middle type $Y_1$, composition is typed and
+%     total. No additional closure beyond $Y_2\in\mathsf{Obs}$ appears needed.
+%   - Structural-analysis-operator taxonomy: if operators are defined only as
+%     maps $\Sigma\to Y$, then $\mathsf A_2:Y_1\to Y_2$ is not itself a
+%     structural analysis operator unless $Y_1=\Sigma$ or the interface is
+%     explicitly extended. The closure risk is therefore admissibility of the
+%     second-stage domain, not composition of functions.
+%   - Partial analyses: if either stage is partial, the composite can be
+%     undefined even when the types match. Totality is required unless partial
+%     operators are made explicit.
+%   - Nondeterministic analyses: if either stage is nondeterministic, the
+%     composite is not a deterministic map without a separate determinization
+%     convention. Determinism is required for the current interface.
+%   - Evidence-producing analyses: if $\mathsf A_1$ returns $(y_1,e_1)$ while
+%     $\mathsf A_2$ expects $y_1$, the middle type does not match. Either the
+%     observable projection must be specified, or $\mathsf A_2$ must accept the
+%     paired output. No evidence propagation rule is required for the minimal
+%     observable-only statement.
+%   - Representation-sensitive witnesses: even if observable values compose,
+%     evidence objects may fail representation invariance. Therefore any
+%     evidence clause should be excluded from the minimal statement unless an
+%     admissible evidence interface is separately declared.
+%   - Multi-output analyses: if $\mathsf A_1$ returns structured data and
+%     $\mathsf A_2$ expects only one component, composition requires an explicit
+%     projection or a precisely matching $Y_1$. Do not assume product closure
+%     unless the theorem is strengthened to construct paired outputs.
+%   - Transformational analyses: if an analysis returns a new structural object
+%     and $\mathsf A_2$ is an ordinary structural analysis, composition works
+%     only if that returned object type is exactly the canonical structural
+%     domain or is explicitly admitted as an observation/input domain. This is
+%     another domain-admissibility issue.
+%   - Probabilistic-valued analyses: composition is acceptable only when the
+%     probabilistic object is treated as an element of $Y_1$ and
+%     $\mathsf A_2$ is a deterministic total map on that object. Sampling-based
+%     second stages would violate determinism.
+%
+% Q4. Classification risk: theorem vs proposition:
+%   - As a plain statement about deterministic total typed maps, this is at
+%     most a proposition or remark: ordinary function composition supplies the
+%     result.
+%   - It becomes theorem-worthy only if the framework first defines a
+%     nontrivial admissibility/closure rule saying when post-observation maps
+%     $Y_1\to Y_2$ preserve structural-analysis admissibility.
+%   - Current risk: calling it a theorem would overstate a definitional or
+%     typing consequence unless the missing admissibility interface is added.
+%
+% Decision:
+%   Keep as Candidate. Do not prove yet. Next action is to determine whether
+%   Paper 3 wants (i) a post-observation-map admissibility definition, (ii) a
+%   weakened typed-composition proposition, or (iii) no promoted result.
+%
+% ------------------------------------------------------------
+% Dependency Audit
+% ------------------------------------------------------------
+% Logical dependencies:
+%   Canonical structural objects; deterministic total functions; admitted
+%   observation spaces; unresolved post-observation admissibility.
+% Interface dependencies:
+%   Matching middle type $Y_1$; $Y_2\in\mathsf{Obs}$; either admissibility of
+%   $Y_1$ as a second-stage input or explicit weakening to plain composition.
+% Downstream users:
+%   Any later result that chains analyses without re-reading the original
+%   structural object.
+%
+% ------------------------------------------------------------
+% Proof Development
+% ------------------------------------------------------------
+% Sketch:
+%   No proof yet.
+% Missing obligations:
+%   Determine whether the framework admits maps out of observation spaces and
+%   whether evidence-producing outputs are excluded, projected, or typed as the
+%   actual middle object.
+% Failed proof attempts:
+%   None yet; proof intentionally deferred.
+%
+% ------------------------------------------------------------
+% Manuscript Promotion Gate
+% ------------------------------------------------------------
+% Necessity:
+%   Pending downstream dependency audit.
+% Independence:
+%   Pending decision on whether this is more than typed function composition.
+% Narrative role:
+%   Could justify analysis pipelines only after the admissibility interface is
+%   fixed.
+% Final decision: Stay internal.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{comment}
 
 % ------------------------------------------------------------
 % Theorem 4: Perturbation compatibility
