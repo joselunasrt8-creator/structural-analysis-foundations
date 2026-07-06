@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Validate ${{ matrix.paper.label }} with latexmk
-        uses: xu-cheng/latex-action@v4.1.0
+        uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
           working_directory: ${{ matrix.paper.directory }}
