@@ -1,0 +1,86 @@
+name: LaTeX validation
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: latex-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-paper:
+    name: Validate ${{ matrix.paper.label }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        paper:
+          - label: Paper 1 - Dependency
+            directory: paper-1-dependency
+            artifact: paper-1-dependency-latex-build
+          - label: Paper 2 - Canonical Structural Analysis
+            directory: paper-2-canonical-structural-analysis
+            artifact: paper-2-canonical-structural-analysis-latex-build
+          - label: Paper 3 - Foundations for Structural Analysis
+            directory: paper-3-foundations-structural-analysis
+            artifact: paper-3-foundations-structural-analysis-latex-build
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Validate ${{ matrix.paper.label }} with latexmk
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+          working_directory: ${{ matrix.paper.directory }}
+          texlive_version: 2025
+          os: debian
+          compiler: latexmk
+          args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
+
+      - name: Collect ${{ matrix.paper.label }} build outputs
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          paper_dir='${{ matrix.paper.directory }}'
+          artifact_dir="artifacts/${paper_dir}"
+          mkdir -p "${artifact_dir}"
+
+          if [[ -f "${paper_dir}/main.log" ]]; then
+            cp "${paper_dir}/main.log" "${artifact_dir}/build.log"
+          else
+            printf 'No main.log was produced for %s. The build may have failed before LaTeX started.\n' "${paper_dir}" > "${artifact_dir}/build.log"
+          fi
+
+          for file in \
+            main.pdf \
+            main.aux \
+            main.bbl \
+            main.blg \
+            main.fdb_latexmk \
+            main.fls \
+            main.out \
+            main.toc \
+            main.lof \
+            main.lot; do
+            if [[ -f "${paper_dir}/${file}" ]]; then
+              cp "${paper_dir}/${file}" "${artifact_dir}/${file}"
+            fi
+          done
+
+      - name: Upload ${{ matrix.paper.label }} artifacts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.paper.artifact }}
+          path: artifacts/${{ matrix.paper.directory }}/
+          if-no-files-found: error
