@@ -1,0 +1,323 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{mathtools,amssymb,amsthm}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usepackage{fancyhdr}
+
+\title{Paper 3 --- Foundations for Structural Analysis}
+\author{Jose Luna}
+\date{\today}
+
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+
+% Proof-audit helper: explicitly list prerequisites for each theorem.
+\newcommand{\deps}[1]{\par\noindent\textbf{Dependencies.} #1\par}
+
+\begin{document}
+
+\maketitle
+
+% Running header
+\pagestyle{fancy}
+\fancyhead[L]{Foundations for Structural Analysis}
+\fancyhead[R]{Luna}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\begin{abstract}
+Paper 1 formalized workload-relative dependency. Paper 2 established a deterministic compilation framework that constructs canonical structural objects and workload-specific analysis graphs. This paper addresses the next foundational question: what constitutes a well-defined structural analysis over canonical structural objects?
+
+We develop a representation-invariant framework for structural analysis, classify analysis families, define structural analysis operators, and establish mathematical properties required for analyses to remain independent of representational artifacts.
+\end{abstract}
+\section{Introduction}
+\label{sec:introduction}
+This paper continues the series by asking a single foundational question:
+\[
+\text{What is a structural analysis?}
+\]
+Paper~1 established one specific structural analysis (workload-relative dependency), while Paper~2 established the canonical objects on which such analyses operate. This paper asks what properties characterize structural analyses in general.
+
+We take as given that Paper~2 produces canonical structural objects that factor out representational artifacts while preserving the structural content relevant to a workload class. Paper~3 asks what it means for an analysis to be \emph{well defined} on such canonical objects, and what kinds of analysis families can be expressed without re-introducing representation dependence.
+
+\section{Background}
+\label{sec:background}
+
+\subsection{Paper 1 (workload-relative dependency)}
+\label{sec:background-paper1}
+Paper~1 defines a workload-relative dependency predicate evaluated on a directed analysis graph, operationalized via counterfactual deletion and reachability. In Paper~3, this serves as a motivating example of an analysis whose output can be stated both as a Boolean answer (dependent / not dependent) and as a witness object (e.g., a path that survives deletion, or a cut set that blocks reachability).
+
+\subsection{Paper 2 (canonical structural objects and compilation)}
+\label{sec:background-paper2}
+Paper~2 defines a deterministic compilation framework that maps heterogeneous system descriptions into canonical structural objects, and then projects those objects into workload-specific analysis graphs. Paper~3 treats this as an interface contract: analyses should be formulated over the canonical object (or its workload-specific projections) in a way that is invariant to representation artifacts such as naming, ordering, and serialization choices.
+
+\section{Related Work}
+\label{sec:related-work}
+This section surveys the main bodies of work that inform a representation-invariant notion of structural analysis. The emphasis is on \emph{analysis families} and \emph{interfaces} (what an analysis consumes and produces), rather than on any single domain-specific graph formalism.
+
+\subsection{Graph algorithms}
+Classical graph algorithms supply the core computational primitives used by many structural analyses, including traversal and reachability, shortest paths, and cut/flow-based separations. These primitives ground the ``navigation'' and ``vulnerability'' families in the taxonomy of Section~\ref{sec:analysis-taxonomy}. Standard algorithmic treatments include Dijkstra's shortest path algorithm and related graph optimization techniques, as well as max-flow/min-cut dualities that underpin separation-style analyses \cite{dijkstra1959,ahuja1993}.
+
+\subsection{Graph query languages}
+Graph query languages make structural analyses programmable and compositional by separating \emph{what} is asked from \emph{how} it is computed. Two major lines are (i) RDF/SPARQL-style query languages for labeled, schema-aware graphs \cite{sparql2013} and (ii) property-graph query languages (e.g., Cypher) that emphasize pattern matching with attributes \cite{angles2018}. Datalog and its descendants provide a unifying logic-programming substrate for recursive graph queries and fixpoint computations, connecting naturally to the recursive analysis family in Section~\ref{sec:analysis-taxonomy} \cite{ceri1990}.
+
+\subsection{Abstract interpretation}
+Abstract interpretation formalizes static analysis as computation over sound abstractions, typically organized as lattices with monotone transfer functions and fixpoints \cite{cousot1977}. While Paper~3 does not introduce theorems yet, the abstract-interpretation viewpoint motivates two design requirements for structural analyses: (i) an explicit statement of the abstraction boundary (what is forgotten) and (ii) invariance with respect to representation-level differences that lie below that boundary.
+
+\subsection{Program analysis}
+Program analysis provides mature examples of structural analyses over compiler-derived graphs and intermediate representations, including control-flow graphs, SSA form, dependence graphs, and slicing \cite{lengauer1979,cytron1991,ferrante1987,weiser1981}. These works show how analysis results can be phrased as (a) predicates, (b) sets of program elements, and (c) witnesses (e.g., dependence edges or slice criteria) computed over canonicalized representations.
+
+\subsection{Provenance and workflow models}
+Provenance research treats explanation as a first-class analysis goal: instead of returning only an answer, the analysis returns a structured justification of how an output relates to inputs and transformations \cite{buneman2001,cheney2009,w3cprov,deelman2009}. This aligns with the ``explanatory/provenance'' family in Section~\ref{sec:analysis-taxonomy} and motivates witness objects that are subgraphs, derivation traces, or minimal explanations.
+
+\subsection{Resilience and network science}
+Network science studies how structural properties of graphs respond to failures, attacks, and perturbations. Robustness and fragility analyses often quantify the effect of removing vertices/edges on connectivity, reachability, or flow, and characterize critical components via centrality and related measures \cite{albert2000,newman2010}. This literature informs the perturbation and criticality families in Section~\ref{sec:analysis-taxonomy}.
+
+\subsection{Graph transformation}
+Graph transformation theory provides formal languages for specifying and reasoning about structural rewrites (e.g., deletion, addition, relabeling, and rule-based rewiring). Double-pushout (DPO) and related approaches treat transformations as typed, compositional rewrite rules \cite{ehrig2006}. This viewpoint motivates treating ``counterfactual'' and ``transformational'' analyses as operators indexed by explicit perturbation families.
+
+\section{Analysis Taxonomy}
+\label{sec:analysis-taxonomy}
+Table~\ref{tab:analysis-taxonomy} summarizes a taxonomy of structural analysis families used in this paper. The goal is not to be exhaustive, but to provide a stable set of categories for (i) positioning new analyses and (ii) stating representation-invariance requirements in Section~\ref{sec:definitions}.
+
+\begin{table}[t]
+\centering
+\begin{tabular}{@{}p{0.28\linewidth}p{0.50\linewidth}p{0.18\linewidth}@{}}
+\toprule
+Family & Typical question / operator & Typical output \\
+\midrule
+Reachability / navigation & Can $t$ be reached from $R$ under relation family $\mathsf{Rel}$? & Boolean; path witness \\
+Separation / vulnerability & What removals block reachability (cuts, separators)? & Cut set; minimal witness \\
+Data-flow / dependence & What information flows or depends on what (def--use, PDG-style)? & Dependence relation; slice \\
+Recursive / fixpoint & What is the closure under rules (transitive closure, recursive queries)? & Fixpoint set / relation \\
+Quantitative criticality & How critical is component $x$ (centrality, flow impact, sensitivity)? & Score; ranking \\
+Counterfactual & How do answers change under perturbations $\Delta$? & Delta in answers; witness \\
+Explanatory / provenance & Why did $y$ occur / what contributed? & Explanation subgraph / trace \\
+Transformational & What rewrite produces a desired property (refactoring, normalization, repair)? & Transformation plan / script \\
+\bottomrule
+\end{tabular}
+\caption{Taxonomy of structural analysis families (research synthesis categories) used to organize Paper~3.}
+\label{tab:analysis-taxonomy}
+\end{table}
+\subsection{Expressive coverage of the analysis interface}
+\label{sec:expressive-coverage}
+We now give representative instantiations of each analysis family in Table~\ref{tab:analysis-taxonomy} using only the interface objects introduced in Section~\ref{sec:definitions}. Each instantiation follows the same template to make the codomain ($Y$) and optional witness/perturbation structure explicit.
+
+\paragraph{Reachability / navigation.}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Canonical object:} $\Sigma$.
+  \item \textbf{Observable:} $\mathcal O: \Sigma\to Y$ with $Y\in\mathsf{Obs}$.
+  \item \textbf{Output ($Y$):} $\{\mathsf{true},\mathsf{false}\}$.
+  \item \textbf{Witness (optional):} $\mathsf{Ev}$ contains paths (or traversal traces) witnessing reachability.
+  \item \textbf{Perturbation (optional):} none.
+  \item \textbf{Remarks:} Navigation analyses are observables whose codomain is Boolean and whose witnesses are paths.
+\end{itemize}
+
+\paragraph{Separation / vulnerability.}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Canonical object:} $\Sigma$.
+  \item \textbf{Observable:} $\mathcal O: \Sigma\to Y$ with $Y\in\mathsf{Obs}$.
+  \item \textbf{Output ($Y$):} sets of components (e.g., cut sets / separators).
+  \item \textbf{Witness (optional):} $\mathsf{Ev}$ contains certificates such as (i) a cut set that blocks reachability and/or (ii) a witness that smaller sets do not.
+  \item \textbf{Perturbation (optional):} $\Delta$ can be taken as a deletion family with $\delta\in\Delta$ removing a candidate set.
+  \item \textbf{Remarks:} Vulnerability analyses fit as observables that return separating sets, optionally parameterized by deletion perturbations.
+\end{itemize}
+
+\paragraph{Data-flow / dependence.}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Canonical object:} $\Sigma$.
+  \item \textbf{Observable:} $\mathcal O: \Sigma\to Y$ with $Y\in\mathsf{Obs}$.
+  \item \textbf{Output ($Y$):} a relation (e.g., dependence pairs) or a set-valued slice.
+  \item \textbf{Witness (optional):} $\mathsf{Ev}$ contains dependence edges, def--use chains, or a slice explanation subgraph.
+  \item \textbf{Perturbation (optional):} none.
+  \item \textbf{Remarks:} Dependence analyses are observables with relational/set codomains and graph-structured witnesses.
+\end{itemize}
+
+\paragraph{Recursive / fixpoint.}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Canonical object:} $\Sigma$.
+  \item \textbf{Observable:} $\mathcal O: \Sigma\to Y$ with $Y\in\mathsf{Obs}$.
+  \item \textbf{Output ($Y$):} a least/greatest fixpoint set or relation.
+  \item \textbf{Witness (optional):} $\mathsf{Ev}$ contains derivation traces or proof trees for membership/non-membership.
+  \item \textbf{Perturbation (optional):} none.
+  \item \textbf{Remarks:} Recursive analyses fit as observables whose outputs are fixpoints, with derivation-style witnesses.
+\end{itemize}
+
+\paragraph{Quantitative criticality.}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Canonical object:} $\Sigma$.
+  \item \textbf{Observable:} $\mathcal O: \Sigma\to Y$ with $Y\in\mathsf{Obs}$.
+  \item \textbf{Output ($Y$):} real-valued scores, vectors, or rankings.
+  \item \textbf{Witness (optional):} $\mathsf{Ev}$ contains computation certificates (e.g., flow/cut certificates) or sensitivity explanations.
+  \item \textbf{Perturbation (optional):} $\Delta$ may encode failures/attacks used to define marginal contribution or sensitivity.
+  \item \textbf{Remarks:} Criticality analyses are observables with quantitative codomains, often defined relative to perturbation families.
+\end{itemize}
+
+\paragraph{Counterfactual.}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Canonical object:} $\Sigma$.
+  \item \textbf{Observable:} $\mathcal O: \Sigma\to Y$ with $Y\in\mathsf{Obs}$.
+  \item \textbf{Output ($Y$):} deltas between observations (e.g., $\mathcal O(\Sigma)$ vs. $\mathcal O(\delta(\Sigma))$), or a summary over $\Delta$.
+  \item \textbf{Witness (optional):} $\mathsf{Ev}$ contains the perturbation $\delta$ plus a certificate of change (or invariance).
+  \item \textbf{Perturbation (optional):} a required perturbation family $\Delta$.
+  \item \textbf{Remarks:} Counterfactual analyses are structural analysis operators indexed by perturbations and returning differences.
+\end{itemize}
+
+\paragraph{Explanatory / provenance.}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Canonical object:} $\Sigma$.
+  \item \textbf{Observable:} $\mathcal O: \Sigma\to Y$ with $Y\in\mathsf{Obs}$.
+  \item \textbf{Output ($Y$):} an explanation object (e.g., a subgraph, trace, or provenance record).
+  \item \textbf{Witness (optional):} $\mathsf{Ev}$ may coincide with the output (the explanation is itself the witness).
+  \item \textbf{Perturbation (optional):} none.
+  \item \textbf{Remarks:} Explanatory analyses fit by taking $Y$ to be a structured witness object rather than a scalar answer.
+\end{itemize}
+
+\paragraph{Transformational.}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Canonical object:} $\Sigma$.
+  \item \textbf{Observable:} $\mathcal O: \Sigma\to Y$ with $Y\in\mathsf{Obs}$ (often a ``goal test'' observable).
+  \item \textbf{Output ($Y$):} a transformation plan (e.g., a sequence of perturbations) or a rewritten object.
+  \item \textbf{Witness (optional):} $\mathsf{Ev}$ contains the plan plus a check that the transformed object satisfies the goal.
+  \item \textbf{Perturbation (optional):} $\Delta$ is the space of admissible rewrites; plans are elements of $\Delta^*$.
+  \item \textbf{Remarks:} Transformational analyses fit as operators that return admissible rewrite plans drawn from a perturbation family.
+\end{itemize}
+
+These instantiations are illustrative rather than exhaustive. Their purpose is to demonstrate that the proposed interface accommodates the principal classes of structural analyses identified in the literature survey. The absence of an instantiation would indicate a limitation of the interface and motivate refinement before any general theorems are proposed.
+
+
+\section{Definitions}
+\label{sec:definitions}
+This section introduces the core objects used throughout Paper~3. No theorems are stated in v0.2; the goal is to fix interfaces and terminology.
+
+The following definitions specify the minimal interface required for structural analyses over canonical structural objects. They are intentionally independent of any particular analysis family, algorithm, or application domain so that the interface can be validated across the taxonomy introduced in Section~\ref{sec:analysis-taxonomy} before theorem-level properties are established.
+
+\begin{definition}[Admissible observation spaces]
+\label{def:observation-spaces}
+Let $\mathsf{Obs}$ denote a collection of \emph{admissible observation spaces}. An element $Y\in\mathsf{Obs}$ is a (typed) codomain of observations (e.g., Booleans, sets, rankings, rewritten structures, provenance objects).
+\end{definition}
+
+\begin{definition}[Structural observable]
+\label{def:structural-observable}
+Let $\Sigma$ denote a canonical structural object (as produced by Paper~2). A \emph{structural observable} is a deterministic map $\mathcal O$ together with a chosen observation space $Y\in\mathsf{Obs}$ such that
+\[
+\mathcal O: \Sigma \to Y.
+\]
+\end{definition}
+
+\begin{definition}[Representation-invariant observable]
+\label{def:representation-invariant-observable}
+Fix an equivalence relation $\equiv$ on canonical structural objects that identifies representational artifacts (e.g., naming and ordering). A structural observable $\mathcal O$ is \emph{representation invariant} (with respect to $\equiv$) if for all $\Sigma_1,\Sigma_2$,
+\[
+\Sigma_1 \equiv \Sigma_2 \implies \mathcal O(\Sigma_1)=\mathcal O(\Sigma_2).
+\]
+\end{definition}
+
+\begin{definition}[Evidence / witness object]
+\label{def:witness-object}
+Fix an observation space $Y\in\mathsf{Obs}$. An \emph{evidence object} (or \emph{witness}) for an observable value $y\in Y$ is an auxiliary artifact $e\in\mathsf{Ev}$ such that $e$ can be mechanically checked (relative to $\Sigma$) to justify $y$.
+Typical witnesses include paths, cut sets, subgraphs, derivation traces, slices, or certificates for quantitative scores.
+\end{definition}
+
+\begin{definition}[Structural analysis operator]
+\label{def:structural-analysis-operator}
+A \emph{structural analysis operator} is a deterministic operator $\mathsf A$ that maps a canonical structural object to an observable value in some $Y\in\mathsf{Obs}$,
+\[
+\mathsf A: \Sigma \to Y.
+\]
+Some operator classes additionally produce evidence; in that case, one may write $\mathsf A(\Sigma)=(y,e)$ with $y\in Y$ and $e\in\mathsf{Ev}$.
+\end{definition}
+
+\begin{definition}[Perturbation family]
+\label{def:perturbation-family}
+A \emph{perturbation family} is a set $\Delta$ of deterministic transformations on canonical structural objects,
+\[
+\delta: \Sigma \to \Sigma \qquad (\delta\in\Delta),
+\]
+intended to model counterfactual edits such as deletions, additions, rewiring, abstraction changes, or policy constraints.
+\end{definition}
+
+\section{Canonical Structural Objects Revisited}
+\label{sec:canonical-structural-objects-revisited}
+% TODO: brief recap only (interfaces, notation, and what Paper 3 assumes).
+
+\section{Structural Analysis}
+\label{sec:structural-analysis}
+% TODO: define "structural analysis" as a representation-invariant structural analysis operator (Definition~\ref{def:structural-analysis-operator}) plus its chosen equivalence $\equiv$ and observation space.
+
+\section{Structural Analysis Operators}
+\label{sec:structural-analysis-operators}
+% TODO: operator templates aligned to Table~\ref{tab:analysis-taxonomy} (no theorems yet).
+
+\section{Perturbation-Based Structural Analyses}
+\label{sec:perturbation-based-analyses}
+% TODO: instantiate perturbation families (Definition~\ref{def:perturbation-family}) for deletion/addition/rewiring; define robustness/sensitivity operators.
+
+\section{Properties of Structural Analyses}
+\label{sec:analysis-properties}
+% TODO: representation invariance requirements, stability, well-definedness, and comparison principles.
+
+\section{Discussion}
+\label{sec:discussion}
+% TODO: implications and how Paper 3 unlocks Paper 4+.
+
+\section{Future Work}
+\label{sec:future-work}
+Future work will (i) prove general properties of admissible structural analyses and (ii) instantiate the framework on concrete analysis families.
+
+On the theory side, promising directions include richer classes of admissible observation spaces (e.g., products, function spaces, lattices, and probabilistic observation spaces), temporal and streaming variants of structural analysis, and distributed/parallel formulations.
+
+On the application side, future work will instantiate the framework to families such as resilience, redundancy, blast radius, counterfactual reasoning, provenance/explanation, and optimization-oriented transformational analyses, supported by empirical case studies, tool support, and (where appropriate) governance and assurance applications.
+
+\section{Conclusion}
+\label{sec:conclusion}
+% TODO: summarize contributions and series progression.
+
+\appendix
+
+\section{Notation (alphabetical)}
+\label{app:notation}
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+Symbol & Meaning \\
+\midrule
+$\Sigma$ & Canonical structural object (as produced by Paper~2) \\
+$\equiv$ & Representation-artifact equivalence on canonical structural objects \\
+$\mathsf{Obs}$ & Collection of admissible (typed) observation spaces (Definition~\ref{def:observation-spaces}) \\
+$Y$ & A chosen observation space with $Y\in\mathsf{Obs}$ \\
+$\mathsf{Ev}$ & Evidence (witness) space for checkable justifications \\
+$\mathcal O$ & Structural observable $\Sigma\to Y$ with $Y\in\mathsf{Obs}$ (Definition~\ref{def:structural-observable}) \\
+$\mathsf A$ & Structural analysis operator (Definition~\ref{def:structural-analysis-operator}) \\
+$e$ & Evidence / witness object (Definition~\ref{def:witness-object}) \\
+$\Delta$ & Perturbation family (Definition~\ref{def:perturbation-family}) \\
+$\delta$ & A perturbation transformation $\Sigma\to\Sigma$ with $\delta\in\Delta$ \\
+$R,t$ & Example anchor sets/targets for navigation-style analyses \\
+$S$ & Example candidate set for deletion/separation-style analyses \\
+\bottomrule
+\end{tabular}
+\caption{Core notation used throughout the manuscript, alphabetized by symbol.}
+\end{table}
+
+\section{Appendix A}
+\label{app:a}
+
+\section{Appendix B}
+\label{app:b}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

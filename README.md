@@ -35,7 +35,7 @@ Canonical paper PDFs are present at:
 - [paper-2-canonical-structural-analysis/pdf/paper2.pdf](paper-2-canonical-structural-analysis/pdf/paper2.pdf)
 - [paper-3-foundations-structural-analysis/pdf/paper3.pdf](paper-3-foundations-structural-analysis/pdf/paper3.pdf)
 
-Remaining blocker: `main.tex` and `references.bib` are still absent from each paper directory, so LaTeX builds are not validated.
+Current source status: `main.tex` and `references.bib` are present in each paper directory; local LaTeX builds require LaTeX tooling such as `latexmk` or `pdflatex`.
 
 ## Repository organization
 

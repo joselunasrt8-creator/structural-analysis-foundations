@@ -1,0 +1,2 @@
+# (Disabled) Custom latexmk configuration.
+# Leaving this file present but empty of settings so Overleaf produces output/output.pdf normally.
