@@ -96,3 +96,60 @@ Stage 3 — Proof sketch (≤ 1 page)
 
 Stage 4 — Formal proof
 - [ ] Only after the sketch is stable.
+
+---
+
+## Candidate Characterization — Admissible Structural Analysis Operators (`audit:admissible-operator-characterization`)
+
+Depends on:
+- Proposition 1 (`prop:typed-well-formedness`)
+- Theorem 2 candidate (`thm:representation-invariance`)
+- Canonical structural object boundary from Paper 2
+- Definition (Structural analysis operator): `def:structural-analysis-operator`
+- Definition (Perturbation family): `def:perturbation-family`
+- Canonical Intermediate Boundary (`def:canonical-intermediate-boundary`)
+- Composition and perturbation sufficiency audits already recorded in this graph/log
+
+Produces:
+- No theorem or proof obligation yet.
+- A finite interface-specification horizon for Paper 3.
+- A candidate-only characterization theorem horizon if future work proves sufficiency of the independent root clauses.
+
+Accepted-property classification:
+
+| Property | Classification | Dependency summary |
+| --- | --- | --- |
+| Typed Well-Formedness | Both; independent root interface clause | Root typing clause for total maps into admitted observation spaces. |
+| Determinism | Necessary; independent unless folded into Typed Well-Formedness | Supports uniqueness of observable values; may be definitionally embedded. |
+| Canonical Structural Objects | Necessary; independent | Supplies the operator domain boundary inherited from Paper 2. |
+| Representation Invariance | Necessary for invariant observables; independent | Not implied by typing, determinism, or canonical-domain choice. |
+| Domain Compatibility | Derivable for ordinary analyses; conditionally independent for external pre-analysis maps | Follows from operator domain typing unless an additional pre-analysis map is proposed. |
+| Counterfactual Evaluability | Derivable | Follows from perturbation endomaps and structural-analysis-operator typing. |
+| Perturbation Compatibility (minimal interpretation) | Derivable; redundant as a theorem-level property | Same content as typed evaluability of `A(delta(W))`. |
+| Canonical Intermediate Boundary | Necessary for composition-like downstream invariance; independent of single-stage admissibility | Blocks representational divergence at intermediate codomains. |
+| Downstream Invariance Distribution | Derivable | Follows from Representation Invariance plus Canonical Intermediate Boundary and downstream respectfulness. |
+
+Dependency matrix (acyclic):
+
+```text
+P3 Canonical Structural Objects -> P1 Typed Well-Formedness
+P2 Determinism -> P1 Typed Well-Formedness, when P1 includes uniqueness
+P1 Typed Well-Formedness -> P5 Domain Compatibility
+P3 Canonical Structural Objects -> P5 Domain Compatibility
+P1 Typed Well-Formedness -> P6 Counterfactual Evaluability
+P3 Canonical Structural Objects -> P6 Counterfactual Evaluability
+P5 Domain Compatibility -> P6 Counterfactual Evaluability
+P6 Counterfactual Evaluability -> P7 Perturbation Compatibility (minimal)
+P4 Representation Invariance -> P9 Downstream Invariance Distribution
+P8 Canonical Intermediate Boundary -> P9 Downstream Invariance Distribution
+```
+
+Existence Gate outcome:
+- Q1: A finite list exists, but a finite **independent axiom set** is not presently justified because several accepted properties are corollaries or audit labels rather than independent axioms.
+- Q2: Current independent properties are Typed Well-Formedness, Determinism if not definitionally embedded, Canonical Structural Objects, Representation Invariance, and Canonical Intermediate Boundary.
+- Q3: Domain Compatibility, Counterfactual Evaluability, Perturbation Compatibility under the minimal interpretation, and Downstream Invariance Distribution are corollaries/redundant theorem-level candidates under the current interface.
+- Q4: Paper 3 presently admits a finite interface specification. A Characterization Theorem remains candidate-only pending a future sufficiency argument.
+
+Notes:
+- The graph remains acyclic: all arrows point from root typing/domain/invariance/boundary clauses toward evaluability, minimal compatibility, and downstream distribution consequences.
+- Do not introduce post-observation operator classes, output perturbations, metrics, preorders, algebraic structure, or evidence propagation solely to force a characterization theorem.
