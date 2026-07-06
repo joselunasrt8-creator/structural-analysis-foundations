@@ -151,6 +151,76 @@ If $\mathsf A$ is evidence-producing, the invariance requirement applies to the 
 % - Unfold the definition of representation invariance and substitute $\mathsf A=\mathcal O$.
 % - Keep evidence out of the equality claim; treat evidence via “checkability” only.
 
+
+% ------------------------------------------------------------
+% Issue 1: Canonical Intermediate Boundary
+% ------------------------------------------------------------
+\subsection*{Canonical Intermediate Boundary}
+
+Composition of structural analysis operators requires an explicit boundary condition at the intermediate codomain.  Let
+\[
+\mathsf A_1:
+\Sigma \to Y_1
+\qquad\text{and}\qquad
+\mathsf A_2:Y_1\to Y_2
+\]
+be deterministic structural analysis operators, where $Y_1,Y_2\in\mathsf{Obs}$.  Suppose $Y_1$ is equipped with an intermediate artifact equivalence relation $\equiv_{Y_1}$ identifying representational variants of the same intermediate observation.
+
+\begin{remark}[Intermediate-boundary counterexample]
+\label{rem:intermediate-boundary-counterexample}
+\deps{Representation equivalence $\equiv$ on canonical structural objects; an intermediate equivalence $\equiv_{Y_1}$ on $Y_1$; Definitions~\ref{def:observation-spaces} and~\ref{def:structural-analysis-operator}.}
+If $\mathsf A_1$ maps equivalent inputs to syntactically divergent $Y_1$ artifacts, then composition can break representation invariance even when the initial inputs are equivalent.  Concretely, it may happen that
+\[
+\Sigma\equiv\Sigma',
+\qquad
+\mathsf A_1(\Sigma)\not\equiv_{Y_1}\mathsf A_1(\Sigma'),
+\]
+and that $\mathsf A_2$ is sensitive to this syntactic divergence, so that
+\[
+\mathsf A_2(\mathsf A_1(\Sigma))\neq
+\mathsf A_2(\mathsf A_1(\Sigma')).
+\]
+Thus a composition theorem cannot rely only on representation invariance at the original structural-object boundary; it must also control the intermediate codomain $Y_1$.
+\end{remark}
+
+\begin{definition}[Canonical intermediate boundary]
+\label{def:canonical-intermediate-boundary}
+\deps{Representation equivalence $\equiv$ on canonical structural objects; intermediate equivalence $\equiv_{Y_1}$ on $Y_1$; Definition~\ref{def:structural-analysis-operator}.}
+An operator $\mathsf A_1:\Sigma\to Y_1$ is \emph{representation-invariant into $Y_1$} when, for all canonical structural objects $\Sigma,\Sigma'$,
+\[
+\Sigma\equiv\Sigma'
+\implies
+\mathsf A_1(\Sigma)\equiv_{Y_1}\mathsf A_1(\Sigma').
+\]
+This is the minimal boundary condition required to prevent representation divergence from being introduced before the second operator is applied.
+\end{definition}
+
+\begin{lemma}[Composition through a canonical intermediate boundary]
+\label{lem:composition-canonical-intermediate-boundary}
+\deps{Definition~\ref{def:canonical-intermediate-boundary}; an intermediate equivalence $\equiv_{Y_1}$ on $Y_1$; an output equivalence or equality criterion on $Y_2$.}
+Let $\mathsf A_1:\Sigma\to Y_1$ and $\mathsf A_2:Y_1\to Y_2$ be structural analysis operators.  If $\mathsf A_1$ is representation-invariant into $Y_1$ and $\mathsf A_2$ respects equivalence on $Y_1$, i.e.
+\[
+y\equiv_{Y_1}y'
+\implies
+\mathsf A_2(y)=\mathsf A_2(y')
+\]
+(or the corresponding output-equivalence version in $Y_2$), then $\mathsf A_2\circ\mathsf A_1$ is representation-invariant.
+\end{lemma}
+
+% Existence Gate notes for Issue 1:
+%  - Dependencies:
+%      * Representation equivalence $\equiv$ on canonical structural objects.
+%      * Intermediate equivalence $\equiv_{Y_1}$ on the codomain of $\mathsf A_1$.
+%      * Typed operators $\mathsf A_1:\Sigma\to Y_1$ and $\mathsf A_2:Y_1\to Y_2$.
+%      * A statement that $\mathsf A_2$ respects $\equiv_{Y_1}$, with either equality in $Y_2$ or a specified output equivalence on $Y_2$.
+%  - Counterexample eliminated:
+%      * The syntactic-divergence failure mode is blocked because equivalent structural inputs must land in the same $\equiv_{Y_1}$-class before $\mathsf A_2$ is applied.
+%  - Classification risk: theorem vs lemma:
+%      * The result is currently a lemma candidate because, once the boundary condition and respectfulness of $\mathsf A_2$ are assumed, the composition claim is a direct relational argument.
+%      * It should not be promoted to a theorem until the surrounding framework fixes whether $Y_2$ uses equality or its own output equivalence.
+%  - Proof status:
+%      * No proof yet.
+
 % ------------------------------------------------------------
 % Theorem 3: Composition
 % ------------------------------------------------------------
