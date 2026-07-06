@@ -1,6 +1,11 @@
 # Structural Analysis Foundations
 
-![Three-paper research progression](figures/research-program-progression.svg)
+<p align="center">
+  <img
+    src="figures/08A2BFBF-817F-4438-BACA-E9A4DCB31AB8.png"
+    alt="Structural Analysis Foundations Research Program"
+    width="100%">
+</p>
 
 Structural Analysis Foundations is a three-paper research program investigating the mathematical foundations of structural analysis.
 
