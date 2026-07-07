@@ -1,0 +1,11 @@
+flowchart TD
+  A[Research Paper] --> B[Canonical Research Object]
+  B --> C[Canonical Fixture]
+  C --> D[Conformance Harness]
+  D --> R[Reference Adapter]
+  R --> HV[Harness Validation]
+  D --> E[External Repository Adapter]
+  E --> F[Implementation Execution]
+  F --> G[Observed Evidence]
+  G --> H[Semantic Comparator]
+  H --> I{REFERENCE_PASS / REFERENCE_FAIL / CONFORMANCE_PASS / CONFORMANCE_DRIFT / CONFORMANCE_FAIL / UNOBSERVED}

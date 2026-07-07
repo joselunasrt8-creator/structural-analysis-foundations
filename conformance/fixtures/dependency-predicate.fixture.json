@@ -1,0 +1,84 @@
+{
+  "adapter": {
+    "command": [
+      "{python}",
+      "-m",
+      "conformance.tools.dependency_algebra_reference",
+      "--fixture",
+      "{fixture}",
+      "--output",
+      "{output}"
+    ],
+    "name": "dependency-predicate-reference"
+  },
+  "description": "Paper 1 dependency predicate reference fixture: candidate set S={b} is a dependency because removing b eliminates root-to-target reachability from r to t.",
+  "deterministic_timestamp": "2026-01-01T00:00:00Z",
+  "expected_semantics": {
+    "canonical_outputs": {
+      "is_dependency": true
+    },
+    "dependency_relations": [
+      {
+        "candidate_set": [
+          "b"
+        ],
+        "holds": true,
+        "predicate": "removal_eliminates_root_to_target_reachability"
+      }
+    ],
+    "proof_obligations": {
+      "root_to_target_reachability_eliminated": true
+    },
+    "required_diagnostics": [
+      {
+        "code": "DEPENDENCY_PREDICATE_EVALUATED",
+        "level": "info"
+      }
+    ],
+    "structural_invariants": {
+      "reachable_after_removal": false,
+      "reachable_before_removal": true,
+      "removed_components": [
+        "b"
+      ]
+    }
+  },
+  "fixture_id": "paper1.dependency-predicate.basic-v1",
+  "input": {
+    "graph": {
+      "edges": [
+        [
+          "r",
+          "a"
+        ],
+        [
+          "a",
+          "b"
+        ],
+        [
+          "b",
+          "t"
+        ]
+      ],
+      "nodes": [
+        "r",
+        "a",
+        "b",
+        "t"
+      ]
+    },
+    "workload": {
+      "candidate_component_set": [
+        "b"
+      ],
+      "roots": [
+        "r"
+      ],
+      "targets": [
+        "t"
+      ]
+    }
+  },
+  "research_object_id": "definition.dependency.dependency-predicate",
+  "research_object_path": "paper-1-dependency/research-objects/definition.dependency.dependency-predicate.json"
+}
