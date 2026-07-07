@@ -62,7 +62,7 @@ class DependencyAlgebraExternalAdapter(RepositoryAdapter):
         (artifact_dir / "command.txt").write_text(" ".join(self.command) + "\n", encoding="utf-8")
         if completed.returncode != 0:
             self.execution_failure = f"external adapter command failed with exit code {completed.returncode}"
-            self._write_unobserved(raw_output, fixture)
+            self._write_execution_failure(raw_output, fixture, completed.returncode, artifact_dir)
         return raw_output
 
     def _write_unobserved(self, raw_output: Path, fixture: CanonicalFixture) -> None:
@@ -78,7 +78,7 @@ class DependencyAlgebraExternalAdapter(RepositoryAdapter):
             "observed_execution_timestamp": now,
             "canonical_projection_timestamp": fixture.deterministic_timestamp,
             "semantic_result": "UNOBSERVED",
-            "diagnostics": [{"code": "UNOBSERVED", "level": "warning", "message": self.execution_failure or "external implementation unavailable"}],
+            "diagnostics": [{"code": "EXTERNAL_IMPLEMENTATION_UNAVAILABLE", "level": "warning", "message": self.execution_failure or "external implementation unavailable"}],
             "generated_artifacts": [],
             "structural_metrics": {},
             "provenance": {
@@ -95,6 +95,61 @@ class DependencyAlgebraExternalAdapter(RepositoryAdapter):
             "required_diagnostics": [],
             "proof_obligations": {},
             "execution_failure": False,
+            "schema_failure": False,
+            "run_mode": "external",
+        }
+        write_json(raw_output, raw)
+
+    def _write_execution_failure(self, raw_output: Path, fixture: CanonicalFixture, exit_code: int, artifact_dir: Path) -> None:
+        now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+        stdout_artifact = str(artifact_dir / "execution.stdout")
+        stderr_artifact = str(artifact_dir / "execution.stderr")
+        repository_path = self.config.get("repository_path", "UNOBSERVED")
+        raw = {
+            "repository": "dependency-algebra",
+            "repository_url": self.config.get("repository_url", "UNOBSERVED"),
+            "commit_sha": self.config.get("commit_sha", "UNOBSERVED"),
+            "branch": self.config.get("branch", "UNOBSERVED"),
+            "implementation_version": self.config.get("implementation_version", "UNOBSERVED"),
+            "research_object_id": fixture.research_object_id,
+            "fixture_id": fixture.fixture_id,
+            "observed_execution_timestamp": now,
+            "canonical_projection_timestamp": fixture.deterministic_timestamp,
+            "semantic_result": "FAIL",
+            "diagnostics": [
+                {
+                    "code": "EXTERNAL_EXECUTION_FAILED",
+                    "level": "error",
+                    "message": self.execution_failure or "external implementation execution failed",
+                    "exit_code": exit_code,
+                    "command_executed": self.command,
+                    "repository_path": repository_path,
+                    "stdout_artifact": stdout_artifact,
+                    "stderr_artifact": stderr_artifact,
+                    "timestamp": now,
+                }
+            ],
+            "generated_artifacts": [
+                {"kind": "stdout", "path": stdout_artifact},
+                {"kind": "stderr", "path": stderr_artifact},
+            ],
+            "structural_metrics": {},
+            "provenance": {
+                "command_executed": self.command,
+                "repository_path": repository_path,
+                "exit_code": exit_code,
+                "tool_version": "conformance-0.1.0",
+                "fixture_hash": canonical_hash(fixture),
+                "canonical_input_hash": canonical_hash(fixture.input),
+                "environment_metadata": {"python": sys.version.split()[0]},
+                "working_tree_clean": self.config.get("working_tree_clean", "unknown"),
+            },
+            "dependency_relations": [],
+            "structural_invariants": {},
+            "canonical_outputs": {},
+            "required_diagnostics": [],
+            "proof_obligations": {},
+            "execution_failure": True,
             "schema_failure": False,
             "run_mode": "external",
         }

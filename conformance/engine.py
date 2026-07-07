@@ -21,7 +21,7 @@ def _load_adapter(adapter_name: str, config: dict) -> RepositoryAdapter:
 
 def _normalize_replay_paths(value):
     if isinstance(value, dict):
-        return {key: _normalize_replay_paths(item) for key, item in value.items()}
+        return {key: ("<observed-runtime>" if key == "timestamp" else _normalize_replay_paths(item)) for key, item in value.items()}
     if isinstance(value, list):
         return [_normalize_replay_paths(item) for item in value]
     if isinstance(value, str):

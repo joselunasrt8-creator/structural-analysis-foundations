@@ -101,7 +101,13 @@ Observe the external adapter boundary:
 python -m conformance --fixture conformance/fixtures/dependency-predicate.external.fixture.json
 ```
 
-If `dependency-algebra` is unavailable, the external path reports `UNOBSERVED`, never `PASS`.
+External adapter outcomes are intentionally distinct:
+
+- `UNOBSERVED`: no implementation was discovered, so execution was never attempted and no conformance determination is possible.
+- `CONFORMANCE_PASS` / `CONFORMANCE_DRIFT`: an implementation was discovered, execution completed, and semantic comparison succeeded or drifted.
+- `CONFORMANCE_FAIL`: an implementation was discovered, execution was attempted, and the process failed or emitted failing evidence. Non-zero execution is observed evidence and is never reported as `UNOBSERVED`.
+
+If `dependency-algebra` is unavailable, the external path reports `UNOBSERVED`, never `PASS`. If it is available but exits non-zero, the external path reports `CONFORMANCE_FAIL`.
 
 The command writes deterministic artifacts under `conformance/artifacts/<fixture-id>/<adapter-name>/`:
 
