@@ -27,13 +27,16 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Run canonical conformance harness
+      - name: Run reference harness validation
         run: python -m conformance --fixture conformance/fixtures/dependency-predicate.fixture.json
+
+      - name: Observe external dependency-algebra adapter
+        run: python -m conformance --fixture conformance/fixtures/dependency-predicate.external.fixture.json
 
       - name: Upload conformance artifacts
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: paper1-dependency-predicate-conformance
-          path: conformance/artifacts/paper1.dependency-predicate.basic-v1/
+          path: conformance/artifacts/
           if-no-files-found: error

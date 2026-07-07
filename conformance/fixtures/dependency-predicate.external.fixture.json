@@ -1,17 +1,12 @@
 {
   "adapter": {
-    "command": [
-      "{python}",
-      "-m",
-      "conformance.tools.dependency_algebra_reference",
-      "--fixture",
-      "{fixture}",
-      "--output",
-      "{output}"
+    "cli": [
+      "dependency-algebra"
     ],
-    "name": "dependency-predicate-reference"
+    "name": "dependency-algebra-external",
+    "repository_url": "UNOBSERVED"
   },
-  "description": "Paper 1 dependency predicate reference fixture: candidate set S={b} is a dependency because removing b eliminates root-to-target reachability from r to t.",
+  "description": "Paper 1 dependency predicate external conformance fixture for dependency-algebra. Returns UNOBSERVED when no external implementation is available.",
   "deterministic_timestamp": "2026-01-01T00:00:00Z",
   "expected_semantics": {
     "canonical_outputs": {
@@ -43,7 +38,7 @@
       ]
     }
   },
-  "fixture_id": "paper1.dependency-predicate.basic-v1",
+  "fixture_id": "paper1.dependency-predicate.external-v1",
   "input": {
     "graph": {
       "edges": [

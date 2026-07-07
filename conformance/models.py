@@ -5,7 +5,16 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Literal
 
-SemanticResult = Literal["PASS", "DRIFT", "FAIL", "UNKNOWN"]
+SemanticResult = Literal["PASS", "DRIFT", "FAIL", "UNKNOWN", "UNOBSERVED"]
+ResultStatus = Literal[
+    "REFERENCE_PASS",
+    "REFERENCE_FAIL",
+    "CONFORMANCE_PASS",
+    "CONFORMANCE_DRIFT",
+    "CONFORMANCE_FAIL",
+    "UNOBSERVED",
+]
+RunMode = Literal["reference", "external"]
 
 
 @dataclass(frozen=True)
@@ -23,10 +32,14 @@ class CanonicalFixture:
 @dataclass(frozen=True)
 class CanonicalEvidence:
     repository: str
+    repository_url: str
+    commit_sha: str
+    branch: str
     implementation_version: str
     research_object_id: str
     fixture_id: str
-    execution_timestamp: str
+    observed_execution_timestamp: str
+    canonical_projection_timestamp: str
     semantic_result: SemanticResult
     diagnostics: list[dict[str, Any]]
     generated_artifacts: list[dict[str, Any]]
@@ -37,11 +50,24 @@ class CanonicalEvidence:
     canonical_outputs: dict[str, Any] = field(default_factory=dict)
     required_diagnostics: list[dict[str, Any]] = field(default_factory=list)
     proof_obligations: dict[str, Any] = field(default_factory=dict)
+    execution_failure: bool = False
+    schema_failure: bool = False
+    run_mode: RunMode = "external"
+
+
+@dataclass(frozen=True)
+class ReplayResult:
+    run_a_evidence_path: str
+    run_b_evidence_path: str
+    run_a_canonical_evidence_hash: str
+    run_b_canonical_evidence_hash: str
+    deterministic: bool
+    explanation: str
 
 
 @dataclass(frozen=True)
 class ConformanceResult:
-    status: SemanticResult
+    status: ResultStatus
     fixture_id: str
     research_object_id: str
     repository: str
@@ -49,3 +75,6 @@ class ConformanceResult:
     diagnostics: list[dict[str, Any]]
     evidence_path: str
     report_path: str
+    fixture_hash: str
+    evidence_hash: str
+    replay: ReplayResult

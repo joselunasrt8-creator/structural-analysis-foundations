@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections import Counter
 from typing import Any
 
-from .models import CanonicalEvidence, CanonicalFixture, ConformanceResult
+from .models import CanonicalEvidence, CanonicalFixture, ConformanceResult, ReplayResult
 
 
 def _canonicalize(value: Any) -> Any:
@@ -20,7 +20,28 @@ def _equivalent(expected: Any, observed: Any) -> bool:
     return _canonicalize(expected) == _canonicalize(observed)
 
 
-def compare_semantics(fixture: CanonicalFixture, evidence: CanonicalEvidence, evidence_path: str, report_path: str) -> ConformanceResult:
+def _status(run_mode: str, terminal: str) -> str:
+    if terminal == "UNOBSERVED":
+        return "UNOBSERVED"
+    if run_mode == "reference":
+        return "REFERENCE_PASS" if terminal == "PASS" else "REFERENCE_FAIL"
+    return {
+        "PASS": "CONFORMANCE_PASS",
+        "DRIFT": "CONFORMANCE_DRIFT",
+        "FAIL": "CONFORMANCE_FAIL",
+        "UNKNOWN": "UNOBSERVED",
+    }[terminal]
+
+
+def compare_semantics(
+    fixture: CanonicalFixture,
+    evidence: CanonicalEvidence,
+    evidence_path: str,
+    report_path: str,
+    fixture_hash: str,
+    evidence_hash: str,
+    replay: ReplayResult,
+) -> ConformanceResult:
     expected = fixture.expected_semantics
     checks = [
         ("dependency_relations", expected.get("dependency_relations", []), evidence.dependency_relations),
@@ -31,34 +52,50 @@ def compare_semantics(fixture: CanonicalFixture, evidence: CanonicalEvidence, ev
     ]
     diagnostics: list[dict[str, Any]] = []
     mismatches = []
-    for name, expected_value, observed_value in checks:
-        if _equivalent(expected_value, observed_value):
-            diagnostics.append({"check": name, "result": "PASS", "explanation": "semantic values are equivalent"})
-        else:
-            mismatches.append(name)
-            diagnostics.append(
-                {
-                    "check": name,
-                    "result": "DRIFT",
-                    "explanation": "semantic values differ after canonicalization",
-                    "expected": expected_value,
-                    "observed": observed_value,
-                }
-            )
+    should_compare_semantics = evidence.semantic_result not in {"UNOBSERVED", "UNKNOWN", "FAIL"} and not evidence.execution_failure and not evidence.schema_failure
+    if should_compare_semantics:
+        for name, expected_value, observed_value in checks:
+            if _equivalent(expected_value, observed_value):
+                diagnostics.append({"check": name, "result": "PASS", "explanation": "semantic values are equivalent"})
+            else:
+                mismatches.append(name)
+                diagnostics.append(
+                    {
+                        "check": name,
+                        "result": "DRIFT",
+                        "explanation": "semantic values differ after canonicalization",
+                        "expected": expected_value,
+                        "observed": observed_value,
+                    }
+                )
 
     if evidence.research_object_id != fixture.research_object_id or evidence.fixture_id != fixture.fixture_id:
         diagnostics.append({"check": "identity", "result": "FAIL", "explanation": "evidence identity does not match fixture"})
-        status = "FAIL"
+        terminal = "FAIL"
+    elif evidence.execution_failure:
+        diagnostics.append({"check": "execution", "result": "FAIL", "explanation": "implementation execution failed"})
+        terminal = "FAIL"
+    elif evidence.schema_failure:
+        diagnostics.append({"check": "schema", "result": "FAIL", "explanation": "raw evidence schema validation failed"})
+        terminal = "FAIL"
+    elif not replay.deterministic:
+        diagnostics.append({"check": "replay", "result": "FAIL", "explanation": replay.explanation})
+        terminal = "FAIL"
+    elif evidence.semantic_result == "UNOBSERVED":
+        diagnostics.append({"check": "observation", "result": "UNOBSERVED", "explanation": "external implementation was not observed"})
+        terminal = "UNOBSERVED"
     elif evidence.semantic_result == "UNKNOWN":
         diagnostics.append({"check": "adapter_result", "result": "UNKNOWN", "explanation": "adapter could not establish implementation semantics"})
-        status = "UNKNOWN"
-    elif mismatches:
-        status = "DRIFT"
+        terminal = "UNKNOWN"
     elif evidence.semantic_result == "FAIL":
-        status = "FAIL"
+        diagnostics.append({"check": "adapter_result", "result": "FAIL", "explanation": "implementation reported semantic failure"})
+        terminal = "FAIL"
+    elif mismatches:
+        terminal = "DRIFT"
     else:
-        status = "PASS"
+        terminal = "PASS"
 
+    status = _status(evidence.run_mode, terminal)
     summary = Counter(item["result"] for item in diagnostics)
-    explanation = f"{status}: {summary.get('PASS', 0)} semantic checks passed; {len(mismatches)} drift checks; deterministic fixture {fixture.fixture_id}."
-    return ConformanceResult(status, fixture.fixture_id, fixture.research_object_id, evidence.repository, explanation, diagnostics, evidence_path, report_path)
+    explanation = f"{status}: {summary.get('PASS', 0)} semantic checks passed; {len(mismatches)} drift checks; replay deterministic={replay.deterministic}."
+    return ConformanceResult(status, fixture.fixture_id, fixture.research_object_id, evidence.repository, explanation, diagnostics, evidence_path, report_path, fixture_hash, evidence_hash, replay)
