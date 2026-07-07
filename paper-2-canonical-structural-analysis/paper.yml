@@ -1,0 +1,10 @@
+paper: paper-2-canonical-structural-analysis
+title: Canonical Structural Analysis
+manifest_version: 1
+files:
+  - README.md
+  - main.tex
+  - references.bib
+  - pdf/paper2.pdf
+research_objects:
+  - research-objects/concept.canonical-structure.canonical-structural-object.json

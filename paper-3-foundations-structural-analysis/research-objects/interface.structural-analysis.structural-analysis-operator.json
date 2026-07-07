@@ -1,0 +1,33 @@
+{
+  "id": "interface.structural-analysis.structural-analysis-operator",
+  "kind": "interface",
+  "domain": "structural-analysis",
+  "slug": "structural-analysis-operator",
+  "version": "v1",
+  "title": "Structural Analysis Operator",
+  "paper": "paper-3-foundations-structural-analysis",
+  "canonical_statement": "A structural analysis operator is a deterministic interface mapping a canonical structural object to an observable value in an admissible observation space.",
+  "provenance": {
+    "source": {
+      "file": "main.tex",
+      "anchor": "def:structural-analysis-operator",
+      "lines": [
+        233,
+        240
+      ]
+    }
+  },
+  "dependencies": [
+    {
+      "id": "concept.canonical-structure.canonical-structural-object",
+      "relation": "uses"
+    }
+  ],
+  "validation": {
+    "status": "not_validated",
+    "notes": "Phase 1 seed object; source anchor and manifest references are mechanically checked."
+  },
+  "exports": {},
+  "lifecycle_status": "draft",
+  "maturity": "seed"
+}

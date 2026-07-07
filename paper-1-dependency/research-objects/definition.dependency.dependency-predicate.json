@@ -1,0 +1,28 @@
+{
+  "id": "definition.dependency.dependency-predicate",
+  "kind": "definition",
+  "domain": "dependency",
+  "slug": "dependency-predicate",
+  "version": "v1",
+  "title": "Dependency Predicate",
+  "paper": "paper-1-dependency",
+  "canonical_statement": "A candidate component set S is a dependency for workload w=(R,t,S) exactly when removing S eliminates root-to-target reachability.",
+  "provenance": {
+    "source": {
+      "file": "main.tex",
+      "anchor": "eq:dependency",
+      "lines": [
+        243,
+        259
+      ]
+    }
+  },
+  "dependencies": [],
+  "validation": {
+    "status": "not_validated",
+    "notes": "Phase 1 seed object; source anchor and manifest references are mechanically checked."
+  },
+  "exports": {},
+  "lifecycle_status": "draft",
+  "maturity": "seed"
+}

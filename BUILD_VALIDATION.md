@@ -57,3 +57,19 @@ Because no LaTeX engine was available, the following checks remain unresolved:
 ## Remaining blocker
 
 The remaining blocker is environmental LaTeX tooling availability, not repository structure. Re-run this validation in an environment with `latexmk` and a complete TeX distribution installed.
+
+## Research object validation
+
+Phase 1 research-object metadata can be validated without changing paper builds:
+
+```sh
+python tools/validate_research_objects.py
+```
+
+This command validates the schema JSON, paper manifests, manifest file references, seed research objects, source anchors, line ranges, dependency targets, and stable object IDs.
+
+Validator rejection behavior is covered by local negative tests:
+
+```sh
+python -m unittest tests/test_validate_research_objects.py
+```
