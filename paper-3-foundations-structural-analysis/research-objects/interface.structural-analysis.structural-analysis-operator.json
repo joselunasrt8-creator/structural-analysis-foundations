@@ -1,0 +1,15 @@
+{
+  "id": "interface.structural-analysis.structural-analysis-operator",
+  "kind": "interface",
+  "domain": "structural-analysis",
+  "slug": "structural-analysis-operator",
+  "title": "Structural Analysis Operator",
+  "paper": "paper-3-foundations-structural-analysis",
+  "source": {
+    "file": "main.tex",
+    "anchor": "def:structural-analysis-operator",
+    "lines": [233, 240]
+  },
+  "status": "seed",
+  "summary": "Defines the deterministic operator interface from a canonical structural object to an admissible observable value."
+}

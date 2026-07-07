@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/joselunasrt8-creator/structural-analysis-foundations/schemas/research-object.schema.json",
+  "title": "Structural Analysis Foundations Research Object",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "kind", "domain", "slug", "title", "paper", "source", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*\\.[a-z][a-z0-9-]*\\.[a-z][a-z0-9-]*$"
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["definition", "theorem", "concept", "claim", "interface"]
+    },
+    "domain": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "paper": {
+      "type": "string",
+      "pattern": "^paper-[1-3][a-z0-9-]*$"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file", "anchor"],
+      "properties": {
+        "file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "anchor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lines": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["seed", "draft", "canonical", "deprecated"]
+    },
+    "summary": {
+      "type": "string"
+    },
+    "depends_on": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*\\.[a-z][a-z0-9-]*\\.[a-z][a-z0-9-]*$"
+      },
+      "uniqueItems": true
+    }
+  }
+}

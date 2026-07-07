@@ -1,0 +1,15 @@
+{
+  "id": "definition.dependency.dependency-predicate",
+  "kind": "definition",
+  "domain": "dependency",
+  "slug": "dependency-predicate",
+  "title": "Dependency Predicate",
+  "paper": "paper-1-dependency",
+  "source": {
+    "file": "main.tex",
+    "anchor": "eq:dependency",
+    "lines": [243, 259]
+  },
+  "status": "seed",
+  "summary": "Defines dependency as the absence of root-to-target reachability after deleting the candidate component set."
+}

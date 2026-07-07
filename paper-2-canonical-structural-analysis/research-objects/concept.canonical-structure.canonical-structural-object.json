@@ -1,0 +1,15 @@
+{
+  "id": "concept.canonical-structure.canonical-structural-object",
+  "kind": "concept",
+  "domain": "canonical-structure",
+  "slug": "canonical-structural-object",
+  "title": "Canonical Structural Object",
+  "paper": "paper-2-canonical-structural-analysis",
+  "source": {
+    "file": "main.tex",
+    "anchor": "def:canonical-structural-object",
+    "lines": [277, 284]
+  },
+  "status": "seed",
+  "summary": "Represents the triple of structural graph, workload space, and deterministic canonicalization operator."
+}

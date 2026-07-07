@@ -1,0 +1,16 @@
+{
+  "id": "theorem.dependency.separator-equivalence",
+  "kind": "theorem",
+  "domain": "dependency",
+  "slug": "separator-equivalence",
+  "title": "Dependency--Separator Equivalence",
+  "paper": "paper-1-dependency",
+  "source": {
+    "file": "main.tex",
+    "anchor": "thm:separator",
+    "lines": [273, 308]
+  },
+  "status": "seed",
+  "summary": "States that the dependency predicate holds exactly when the candidate set is an (R,t)-separator.",
+  "depends_on": ["definition.dependency.dependency-predicate"]
+}

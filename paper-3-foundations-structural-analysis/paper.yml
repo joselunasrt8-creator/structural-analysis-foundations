@@ -1,0 +1,10 @@
+paper: paper-3-foundations-structural-analysis
+title: Foundations of Structural Analysis
+manifest_version: 1
+files:
+  - README.md
+  - main.tex
+  - references.bib
+  - pdf/paper3.pdf
+research_objects:
+  - research-objects/interface.structural-analysis.structural-analysis-operator.json

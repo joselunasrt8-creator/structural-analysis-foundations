@@ -1,0 +1,11 @@
+paper: paper-1-dependency
+title: The Mathematics of Dependency
+manifest_version: 1
+files:
+  - README.md
+  - main.tex
+  - references.bib
+  - pdf/paper1.pdf
+research_objects:
+  - research-objects/definition.dependency.dependency-predicate.json
+  - research-objects/theorem.dependency.separator-equivalence.json
