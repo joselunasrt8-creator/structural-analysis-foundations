@@ -4,7 +4,22 @@
   "title": "Structural Analysis Foundations Research Object",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "kind", "domain", "slug", "title", "paper", "source", "status"],
+  "required": [
+    "id",
+    "kind",
+    "domain",
+    "slug",
+    "version",
+    "title",
+    "paper",
+    "canonical_statement",
+    "provenance",
+    "dependencies",
+    "validation",
+    "exports",
+    "lifecycle_status",
+    "maturity"
+  ],
   "properties": {
     "id": {
       "type": "string",
@@ -22,15 +37,81 @@
       "type": "string",
       "pattern": "^[a-z][a-z0-9-]*$"
     },
+    "version": {
+      "type": "string",
+      "pattern": "^v[0-9]+$"
+    },
     "title": {
       "type": "string",
       "minLength": 1
     },
     "paper": {
       "type": "string",
-      "pattern": "^paper-[1-3][a-z0-9-]*$"
+      "pattern": "^paper-[0-9]+-[a-z][a-z0-9-]*$"
     },
-    "source": {
+    "canonical_statement": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source"],
+      "properties": {
+        "source": {
+          "$ref": "#/$defs/source_reference"
+        }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "relation"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*\\.[a-z][a-z0-9-]*\\.[a-z][a-z0-9-]*$"
+          },
+          "relation": {
+            "type": "string",
+            "enum": ["depends_on", "refines", "supports", "uses"]
+          }
+        }
+      },
+      "uniqueItems": true
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["not_validated", "validated"]
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "exports": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {}
+    },
+    "lifecycle_status": {
+      "type": "string",
+      "enum": ["draft", "reviewed", "published", "deprecated"]
+    },
+    "maturity": {
+      "type": "string",
+      "enum": ["seed", "extracted", "verified"]
+    }
+  },
+  "$defs": {
+    "source_reference": {
       "type": "object",
       "additionalProperties": false,
       "required": ["file", "anchor"],
@@ -53,21 +134,6 @@
           }
         }
       }
-    },
-    "status": {
-      "type": "string",
-      "enum": ["seed", "draft", "canonical", "deprecated"]
-    },
-    "summary": {
-      "type": "string"
-    },
-    "depends_on": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^[a-z][a-z0-9-]*\\.[a-z][a-z0-9-]*\\.[a-z][a-z0-9-]*$"
-      },
-      "uniqueItems": true
     }
   }
 }

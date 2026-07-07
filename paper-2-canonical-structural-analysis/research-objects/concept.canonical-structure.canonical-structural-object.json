@@ -3,13 +3,26 @@
   "kind": "concept",
   "domain": "canonical-structure",
   "slug": "canonical-structural-object",
+  "version": "v1",
   "title": "Canonical Structural Object",
   "paper": "paper-2-canonical-structural-analysis",
-  "source": {
-    "file": "main.tex",
-    "anchor": "def:canonical-structural-object",
-    "lines": [277, 284]
+  "canonical_statement": "A canonical structural object is a triple consisting of a structural graph, a workload space, and a deterministic canonicalization operator.",
+  "provenance": {
+    "source": {
+      "file": "main.tex",
+      "anchor": "def:canonical-structural-object",
+      "lines": [
+        277,
+        284
+      ]
+    }
   },
-  "status": "seed",
-  "summary": "Represents the triple of structural graph, workload space, and deterministic canonicalization operator."
+  "dependencies": [],
+  "validation": {
+    "status": "not_validated",
+    "notes": "Phase 1 seed object; source anchor and manifest references are mechanically checked."
+  },
+  "exports": {},
+  "lifecycle_status": "draft",
+  "maturity": "seed"
 }

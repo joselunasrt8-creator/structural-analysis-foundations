@@ -66,4 +66,10 @@ Phase 1 research-object metadata can be validated without changing paper builds:
 python tools/validate_research_objects.py
 ```
 
-This command validates the schema JSON, paper manifests, manifest file references, seed research objects, and stable object IDs.
+This command validates the schema JSON, paper manifests, manifest file references, seed research objects, source anchors, line ranges, dependency targets, and stable object IDs.
+
+Validator rejection behavior is covered by local negative tests:
+
+```sh
+python -m unittest tests/test_validate_research_objects.py
+```

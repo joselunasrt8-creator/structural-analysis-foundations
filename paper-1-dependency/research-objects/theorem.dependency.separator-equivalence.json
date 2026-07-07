@@ -3,14 +3,31 @@
   "kind": "theorem",
   "domain": "dependency",
   "slug": "separator-equivalence",
+  "version": "v1",
   "title": "Dependency--Separator Equivalence",
   "paper": "paper-1-dependency",
-  "source": {
-    "file": "main.tex",
-    "anchor": "thm:separator",
-    "lines": [273, 308]
+  "canonical_statement": "The dependency predicate holds exactly when the candidate set is an (R,t)-separator.",
+  "provenance": {
+    "source": {
+      "file": "main.tex",
+      "anchor": "thm:separator",
+      "lines": [
+        273,
+        308
+      ]
+    }
   },
-  "status": "seed",
-  "summary": "States that the dependency predicate holds exactly when the candidate set is an (R,t)-separator.",
-  "depends_on": ["definition.dependency.dependency-predicate"]
+  "dependencies": [
+    {
+      "id": "definition.dependency.dependency-predicate",
+      "relation": "depends_on"
+    }
+  ],
+  "validation": {
+    "status": "not_validated",
+    "notes": "Phase 1 seed object; source anchor and manifest references are mechanically checked."
+  },
+  "exports": {},
+  "lifecycle_status": "draft",
+  "maturity": "seed"
 }
