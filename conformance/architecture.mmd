@@ -1,0 +1,9 @@
+flowchart TD
+  A[Research Paper] --> B[Canonical Research Object]
+  B --> C[Canonical Fixture]
+  C --> D[Conformance Harness]
+  D --> E[Repository Adapter Plugin]
+  E --> F[Implementation Execution]
+  F --> G[Canonical Evidence]
+  G --> H[Semantic Comparator]
+  H --> I{PASS / DRIFT / FAIL / UNKNOWN}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "canonical_outputs": {"type": "object"},
+    "dependency_relations": {"type": "array"},
+    "diagnostics": {"type": "array"},
+    "execution_timestamp": {"type": "string"},
+    "fixture_id": {"type": "string"},
+    "generated_artifacts": {"type": "array"},
+    "implementation_version": {"type": "string"},
+    "proof_obligations": {"type": "object"},
+    "provenance": {"type": "object"},
+    "repository": {"type": "string"},
+    "required_diagnostics": {"type": "array"},
+    "research_object_id": {"type": "string"},
+    "semantic_result": {"enum": ["PASS", "DRIFT", "FAIL", "UNKNOWN"]},
+    "structural_invariants": {"type": "object"},
+    "structural_metrics": {"type": "object"}
+  },
+  "required": [
+    "repository",
+    "implementation_version",
+    "research_object_id",
+    "fixture_id",
+    "execution_timestamp",
+    "semantic_result",
+    "diagnostics",
+    "generated_artifacts",
+    "structural_metrics",
+    "provenance"
+  ],
+  "title": "Canonical Conformance Evidence",
+  "type": "object"
+}

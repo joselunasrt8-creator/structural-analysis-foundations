@@ -1,0 +1,39 @@
+name: Conformance validation
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: conformance-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  conformance:
+    name: Paper 1 dependency predicate conformance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Run canonical conformance harness
+        run: python -m conformance --fixture conformance/fixtures/dependency-predicate.fixture.json
+
+      - name: Upload conformance artifacts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: paper1-dependency-predicate-conformance
+          path: conformance/artifacts/paper1.dependency-predicate.basic-v1/
+          if-no-files-found: error
