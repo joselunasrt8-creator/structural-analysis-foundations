@@ -64,7 +64,11 @@ Phase 1 research-object metadata can be validated without changing paper builds:
 
 ```sh
 python tools/validate_research_objects.py
+python -m pip install -r requirements.txt
+python tools/validate_canonical_fixtures.py
 ```
+
+`python tools/validate_canonical_fixtures.py` validates every canonical fixture discovered under `conformance/fixtures/*.fixture.json` against its declared `schema_path` and reports deterministic fixture, schema, JSON path, constraint, and message fields on failure.
 
 This command validates the schema JSON, paper manifests, manifest file references, seed research objects, source anchors, line ranges, dependency targets, and stable object IDs.
 

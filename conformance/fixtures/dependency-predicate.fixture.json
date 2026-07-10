@@ -80,5 +80,6 @@
     }
   },
   "research_object_id": "definition.dependency.dependency-predicate",
-  "research_object_path": "paper-1-dependency/research-objects/definition.dependency.dependency-predicate.json"
+  "research_object_path": "paper-1-dependency/research-objects/definition.dependency.dependency-predicate.json",
+  "schema_path": "schemas/canonical-dependency-predicate.schema.json"
 }

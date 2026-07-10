@@ -1,0 +1,291 @@
+{
+  "$defs": {
+    "pair": {
+      "items": false,
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "minLength": 1,
+          "type": "string"
+        }
+      ],
+      "type": "array"
+    }
+  },
+  "$id": "https://github.com/joselunasrt8-creator/structural-analysis-foundations/schemas/canonical-dependency-predicate.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "adapter": {
+      "additionalProperties": false,
+      "properties": {
+        "cli": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "command": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "external_command": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "repository_url": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "description": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "deterministic_timestamp": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "expected_semantics": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_outputs": {
+          "additionalProperties": false,
+          "properties": {
+            "is_dependency": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "is_dependency"
+          ],
+          "type": "object"
+        },
+        "dependency_relations": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "candidate_set": {
+                "items": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "holds": {
+                "type": "boolean"
+              },
+              "predicate": {
+                "const": "removal_eliminates_root_to_target_reachability"
+              }
+            },
+            "required": [
+              "candidate_set",
+              "holds",
+              "predicate"
+            ],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "proof_obligations": {
+          "additionalProperties": false,
+          "properties": {
+            "root_to_target_reachability_eliminated": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "root_to_target_reachability_eliminated"
+          ],
+          "type": "object"
+        },
+        "required_diagnostics": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "level": {
+                "enum": [
+                  "info",
+                  "warning",
+                  "error"
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "level"
+            ],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "structural_invariants": {
+          "additionalProperties": false,
+          "properties": {
+            "reachable_after_removal": {
+              "type": "boolean"
+            },
+            "reachable_before_removal": {
+              "type": "boolean"
+            },
+            "removed_components": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "reachable_after_removal",
+            "reachable_before_removal",
+            "removed_components"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "canonical_outputs",
+        "dependency_relations",
+        "proof_obligations",
+        "required_diagnostics",
+        "structural_invariants"
+      ],
+      "type": "object"
+    },
+    "fixture_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "input": {
+      "additionalProperties": false,
+      "properties": {
+        "graph": {
+          "additionalProperties": false,
+          "properties": {
+            "edges": {
+              "items": {
+                "$ref": "#/$defs/pair"
+              },
+              "type": "array"
+            },
+            "nodes": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "edges",
+            "nodes"
+          ],
+          "type": "object"
+        },
+        "workload": {
+          "additionalProperties": false,
+          "properties": {
+            "candidate_component_set": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "roots": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "targets": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "candidate_component_set",
+            "roots",
+            "targets"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "graph",
+        "workload"
+      ],
+      "type": "object"
+    },
+    "research_object_id": {
+      "const": "definition.dependency.dependency-predicate"
+    },
+    "research_object_path": {
+      "const": "paper-1-dependency/research-objects/definition.dependency.dependency-predicate.json"
+    },
+    "schema_path": {
+      "const": "schemas/canonical-dependency-predicate.schema.json"
+    }
+  },
+  "required": [
+    "adapter",
+    "description",
+    "deterministic_timestamp",
+    "expected_semantics",
+    "fixture_id",
+    "input",
+    "research_object_id",
+    "research_object_path",
+    "schema_path"
+  ],
+  "title": "Canonical Dependency Predicate Fixture",
+  "type": "object"
+}
