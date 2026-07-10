@@ -7,6 +7,7 @@ Canonical fixture schema validation is a repository-level correctness check. It 
 Run:
 
 ```bash
+python -m pip install -r requirements.txt
 python tools/validate_canonical_fixtures.py
 ```
 

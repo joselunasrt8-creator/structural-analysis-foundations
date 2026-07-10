@@ -56,7 +56,7 @@ Current canonical research-object documentation includes:
 
 Additional research objects should be added by defining the scientific purpose, inputs, outputs, invariants, preconditions, postconditions, evidence contract, reproducibility requirements, canonical schema, and deterministic fixture before introducing any implementation-specific adapter. This preserves the architecture:
 
-Canonical fixtures are validated against their declared Draft 2020-12 JSON Schemas with `python tools/validate_canonical_fixtures.py`; CI runs the same check before conformance adapters. See [Canonical Fixture Schema Validation](docs/canonical-fixture-schema-validation.md).
+Canonical fixtures are validated against their declared Draft 2020-12 JSON Schemas with `python tools/validate_canonical_fixtures.py` after installing `requirements.txt`; CI runs the same check before conformance adapters. See [Canonical Fixture Schema Validation](docs/canonical-fixture-schema-validation.md).
 
 ```text
 Real System

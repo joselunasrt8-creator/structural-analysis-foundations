@@ -64,6 +64,7 @@ Phase 1 research-object metadata can be validated without changing paper builds:
 
 ```sh
 python tools/validate_research_objects.py
+python -m pip install -r requirements.txt
 python tools/validate_canonical_fixtures.py
 ```
 
