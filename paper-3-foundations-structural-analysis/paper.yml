@@ -8,3 +8,4 @@ files:
   - pdf/paper3.pdf
 research_objects:
   - research-objects/interface.structural-analysis.structural-analysis-operator.json
+  - research-objects/concept.structural-observation.reachability-profile.json

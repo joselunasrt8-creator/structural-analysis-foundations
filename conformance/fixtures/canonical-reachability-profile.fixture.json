@@ -1,0 +1,134 @@
+{
+  "description": "Canonical Reachability Profile fixture: roots r1 and r2 are evaluated against targets t1 and t2 over a deterministic directed structural object. Exactly two of the four root-target pairs are reachable.",
+  "deterministic_timestamp": "2026-01-01T00:00:00Z",
+  "evidence_contract": {
+    "aligns_with": "conformance/schemas/evidence.schema.json",
+    "required_sections": [
+      "inputs",
+      "canonical_outputs",
+      "provenance",
+      "structural_metrics",
+      "structural_invariants",
+      "diagnostics"
+    ]
+  },
+  "expected_semantics": {
+    "canonical_outputs": {
+      "reachable_pairs": [
+        [
+          "r1",
+          "t1"
+        ],
+        [
+          "r2",
+          "t2"
+        ]
+      ],
+      "reachability_density": 0.5,
+      "root_coverage": {
+        "r1": 1,
+        "r2": 1
+      },
+      "target_coverage": {
+        "t1": 1,
+        "t2": 1
+      },
+      "unreachable_pairs": [
+        [
+          "r1",
+          "t2"
+        ],
+        [
+          "r2",
+          "t1"
+        ]
+      ]
+    },
+    "required_diagnostics": [
+      {
+        "code": "REACHABILITY_PROFILE_EVALUATED",
+        "level": "info"
+      },
+      {
+        "code": "REACHABILITY_INVARIANTS_VERIFIED",
+        "level": "info"
+      },
+      {
+        "code": "CANONICAL_ORDERING_CONFIRMED",
+        "level": "info"
+      }
+    ],
+    "structural_invariants": {
+      "coverage_counts_consistent": true,
+      "density_consistent": true,
+      "exclusive_classification": true,
+      "pair_universe_complete": true
+    },
+    "structural_metrics": {
+      "node_count": 6,
+      "pair_universe_count": 4,
+      "reachable_pair_count": 2,
+      "reachability_density": 0.5,
+      "relation_count": 4,
+      "root_count": 2,
+      "target_count": 2,
+      "unreachable_pair_count": 2
+    }
+  },
+  "fixture_id": "paper3.reachability-profile.basic-v1",
+  "input": {
+    "canonical_structural_object": {
+      "nodes": [
+        "a",
+        "b",
+        "r1",
+        "r2",
+        "t1",
+        "t2"
+      ],
+      "relations": [
+        [
+          "a",
+          "t1"
+        ],
+        [
+          "b",
+          "t2"
+        ],
+        [
+          "r1",
+          "a"
+        ],
+        [
+          "r2",
+          "b"
+        ]
+      ]
+    },
+    "canonicalization": {
+      "node_order": "lexicographic-by-identifier",
+      "pair_order": "lexicographic-root-then-target",
+      "relation_order": "lexicographic-source-then-target"
+    },
+    "workload": {
+      "roots": [
+        "r1",
+        "r2"
+      ],
+      "targets": [
+        "t1",
+        "t2"
+      ]
+    }
+  },
+  "reproducibility": {
+    "canonical_ordering": "Nodes, relations, roots, targets, reachable pairs, unreachable pairs, diagnostics, and object keys are emitted in deterministic lexicographic order.",
+    "hash_requirements": [
+      "fixture_sha256",
+      "canonical_input_sha256",
+      "canonical_evidence_sha256"
+    ],
+    "replay_requirement": "Two realizations of this fixture must produce identical canonical outputs, structural metrics, invariant verification results, and required diagnostics after excluding observed wall-clock timestamps."
+  },
+  "research_object_id": "concept.structural-observation.reachability-profile"
+}
