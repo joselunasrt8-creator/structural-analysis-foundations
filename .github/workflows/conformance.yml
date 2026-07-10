@@ -27,6 +27,9 @@ jobs:
         with:
           python-version: '3.13'
 
+      - name: Validate canonical fixture schemas
+        run: python tools/validate_canonical_fixtures.py
+
       - name: Run reference harness validation
         run: python -m conformance --fixture conformance/fixtures/dependency-predicate.fixture.json
 

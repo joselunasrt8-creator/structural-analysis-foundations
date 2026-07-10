@@ -1,130 +1,134 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/joselunasrt8-creator/structural-analysis-foundations/schemas/canonical-reachability-profile.schema.json",
-  "title": "Canonical Reachability Profile Fixture",
-  "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "fixture_id",
-    "research_object_id",
-    "description",
-    "deterministic_timestamp",
-    "input",
-    "expected_semantics",
-    "evidence_contract",
-    "reproducibility"
-  ],
-  "properties": {
-    "fixture_id": {"type": "string", "minLength": 1},
-    "research_object_id": {"const": "concept.structural-observation.reachability-profile"},
-    "description": {"type": "string", "minLength": 1},
-    "deterministic_timestamp": {"type": "string", "format": "date-time"},
-    "input": {
-      "type": "object",
+  "$defs": {
+    "canonical_outputs": {
       "additionalProperties": false,
-      "required": ["canonical_structural_object", "workload", "canonicalization"],
       "properties": {
-        "canonical_structural_object": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["nodes", "relations"],
-          "properties": {
-            "nodes": {
-              "type": "array",
-              "items": {"type": "string", "minLength": 1},
-              "uniqueItems": true
-            },
-            "relations": {
-              "type": "array",
-              "items": {
-                "type": "array",
-                "prefixItems": [
-                  {"type": "string", "minLength": 1},
-                  {"type": "string", "minLength": 1}
-                ],
-                "items": false,
-                "minItems": 2,
-                "maxItems": 2
-              }
-            }
-          }
+        "reachability_density": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
         },
-        "workload": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["roots", "targets"],
-          "properties": {
-            "roots": {
-              "type": "array",
-              "items": {"type": "string", "minLength": 1},
-              "minItems": 1,
-              "uniqueItems": true
-            },
-            "targets": {
-              "type": "array",
-              "items": {"type": "string", "minLength": 1},
-              "minItems": 1,
-              "uniqueItems": true
-            }
-          }
-        },
-        "canonicalization": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["node_order", "relation_order", "pair_order"],
-          "properties": {
-            "node_order": {"const": "lexicographic-by-identifier"},
-            "relation_order": {"const": "lexicographic-source-then-target"},
-            "pair_order": {"const": "lexicographic-root-then-target"}
-          }
-        }
-      }
-    },
-    "expected_semantics": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["canonical_outputs", "structural_metrics", "structural_invariants", "required_diagnostics"],
-      "properties": {
-        "canonical_outputs": {"$ref": "#/$defs/canonical_outputs"},
-        "structural_metrics": {"$ref": "#/$defs/structural_metrics"},
-        "structural_invariants": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "coverage_counts_consistent",
-            "density_consistent",
-            "exclusive_classification",
-            "pair_universe_complete"
-          ],
-          "properties": {
-            "coverage_counts_consistent": {"type": "boolean"},
-            "density_consistent": {"type": "boolean"},
-            "exclusive_classification": {"type": "boolean"},
-            "pair_universe_complete": {"type": "boolean"}
-          }
-        },
-        "required_diagnostics": {
-          "type": "array",
+        "reachable_pairs": {
           "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": ["code", "level"],
-            "properties": {
-              "code": {"type": "string", "minLength": 1},
-              "level": {"enum": ["info", "warning", "error"]}
-            }
-          }
+            "$ref": "#/$defs/pair"
+          },
+          "type": "array"
+        },
+        "root_coverage": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "type": "object"
+        },
+        "target_coverage": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "type": "object"
+        },
+        "unreachable_pairs": {
+          "items": {
+            "$ref": "#/$defs/pair"
+          },
+          "type": "array"
         }
-      }
+      },
+      "required": [
+        "reachable_pairs",
+        "unreachable_pairs",
+        "root_coverage",
+        "target_coverage",
+        "reachability_density"
+      ],
+      "type": "object"
+    },
+    "pair": {
+      "items": false,
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "minLength": 1,
+          "type": "string"
+        }
+      ],
+      "type": "array"
+    },
+    "structural_metrics": {
+      "additionalProperties": false,
+      "properties": {
+        "node_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "pair_universe_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "reachability_density": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "reachable_pair_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "relation_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "root_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "target_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "unreachable_pair_count": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "node_count",
+        "relation_count",
+        "root_count",
+        "target_count",
+        "reachable_pair_count",
+        "unreachable_pair_count",
+        "pair_universe_count",
+        "reachability_density"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/joselunasrt8-creator/structural-analysis-foundations/schemas/canonical-reachability-profile.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "description": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "deterministic_timestamp": {
+      "format": "date-time",
+      "type": "string"
     },
     "evidence_contract": {
-      "type": "object",
       "additionalProperties": false,
-      "required": ["envelope_schema", "semantic_projection_fields"],
       "properties": {
-        "envelope_schema": {"const": "conformance/schemas/evidence.schema.json"},
+        "envelope_schema": {
+          "const": "conformance/schemas/evidence.schema.json"
+        },
         "semantic_projection_fields": {
-          "type": "array",
           "items": {
             "enum": [
               "canonical_outputs",
@@ -134,62 +138,231 @@
             ]
           },
           "minItems": 4,
+          "type": "array",
           "uniqueItems": true
         }
-      }
+      },
+      "required": [
+        "envelope_schema",
+        "semantic_projection_fields"
+      ],
+      "type": "object"
+    },
+    "expected_semantics": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_outputs": {
+          "$ref": "#/$defs/canonical_outputs"
+        },
+        "required_diagnostics": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "level": {
+                "enum": [
+                  "info",
+                  "warning",
+                  "error"
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "level"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "structural_invariants": {
+          "additionalProperties": false,
+          "properties": {
+            "coverage_counts_consistent": {
+              "type": "boolean"
+            },
+            "density_consistent": {
+              "type": "boolean"
+            },
+            "exclusive_classification": {
+              "type": "boolean"
+            },
+            "pair_universe_complete": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "coverage_counts_consistent",
+            "density_consistent",
+            "exclusive_classification",
+            "pair_universe_complete"
+          ],
+          "type": "object"
+        },
+        "structural_metrics": {
+          "$ref": "#/$defs/structural_metrics"
+        }
+      },
+      "required": [
+        "canonical_outputs",
+        "structural_metrics",
+        "structural_invariants",
+        "required_diagnostics"
+      ],
+      "type": "object"
+    },
+    "fixture_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "input": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_structural_object": {
+          "additionalProperties": false,
+          "properties": {
+            "nodes": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "type": "array",
+              "uniqueItems": true
+            },
+            "relations": {
+              "items": {
+                "items": false,
+                "maxItems": 2,
+                "minItems": 2,
+                "prefixItems": [
+                  {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                ],
+                "type": "array"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "nodes",
+            "relations"
+          ],
+          "type": "object"
+        },
+        "canonicalization": {
+          "additionalProperties": false,
+          "properties": {
+            "node_order": {
+              "const": "lexicographic-by-identifier"
+            },
+            "pair_order": {
+              "const": "lexicographic-root-then-target"
+            },
+            "relation_order": {
+              "const": "lexicographic-source-then-target"
+            }
+          },
+          "required": [
+            "node_order",
+            "relation_order",
+            "pair_order"
+          ],
+          "type": "object"
+        },
+        "workload": {
+          "additionalProperties": false,
+          "properties": {
+            "roots": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "targets": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "roots",
+            "targets"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "canonical_structural_object",
+        "workload",
+        "canonicalization"
+      ],
+      "type": "object"
     },
     "reproducibility": {
-      "type": "object",
       "additionalProperties": false,
-      "required": ["canonical_ordering", "hash_requirements", "replay_requirement"],
       "properties": {
-        "canonical_ordering": {"type": "string", "minLength": 1},
+        "canonical_ordering": {
+          "minLength": 1,
+          "type": "string"
+        },
         "hash_requirements": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
           "type": "array",
-          "items": {"type": "string", "minLength": 1},
           "uniqueItems": true
         },
-        "replay_requirement": {"type": "string", "minLength": 1}
-      }
+        "replay_requirement": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "canonical_ordering",
+        "hash_requirements",
+        "replay_requirement"
+      ],
+      "type": "object"
+    },
+    "research_object_id": {
+      "const": "concept.structural-observation.reachability-profile"
+    },
+    "research_object_path": {
+      "const": "paper-3-foundations-structural-analysis/research-objects/concept.structural-observation.reachability-profile.json"
+    },
+    "schema_path": {
+      "const": "schemas/canonical-reachability-profile.schema.json"
     }
   },
-  "$defs": {
-    "pair": {
-      "type": "array",
-      "prefixItems": [
-        {"type": "string", "minLength": 1},
-        {"type": "string", "minLength": 1}
-      ],
-      "items": false,
-      "minItems": 2,
-      "maxItems": 2
-    },
-    "canonical_outputs": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["reachable_pairs", "unreachable_pairs", "root_coverage", "target_coverage", "reachability_density"],
-      "properties": {
-        "reachable_pairs": {"type": "array", "items": {"$ref": "#/$defs/pair"}},
-        "unreachable_pairs": {"type": "array", "items": {"$ref": "#/$defs/pair"}},
-        "root_coverage": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
-        "target_coverage": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
-        "reachability_density": {"type": "number", "minimum": 0, "maximum": 1}
-      }
-    },
-    "structural_metrics": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["node_count", "relation_count", "root_count", "target_count", "reachable_pair_count", "unreachable_pair_count", "pair_universe_count", "reachability_density"],
-      "properties": {
-        "node_count": {"type": "integer", "minimum": 0},
-        "relation_count": {"type": "integer", "minimum": 0},
-        "root_count": {"type": "integer", "minimum": 0},
-        "target_count": {"type": "integer", "minimum": 0},
-        "reachable_pair_count": {"type": "integer", "minimum": 0},
-        "unreachable_pair_count": {"type": "integer", "minimum": 0},
-        "pair_universe_count": {"type": "integer", "minimum": 0},
-        "reachability_density": {"type": "number", "minimum": 0, "maximum": 1}
-      }
-    }
-  }
+  "required": [
+    "description",
+    "deterministic_timestamp",
+    "evidence_contract",
+    "expected_semantics",
+    "fixture_id",
+    "input",
+    "reproducibility",
+    "research_object_id",
+    "research_object_path",
+    "schema_path"
+  ],
+  "title": "Canonical Reachability Profile Fixture",
+  "type": "object"
 }
