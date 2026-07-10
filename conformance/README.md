@@ -58,6 +58,26 @@ flowchart TD
 - `fixtures/dependency-predicate.external.fixture.json` is the external fixture for dependency-algebra observation.
 - `schemas/evidence.schema.json` documents the canonical evidence envelope.
 
+
+## Canonical Research Object Extension Points
+
+The conformance layer treats research objects as stable scientific artifacts. A new research object enters the architecture through documentation, schema, fixture, and evidence semantics before any implementation adapter is introduced. This keeps the harness from becoming specialized to one algorithm or one repository.
+
+The second canonical research object is the Reachability Profile:
+
+- specification: `docs/research-objects/canonical-reachability-profile.md`
+- schema: `schemas/canonical-reachability-profile.schema.json`
+- deterministic fixture: `conformance/fixtures/canonical-reachability-profile.fixture.json`
+
+The fixture is intentionally language-independent and not bound to SYNAPSE, dependency-algebra, or any programming language. It defines expected semantics, not a complete canonical evidence envelope. Future adapters may execute implementations against it; those adapters must produce evidence conforming to `schemas/evidence.schema.json` and compare the fixture-defined semantic projection fields: `canonical_outputs`, `structural_metrics`, `structural_invariants`, and `required_diagnostics`.
+
+To add another research object:
+
+1. Specify the purpose, canonical inputs, canonical outputs, invariants, preconditions, postconditions, evidence-envelope boundary, and reproducibility obligations.
+2. Add a stable schema for the canonical fixture or object surface.
+3. Add a deterministic fixture suitable for replay and independent conformance testing; the fixture should define expected semantics rather than pretending to be adapter-produced evidence.
+4. Only then add an adapter that emits the canonical evidence envelope, keeping implementation execution outside core harness semantics.
+
 ## Adapter Contract
 
 Every repository adapter must implement:

@@ -1,0 +1,37 @@
+{
+  "id": "concept.structural-observation.reachability-profile",
+  "kind": "concept",
+  "domain": "structural-observation",
+  "slug": "reachability-profile",
+  "version": "v1",
+  "title": "Reachability Profile",
+  "paper": "paper-3-foundations-structural-analysis",
+  "canonical_statement": "A reachability profile is a deterministic structural observation that classifies every ordered workload root-target pair as reachable or unreachable over a canonical structural object and emits reproducible evidence for the classification.",
+  "provenance": {
+    "source": {
+      "file": "main.tex",
+      "anchor": "def:structural-observable",
+      "lines": [
+        211,
+        217
+      ]
+    }
+  },
+  "dependencies": [
+    {
+      "id": "concept.canonical-structure.canonical-structural-object",
+      "relation": "uses"
+    },
+    {
+      "id": "interface.structural-analysis.structural-analysis-operator",
+      "relation": "uses"
+    }
+  ],
+  "validation": {
+    "status": "not_validated",
+    "notes": "Issue 29 canonical research object; full implementation-independent specification, schema, and fixture are documented outside the seed manifest."
+  },
+  "exports": {},
+  "lifecycle_status": "draft",
+  "maturity": "seed"
+}

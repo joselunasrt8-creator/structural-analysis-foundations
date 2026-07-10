@@ -44,6 +44,28 @@ Develops deterministic, representation-invariant structural analysis over canoni
 **Contribution:**
 Investigates the minimal mathematical interface required for admissible structural analysis operators and studies the foundational properties shared by structural analyses independent of any specific application.
 
+
+## Canonical research objects
+
+The repository distinguishes canonical research objects from implementation artifacts. A canonical research object fixes the scientific meaning of an observation, its stable schema, its invariants, and its evidence contract before any particular algorithm realizes it. Implementations are therefore conformance hypotheses against the research object, not the source of the object's authority.
+
+Current canonical research-object documentation includes:
+
+- [Dependency Predicate](paper-1-dependency/research-objects/definition.dependency.dependency-predicate.json) — the first canonical object, grounded in Paper 1's workload-relative dependency predicate.
+- [Reachability Profile](docs/research-objects/canonical-reachability-profile.md) — the second canonical object, a language-independent structural observation over roots and targets that demonstrates extensibility beyond a single dependency analysis.
+
+Additional research objects should be added by defining the scientific purpose, inputs, outputs, invariants, preconditions, postconditions, evidence contract, reproducibility requirements, canonical schema, and deterministic fixture before introducing any implementation-specific adapter. This preserves the architecture:
+
+```text
+Real System
+  ↓
+Canonical Structural Object
+  ↓
+Canonical Research Object
+  ↓
+Specific Analysis
+```
+
 ## Current repository status
 
 Canonical paper PDFs are present at:
