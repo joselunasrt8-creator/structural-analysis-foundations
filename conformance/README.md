@@ -69,14 +69,14 @@ The second canonical research object is the Reachability Profile:
 - schema: `schemas/canonical-reachability-profile.schema.json`
 - deterministic fixture: `conformance/fixtures/canonical-reachability-profile.fixture.json`
 
-The fixture is intentionally language-independent and not bound to SYNAPSE, dependency-algebra, or any programming language. Future adapters may execute implementations against it, but the evidence must preserve the same canonical sections already used by the evidence envelope: inputs, outputs, provenance, structural measurements, invariant verification, diagnostics, and generated replay artifacts.
+The fixture is intentionally language-independent and not bound to SYNAPSE, dependency-algebra, or any programming language. It defines expected semantics, not a complete canonical evidence envelope. Future adapters may execute implementations against it; those adapters must produce evidence conforming to `schemas/evidence.schema.json` and compare the fixture-defined semantic projection fields: `canonical_outputs`, `structural_metrics`, `structural_invariants`, and `required_diagnostics`.
 
 To add another research object:
 
-1. Specify the purpose, canonical inputs, canonical outputs, invariants, preconditions, postconditions, evidence, and reproducibility obligations.
+1. Specify the purpose, canonical inputs, canonical outputs, invariants, preconditions, postconditions, evidence-envelope boundary, and reproducibility obligations.
 2. Add a stable schema for the canonical fixture or object surface.
-3. Add a deterministic fixture suitable for replay and independent conformance testing.
-4. Only then add an adapter, keeping implementation execution outside core harness semantics.
+3. Add a deterministic fixture suitable for replay and independent conformance testing; the fixture should define expected semantics rather than pretending to be adapter-produced evidence.
+4. Only then add an adapter that emits the canonical evidence envelope, keeping implementation execution outside core harness semantics.
 
 ## Adapter Contract
 

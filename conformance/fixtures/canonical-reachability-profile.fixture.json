@@ -2,18 +2,17 @@
   "description": "Canonical Reachability Profile fixture: roots r1 and r2 are evaluated against targets t1 and t2 over a deterministic directed structural object. Exactly two of the four root-target pairs are reachable.",
   "deterministic_timestamp": "2026-01-01T00:00:00Z",
   "evidence_contract": {
-    "aligns_with": "conformance/schemas/evidence.schema.json",
-    "required_sections": [
-      "inputs",
+    "envelope_schema": "conformance/schemas/evidence.schema.json",
+    "semantic_projection_fields": [
       "canonical_outputs",
-      "provenance",
       "structural_metrics",
       "structural_invariants",
-      "diagnostics"
+      "required_diagnostics"
     ]
   },
   "expected_semantics": {
     "canonical_outputs": {
+      "reachability_density": 0.5,
       "reachable_pairs": [
         [
           "r1",
@@ -24,7 +23,6 @@
           "t2"
         ]
       ],
-      "reachability_density": 0.5,
       "root_coverage": {
         "r1": 1,
         "r2": 1
@@ -67,8 +65,8 @@
     "structural_metrics": {
       "node_count": 6,
       "pair_universe_count": 4,
-      "reachable_pair_count": 2,
       "reachability_density": 0.5,
+      "reachable_pair_count": 2,
       "relation_count": 4,
       "root_count": 2,
       "target_count": 2,

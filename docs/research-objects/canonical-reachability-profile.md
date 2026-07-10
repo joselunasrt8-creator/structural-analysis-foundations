@@ -74,7 +74,7 @@ The schema separates:
 
 - `input`: canonical structural object and workload.
 - `expected_semantics`: canonical output and invariant expectations.
-- `evidence_contract`: required evidence sections and diagnostic codes.
+- `evidence_contract`: the canonical evidence envelope that future adapters must emit, plus the semantic projection fields that this fixture constrains.
 - `reproducibility`: deterministic timestamp, canonical ordering, and hash fields.
 
 ## Structural Invariants
@@ -114,16 +114,23 @@ Failures should emit deterministic diagnostic codes identifying the failed preco
 
 ## Evidence Contract
 
-Canonical evidence for the Reachability Profile must align with `conformance/schemas/evidence.schema.json` and include:
+The Reachability Profile fixture defines expected semantics; it is not itself a complete canonical evidence envelope. A repository adapter that realizes this research object must emit evidence conforming to `conformance/schemas/evidence.schema.json`. That adapter-produced envelope supplies execution provenance such as repository identity, repository URL, commit SHA, branch, implementation version, timestamps, semantic result, diagnostics, generated artifacts, and other required envelope fields.
 
-- `research_object_id`: `concept.structural-observation.reachability-profile`.
-- `fixture_id`: the deterministic fixture identifier.
+The fixture constrains the semantic projection of that evidence through these fields:
+
 - `canonical_outputs`: reachable pairs, unreachable pairs, root coverage, target coverage, and reachability density.
 - `structural_metrics`: node count, edge count, root count, target count, pair counts, and density.
-- `structural_invariants`: booleans or structured records proving total classification, exclusive classification, coverage consistency, and density consistency.
-- `provenance`: repository identity, implementation identity, canonical input hash, fixture hash, command or realization description, and environment metadata.
-- `diagnostics`: deterministic diagnostic records, including required diagnostics.
-- `generated_artifacts`: any emitted files needed for replay or comparison.
+- `structural_invariants`: invariant-verification records proving total classification, exclusive classification, coverage consistency, and density consistency.
+- `required_diagnostics`: deterministic diagnostic records that must be present in adapter-produced evidence.
+
+This boundary preserves the distinction:
+
+```text
+Canonical fixture
+  → defines expected semantics
+Repository adapter
+  → produces canonical evidence envelope
+```
 
 Evidence may include implementation-specific diagnostic extensions only inside fields intended for extension. Such extensions must not be required to interpret the canonical output.
 

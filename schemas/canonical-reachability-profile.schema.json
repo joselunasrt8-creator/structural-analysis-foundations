@@ -57,11 +57,13 @@
             "roots": {
               "type": "array",
               "items": {"type": "string", "minLength": 1},
+              "minItems": 1,
               "uniqueItems": true
             },
             "targets": {
               "type": "array",
               "items": {"type": "string", "minLength": 1},
+              "minItems": 1,
               "uniqueItems": true
             }
           }
@@ -85,7 +87,22 @@
       "properties": {
         "canonical_outputs": {"$ref": "#/$defs/canonical_outputs"},
         "structural_metrics": {"$ref": "#/$defs/structural_metrics"},
-        "structural_invariants": {"type": "object"},
+        "structural_invariants": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "coverage_counts_consistent",
+            "density_consistent",
+            "exclusive_classification",
+            "pair_universe_complete"
+          ],
+          "properties": {
+            "coverage_counts_consistent": {"type": "boolean"},
+            "density_consistent": {"type": "boolean"},
+            "exclusive_classification": {"type": "boolean"},
+            "pair_universe_complete": {"type": "boolean"}
+          }
+        },
         "required_diagnostics": {
           "type": "array",
           "items": {
@@ -103,12 +120,20 @@
     "evidence_contract": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["aligns_with", "required_sections"],
+      "required": ["envelope_schema", "semantic_projection_fields"],
       "properties": {
-        "aligns_with": {"const": "conformance/schemas/evidence.schema.json"},
-        "required_sections": {
+        "envelope_schema": {"const": "conformance/schemas/evidence.schema.json"},
+        "semantic_projection_fields": {
           "type": "array",
-          "items": {"type": "string", "minLength": 1},
+          "items": {
+            "enum": [
+              "canonical_outputs",
+              "structural_metrics",
+              "structural_invariants",
+              "required_diagnostics"
+            ]
+          },
+          "minItems": 4,
           "uniqueItems": true
         }
       }
