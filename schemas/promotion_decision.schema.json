@@ -1,0 +1,680 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://github.com/joselunasrt8-creator/structural-analysis-foundations/schemas/promotion_decision.schema.json",
+    "title": "Structural Analysis Foundations Promotion Decision",
+    "description": "Executable representation of the documentation-defined Promotion Decision record in docs/minimal-promotion-contract.md. The documentation remains normative. This schema records consumer-side promotion authorization for exactly one admitted immutable Minimal Promotion Package and does not create Canonical Research Objects, Canonical Fixtures, validators, registries, automation, synchronization, producer authority, or implementation conformance. Promotion Decision \u2260 Canonical Research Object; Promotion Decision \u2260 Canonical Fixture; Promotion Decision \u2260 Implementation Conformance; Promotion Decision \u2260 Producer Authority; Accepted Promotion \u2260 Completed Formalization.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "schema_version",
+        "decision_id",
+        "admissibility_id",
+        "package_reference",
+        "decision_result",
+        "record_lifecycle",
+        "decision_rationale",
+        "decision_timestamp",
+        "decision_authority",
+        "authorized_effects",
+        "excluded_effects",
+        "preserved_limitations",
+        "reconsideration_conditions",
+        "prior_record_reference",
+        "superseding_record_reference",
+        "translation_record_status"
+    ],
+    "properties": {
+        "schema_version": {
+            "type": "string",
+            "const": "v1",
+            "description": "Version of this executable schema representation. It does not supersede docs/minimal-promotion-contract.md as the normative authority."
+        },
+        "decision_id": {
+            "$ref": "#/$defs/decisionRecordReference",
+            "description": "Repository-scoped immutable Promotion Decision identifier using record_type = decision. The schema validates identifier syntax and excludes ordinal 0000. Semantic verification of package_identity_token Base32 derivation, repository uniqueness, and append-only ordinal allocation belongs to Issue #41."
+        },
+        "admissibility_id": {
+            "$ref": "#/$defs/admissibilityRecordReference",
+            "description": "Repository-scoped immutable Admissibility Review identifier using record_type = admissibility. Semantic validation must verify that this Promotion Decision references exactly one admissible Admissibility Review; JSON Schema cannot enforce that linkage, and it is deferred to Issue #41."
+        },
+        "package_reference": {
+            "$ref": "#/$defs/packageReference",
+            "description": "Immutable producer package reference copied into the Promotion Decision. PromotionDecision.package_reference must exactly equal the linked AdmissibilityReview.package_reference; cross-record equality is semantic validation deferred to Issue #41."
+        },
+        "decision_result": {
+            "type": "string",
+            "enum": [
+                "accepted_for_formalization",
+                "accepted_with_constraints",
+                "rejected",
+                "deferred"
+            ],
+            "description": "Promotion decision result axis, independent of record_lifecycle."
+        },
+        "record_lifecycle": {
+            "type": "string",
+            "enum": [
+                "active",
+                "superseded",
+                "withdrawn",
+                "invalidated"
+            ],
+            "description": "Consumer-record lifecycle axis, independent of decision_result."
+        },
+        "decision_rationale": {
+            "type": "string",
+            "minLength": 1
+        },
+        "decision_timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "decision_authority": {
+            "$ref": "#/$defs/decisionAuthority"
+        },
+        "translation_record_status": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "const": "provided"
+                },
+                {
+                    "$ref": "#/$defs/notApplicable"
+                }
+            ],
+            "description": "Status of the conditional translation record. Rejected and deferred decisions use not_applicable and must not include translation_record."
+        },
+        "translation_record": {
+            "$ref": "#/$defs/translationRecord"
+        },
+        "authorized_effects": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "const": "bounded_formalization"
+            },
+            "minItems": 1,
+            "uniqueItems": true,
+            "description": "The only authorized effect is bounded_formalization. No canonical research-object, canonical fixture, implementation conformance, producer authority, schema, validator, automation, or synchronization authority is created."
+        },
+        "excluded_effects": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "canonical_research_object_publication",
+                    "canonical_fixture_creation",
+                    "theorem_validation",
+                    "implementation_conformance_claim",
+                    "automation_creation",
+                    "producer_evidence_mutation",
+                    "cross_repository_synchronization",
+                    "schema_creation",
+                    "validator_creation"
+                ]
+            },
+            "contains": {
+                "const": "canonical_research_object_publication"
+            },
+            "allOf": [
+                {
+                    "contains": {
+                        "const": "canonical_fixture_creation"
+                    }
+                },
+                {
+                    "contains": {
+                        "const": "implementation_conformance_claim"
+                    }
+                },
+                {
+                    "contains": {
+                        "const": "producer_evidence_mutation"
+                    }
+                },
+                {
+                    "contains": {
+                        "const": "schema_creation"
+                    }
+                },
+                {
+                    "contains": {
+                        "const": "validator_creation"
+                    }
+                },
+                {
+                    "contains": {
+                        "const": "automation_creation"
+                    }
+                },
+                {
+                    "contains": {
+                        "const": "cross_repository_synchronization"
+                    }
+                }
+            ],
+            "uniqueItems": true,
+            "description": "Documented excluded boundaries against canonical research-object creation, canonical fixture creation, implementation conformance, producer evidence mutation, schema creation, validator creation, automation, and synchronization."
+        },
+        "preserved_limitations": {
+            "$ref": "#/$defs/stringArray"
+        },
+        "reconsideration_conditions": {
+            "$ref": "#/$defs/stringArray"
+        },
+        "prior_record_reference": {
+            "$ref": "#/$defs/decisionRecordReferenceOrNotApplicable"
+        },
+        "superseding_record_reference": {
+            "$ref": "#/$defs/decisionRecordReferenceOrNotApplicable"
+        },
+        "withdrawal_record_reference": {
+            "$ref": "#/$defs/decisionRecordReference"
+        },
+        "invalidation_record_reference": {
+            "$ref": "#/$defs/decisionRecordReference"
+        },
+        "withdrawal_reason": {
+            "type": "string",
+            "minLength": 1
+        },
+        "invalidity_reason": {
+            "type": "string",
+            "minLength": 1
+        }
+    },
+    "allOf": [
+        {
+            "if": {
+                "properties": {
+                    "decision_result": {
+                        "enum": [
+                            "accepted_for_formalization",
+                            "accepted_with_constraints"
+                        ]
+                    }
+                },
+                "required": [
+                    "decision_result"
+                ]
+            },
+            "then": {
+                "required": [
+                    "translation_record"
+                ],
+                "properties": {
+                    "translation_record_status": {
+                        "const": "provided"
+                    }
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "decision_result": {
+                        "const": "accepted_with_constraints"
+                    }
+                },
+                "required": [
+                    "decision_result"
+                ]
+            },
+            "then": {
+                "properties": {
+                    "translation_record": {
+                        "required": [
+                            "constraints",
+                            "excluded_formalization_scope",
+                            "preserved_limitations"
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "decision_result": {
+                        "enum": [
+                            "rejected",
+                            "deferred"
+                        ]
+                    }
+                },
+                "required": [
+                    "decision_result"
+                ]
+            },
+            "then": {
+                "not": {
+                    "required": [
+                        "translation_record"
+                    ]
+                },
+                "properties": {
+                    "translation_record_status": {
+                        "$ref": "#/$defs/notApplicable"
+                    }
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "record_lifecycle": {
+                        "const": "withdrawn"
+                    }
+                },
+                "required": [
+                    "record_lifecycle"
+                ]
+            },
+            "then": {
+                "required": [
+                    "withdrawal_record_reference",
+                    "withdrawal_reason"
+                ],
+                "not": {
+                    "anyOf": [
+                        {
+                            "required": [
+                                "invalidation_record_reference"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "invalidity_reason"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "record_lifecycle": {
+                        "const": "invalidated"
+                    }
+                },
+                "required": [
+                    "record_lifecycle"
+                ]
+            },
+            "then": {
+                "required": [
+                    "invalidation_record_reference",
+                    "invalidity_reason"
+                ],
+                "not": {
+                    "anyOf": [
+                        {
+                            "required": [
+                                "withdrawal_record_reference"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "withdrawal_reason"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "record_lifecycle": {
+                        "const": "active"
+                    }
+                },
+                "required": [
+                    "record_lifecycle"
+                ]
+            },
+            "then": {
+                "not": {
+                    "anyOf": [
+                        {
+                            "required": [
+                                "withdrawal_record_reference"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "invalidation_record_reference"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "withdrawal_reason"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "invalidity_reason"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "record_lifecycle": {
+                        "const": "superseded"
+                    }
+                },
+                "required": [
+                    "record_lifecycle"
+                ]
+            },
+            "then": {
+                "not": {
+                    "anyOf": [
+                        {
+                            "required": [
+                                "withdrawal_record_reference"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "invalidation_record_reference"
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "$defs": {
+        "notApplicable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "value",
+                "rationale"
+            ],
+            "properties": {
+                "value": {
+                    "type": "string",
+                    "const": "not_applicable"
+                },
+                "rationale": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "stringArray": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "minLength": 1
+            },
+            "uniqueItems": true
+        },
+        "decisionRecordReference": {
+            "type": "string",
+            "pattern": "^saf:decision:[a-z2-7]+:(?!0000$)[0-9]{4}$"
+        },
+        "admissibilityRecordReference": {
+            "type": "string",
+            "pattern": "^saf:admissibility:[a-z2-7]+:(?!0000$)[0-9]{4}$"
+        },
+        "decisionRecordReferenceOrNotApplicable": {
+            "oneOf": [
+                {
+                    "$ref": "#/$defs/decisionRecordReference"
+                },
+                {
+                    "$ref": "#/$defs/notApplicable"
+                }
+            ]
+        },
+        "decisionAuthority": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "authority_id",
+                "authority_type"
+            ],
+            "properties": {
+                "authority_id": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "authority_type": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "description": "Consumer decision authority only. This is not producer authority and does not introduce additional authority-bearing fields."
+        },
+        "packageReference": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "package_id",
+                "package_version",
+                "provenance_source_type",
+                "content_reference",
+                "content_digest",
+                "hash_algorithm",
+                "canonicalization_method"
+            ],
+            "properties": {
+                "package_id": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "package_version": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "provenance_source_type": {
+                    "type": "string",
+                    "enum": [
+                        "repository",
+                        "release_artifact",
+                        "archive",
+                        "object_store",
+                        "content_address"
+                    ]
+                },
+                "content_reference": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "content_digest": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "producer_repository": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "producer_commit": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "producer_artifact_locator": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "producer_artifact_revision": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "content_address": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "producer_lifecycle_record_reference": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "hash_algorithm": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "canonicalization_method": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "oneOf": [
+                {
+                    "properties": {
+                        "provenance_source_type": {
+                            "const": "repository"
+                        }
+                    },
+                    "required": [
+                        "producer_repository",
+                        "producer_commit"
+                    ],
+                    "not": {
+                        "anyOf": [
+                            {
+                                "required": [
+                                    "producer_artifact_locator"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "producer_artifact_revision"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "content_address"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "properties": {
+                        "provenance_source_type": {
+                            "enum": [
+                                "release_artifact",
+                                "archive",
+                                "object_store"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "producer_artifact_locator",
+                        "producer_artifact_revision"
+                    ],
+                    "not": {
+                        "anyOf": [
+                            {
+                                "required": [
+                                    "producer_repository"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "producer_commit"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "content_address"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "properties": {
+                        "provenance_source_type": {
+                            "const": "content_address"
+                        }
+                    },
+                    "required": [
+                        "content_address"
+                    ],
+                    "not": {
+                        "anyOf": [
+                            {
+                                "required": [
+                                    "producer_repository"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "producer_commit"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "producer_artifact_locator"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "producer_artifact_revision"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ],
+            "description": "Immutable package-reference model shared with Admissibility Review. No cross-repository runtime dependency and no second digest representation is created."
+        },
+        "translationRecord": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "producer_claim",
+                "accepted_formalization_scope",
+                "excluded_formalization_scope",
+                "translation_rationale",
+                "assumptions",
+                "constraints",
+                "permitted_evidence_references",
+                "preserved_limitations",
+                "non_authorized_downstream_effects"
+            ],
+            "properties": {
+                "producer_claim": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "accepted_formalization_scope": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "excluded_formalization_scope": {
+                    "$ref": "#/$defs/stringArray"
+                },
+                "translation_rationale": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "assumptions": {
+                    "$ref": "#/$defs/stringArray"
+                },
+                "constraints": {
+                    "$ref": "#/$defs/stringArray"
+                },
+                "permitted_evidence_references": {
+                    "$ref": "#/$defs/stringArray"
+                },
+                "preserved_limitations": {
+                    "$ref": "#/$defs/stringArray"
+                },
+                "non_authorized_downstream_effects": {
+                    "$ref": "#/$defs/stringArray"
+                }
+            },
+            "description": "Bounded translation record. Producer Claim \u2260 Accepted Formalization Scope, and accepted promotion does not complete canonical formalization."
+        }
+    }
+}
