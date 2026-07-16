@@ -17,10 +17,9 @@ VALIDATOR = Validator(SCHEMA)
 EXCLUDED_EFFECTS = [
     "canonical_research_object_publication",
     "canonical_fixture_creation",
+    "theorem_validation",
     "implementation_conformance_claim",
     "producer_evidence_mutation",
-    "schema_creation",
-    "validator_creation",
     "automation_creation",
     "cross_repository_synchronization",
 ]
@@ -85,7 +84,10 @@ def base_record(*, result: str = "accepted_for_formalization", lifecycle: str = 
     }
     if result in {"rejected", "deferred"}:
         record.pop("translation_record")
-        record["translation_record_status"] = not_applicable("no accepted translation scope exists")
+        record["translation_record_status"] = "not_applicable"
+        record["authorized_effects"] = []
+    if lifecycle == "superseded":
+        record["superseding_record_reference"] = "saf:decision:geyduqrsfzigcy3lmftwknb2oyys4ma:0002"
     return record
 
 
@@ -141,9 +143,57 @@ def test_only_bounded_formalization_is_accepted() -> None:
     assert_invalid(record)
 
 
+@pytest.mark.parametrize("result", ["rejected", "deferred"])
+def test_rejected_and_deferred_decisions_cannot_authorize_formalization(result: str) -> None:
+    record = base_record(result=result)
+    record["authorized_effects"] = ["bounded_formalization"]
+    assert_invalid(record)
+
+
+def test_accepted_decisions_require_exact_bounded_formalization_authority() -> None:
+    record = base_record()
+    record["authorized_effects"] = []
+    assert_invalid(record)
+
+
+def test_omission_of_theorem_validation_exclusion_fails() -> None:
+    record = base_record()
+    record["excluded_effects"].remove("theorem_validation")
+    assert_invalid(record)
+
+
+def test_exact_documented_exclusions_pass_in_any_order() -> None:
+    record = base_record()
+    record["excluded_effects"] = list(reversed(EXCLUDED_EFFECTS))
+    assert_valid(record)
+
+
+@pytest.mark.parametrize("effect", ["schema_creation", "validator_creation", "producer_authority_creation"])
+def test_undocumented_excluded_effects_fail(effect: str) -> None:
+    record = base_record()
+    record["excluded_effects"][-1] = effect
+    assert_invalid(record)
+
+
 def test_undocumented_authority_effects_fail() -> None:
     record = base_record()
     record["excluded_effects"].append("producer_authority_creation")
+    assert_invalid(record)
+
+
+@pytest.mark.parametrize("result", ["rejected", "deferred"])
+def test_non_accepted_translation_status_is_literal_not_applicable(result: str) -> None:
+    assert_valid(base_record(result=result))
+    record = base_record(result=result)
+    record["translation_record_status"] = not_applicable()
+    assert_invalid(record)
+
+
+@pytest.mark.parametrize("result", ["accepted_for_formalization", "accepted_with_constraints"])
+def test_accepted_translation_status_is_literal_provided(result: str) -> None:
+    assert_valid(base_record(result=result))
+    record = base_record(result=result)
+    record["translation_record_status"] = "not_applicable"
     assert_invalid(record)
 
 
@@ -173,6 +223,26 @@ def test_active_records_prohibit_lifecycle_action_links() -> None:
         record = base_record(lifecycle="active")
         record[field] = value
         assert_invalid(record)
+
+
+def test_active_records_prohibit_superseding_decision_reference() -> None:
+    record = base_record(lifecycle="active")
+    record["superseding_record_reference"] = "saf:decision:geyduqrsfzigcy3lmftwknb2oyys4ma:0002"
+    assert_invalid(record)
+
+
+def test_superseded_records_require_superseding_decision_reference() -> None:
+    assert_valid(base_record(lifecycle="superseded"))
+    record = base_record(lifecycle="superseded")
+    record["superseding_record_reference"] = not_applicable()
+    assert_invalid(record)
+
+
+@pytest.mark.parametrize("field", ["withdrawal_reason", "invalidity_reason"])
+def test_superseded_records_prohibit_lifecycle_reasons(field: str) -> None:
+    record = base_record(lifecycle="superseded")
+    record[field] = "Contradictory lifecycle reason."
+    assert_invalid(record)
 
 
 def test_lifecycle_and_result_remain_independent() -> None:
