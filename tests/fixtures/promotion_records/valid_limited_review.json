@@ -1,0 +1,79 @@
+{
+  "schema_version": "v1",
+  "admissibility_id": "saf:admissibility:geyduqrsfzigcy3lmftwknb2oyys4ma:0001",
+  "package_reference": {
+    "package_id": "B2.Package",
+    "package_version": "v1.0",
+    "provenance_source_type": "repository",
+    "content_reference": "https://example.invalid/repo@abcdef",
+    "content_digest": "abcdef",
+    "hash_algorithm": "sha256",
+    "canonicalization_method": "canonical JSON manifest digest",
+    "producer_repository": "https://example.invalid/repo",
+    "producer_commit": "abcdef"
+  },
+  "reviewed_empirical_outcome": "supports",
+  "package_purpose": "candidate_invariant_review",
+  "provenance_snapshot": {
+    "reviewed_claim": "Producer-owned claim under review.",
+    "requested_formalization_scope": "Bounded requested scope supplied by the producer.",
+    "package_purpose": "candidate_invariant_review",
+    "reviewed_empirical_outcome": "supports",
+    "artifact_references": [],
+    "producer_commit": "abcdef",
+    "package_version": "v1.0",
+    "investigation_reference": {
+      "value": "not_applicable",
+      "rationale": "no separate investigation reference"
+    },
+    "retained_classification_reference": {
+      "value": "not_applicable",
+      "rationale": "no retained classification reference"
+    },
+    "cohort_conclusion_reference": {
+      "value": "not_applicable",
+      "rationale": "no cohort conclusion reference"
+    },
+    "replication_status": "not_attempted",
+    "limitations_snapshot": {
+      "assumptions": [],
+      "known_limitations": [
+        "Evidence remains indeterminate."
+      ],
+      "not_claimed": []
+    },
+    "hashes": [
+      {
+        "hash_algorithm": "sha256",
+        "value": "abcdef",
+        "canonicalization_method": "canonical JSON manifest digest"
+      }
+    ]
+  },
+  "reviewed_artifact_references": [],
+  "limitations_snapshot": {
+    "assumptions": [],
+    "known_limitations": [
+      "Evidence remains indeterminate."
+    ],
+    "not_claimed": []
+  },
+  "replication_status": "not_attempted",
+  "admissibility_result": "admissible_with_limitations",
+  "record_lifecycle": "active",
+  "review_timestamp": "2026-07-16T00:00:00Z",
+  "review_authority": {
+    "authority_id": "consumer-review",
+    "authority_type": "repository"
+  },
+  "admissibility_rationale": "Test fixture only; package is bounded.",
+  "reconsideration_conditions": [],
+  "prior_record_reference": {
+    "value": "not_applicable",
+    "rationale": "initial review record"
+  },
+  "superseding_record_reference": {
+    "value": "not_applicable",
+    "rationale": "no superseding record is known"
+  }
+}

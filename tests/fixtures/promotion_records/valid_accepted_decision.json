@@ -1,0 +1,62 @@
+{
+  "schema_version": "v1",
+  "decision_id": "saf:decision:geyduqrsfzigcy3lmftwknb2oyys4ma:0001",
+  "admissibility_id": "saf:admissibility:geyduqrsfzigcy3lmftwknb2oyys4ma:0001",
+  "package_reference": {
+    "package_id": "B2.Package",
+    "package_version": "v1.0",
+    "provenance_source_type": "repository",
+    "content_reference": "https://example.invalid/repo@abcdef",
+    "content_digest": "abcdef",
+    "hash_algorithm": "sha256",
+    "canonicalization_method": "canonical JSON manifest digest",
+    "producer_repository": "https://example.invalid/repo",
+    "producer_commit": "abcdef"
+  },
+  "decision_result": "accepted_for_formalization",
+  "record_lifecycle": "active",
+  "decision_rationale": "Test fixture only; boundaries are preserved.",
+  "decision_timestamp": "2026-07-16T00:00:00Z",
+  "decision_authority": {
+    "authority_id": "consumer-decision",
+    "authority_type": "repository"
+  },
+  "translation_record_status": "provided",
+  "authorized_effects": [
+    "bounded_formalization"
+  ],
+  "excluded_effects": [
+    "canonical_research_object_publication",
+    "canonical_fixture_creation",
+    "theorem_validation",
+    "implementation_conformance_claim",
+    "producer_evidence_mutation",
+    "automation_creation",
+    "cross_repository_synchronization"
+  ],
+  "preserved_limitations": [],
+  "reconsideration_conditions": [],
+  "prior_record_reference": {
+    "value": "not_applicable",
+    "rationale": "initial decision record"
+  },
+  "superseding_record_reference": {
+    "value": "not_applicable",
+    "rationale": "no superseding record is known"
+  },
+  "translation_record": {
+    "producer_claim": "Producer-owned claim under review.",
+    "accepted_formalization_scope": "Bounded requested scope supplied by the producer.",
+    "excluded_formalization_scope": [
+      "Canonical publication."
+    ],
+    "translation_rationale": "The accepted scope is bounded.",
+    "assumptions": [],
+    "constraints": [],
+    "permitted_evidence_references": [],
+    "preserved_limitations": [],
+    "non_authorized_downstream_effects": [
+      "Canonical publication."
+    ]
+  }
+}
