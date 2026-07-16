@@ -30,7 +30,8 @@ Implementation Conformance
 
 The contract preserves these separations:
 
-- **Producer Proposal ≠ Consumer Decision Package Receipt.** Receipt records that an immutable producer package is available for review; it is not a consumer decision.
+- **Producer Proposal ≠ Consumer Decision.** A producer package is a producer-owned proposal; it is not a consumer-owned review or decision.
+- **Package Receipt ≠ Admissibility.** Receipt records that an immutable producer package is available for possible review; it is not an admissibility result.
 - **Admissibility ≠ Promotion Authorization.** An admissibility result determines whether promotion review may proceed; it does not authorize bounded formalization.
 - **Accepted Promotion ≠ Canonical Research Object.** Acceptance authorizes only the bounded formalization scope stated in the decision. It does not create a canonical research object.
 - **Promotion Review ≠ Implementation Conformance.** Promotion review concerns admissibility and bounded authority. It is separate from validating any implementation, adapter, fixture, or executable artifact.
@@ -60,7 +61,7 @@ saf:<record_type>:<package_id>:<package_version>:<ordinal>
 where:
 
 - `saf` is the fixed namespace for this repository's consumer records.
-- `<record_type>` is exactly `admissibility`, `decision`, `withdrawal`, or `invalidation`.
+- `<record_type>` is exactly `admissibility` or `decision`.
 - `<package_id>` is the producer-owned package identifier copied from the immutable package reference and normalized only for identifier safety by lowercasing and replacing any character outside `[a-z0-9._-]` with `-`.
 - `<package_version>` is the producer-owned package version copied from the immutable package reference and normalized by the same identifier-safety rule.
 - `<ordinal>` is a zero-padded four-digit decimal sequence allocated append-only within this repository for records of the same `record_type`, `package_id`, and `package_version`, starting at `0001`.
@@ -71,12 +72,12 @@ Identifier fields have these semantics:
 - `decision_id` identifies one Promotion Decision record and must use `record_type = decision`.
 - `prior_record_reference` references the immediately prior consumer record, when a later record supersedes, withdraws, invalidates, or reconsiders it.
 - `superseding_record_reference` references the later consumer record that superseded the current record, when known.
-- `withdrawal_record_reference` references the consumer withdrawal record that withdrew current effect from the record, when applicable.
-- `invalidation_record_reference` references the consumer invalidation record that invalidated the record, when applicable.
+- `withdrawal_record_reference` references the append-only Admissibility Review or Promotion Decision record version that changed the affected record lifecycle to `withdrawn`, when applicable.
+- `invalidation_record_reference` references the append-only Admissibility Review or Promotion Decision record version that changed the affected record lifecycle to `invalidated`, when applicable.
 
 Repository-scoped uniqueness is mandatory. Once emitted, an identifier is immutable, must never be reused, and continues to identify the historical record even if the record is superseded, withdrawn, invalidated, or reconsidered. Identifiers encode the record type and producer package identity/version for local intelligibility. They do not encode mutable lifecycle state, admissibility result, decision result, authority effects, reviewer identity, timestamps, downstream canonical objects, or implementation conformance outcomes.
 
-Versioning and supersession never mutate an existing identifier. A new producer package version, consumer supersession, consumer withdrawal, consumer invalidation, or reconsideration receives a new append-only record identifier and links back through the appropriate reference fields.
+Versioning and supersession never mutate an existing identifier. A new producer package version, consumer supersession, consumer withdrawal, consumer invalidation, or reconsideration receives a new append-only `admissibility` or `decision` record identifier and links back through the appropriate reference fields.
 
 ## Immutable producer-package reference model
 
@@ -96,7 +97,7 @@ Every Admissibility Review and Promotion Decision must contain the same immutabl
 
 The consumer preserves a local provenance snapshot containing the package reference, reviewed claim, purpose, empirical outcome, submitted evidence references, limitations, replication status, producer lifecycle references known at review time, and any locally observed digest metadata. This snapshot makes the consumer record locally intelligible without live upstream access.
 
-A digest mismatch is not repaired by the consumer. If detected before review, the package is `inadmissible` or `deferred` because the exact package cannot be established. If detected after a record exists, the consumer appends an invalidation or supersession record and links it through `invalidation_record_reference` or `superseding_record_reference`. Producer correction, withdrawal, or supersession is referenced through `producer_lifecycle_record_reference`; the consumer does not rewrite the original package meaning.
+A digest mismatch is not repaired by the consumer. If detected before review, the package is `inadmissible` or `deferred` because the exact package cannot be established. If detected after a record exists, the consumer appends a new `admissibility` or `decision` record version with lifecycle `invalidated` or `superseded` and links it through `invalidation_record_reference` or `superseding_record_reference`. Producer correction, withdrawal, or supersession is referenced through `producer_lifecycle_record_reference`; the consumer does not rewrite the original package meaning.
 
 Upstream provenance does not create a live runtime dependency. Repository-local validation must not fetch, clone, import, execute, synchronize with, or otherwise evaluate the producer repository to interpret an already emitted consumer record.
 
@@ -288,18 +289,19 @@ Consumer records are append-only in meaning. Later records may supersede, withdr
 
 When a producer package is corrected, the consumer must treat the correction as a new producer-owned lifecycle fact. If the corrected package has a new `package_version`, any new review receives new consumer identifiers and links the earlier record through `prior_record_reference` and the later record through `superseding_record_reference`. The earlier record remains historically valid for what was reviewed, but it must not be used as active authority for the corrected package unless a new active consumer record explicitly permits that constrained use.
 
-When a producer package is withdrawn, existing consumer records remain historically traceable but no longer provide current authority unless the consumer records a narrow reason that historical bounded formalization remains valid without reliance on the withdrawn package. The usual consumer action is to append a withdrawal record, set current effect to `withdrawn`, and link the affected record through `withdrawal_record_reference`.
+When a producer package is withdrawn, existing consumer records remain historically traceable but no longer provide current authority unless the consumer records a narrow reason that historical bounded formalization remains valid without reliance on the withdrawn package. The usual consumer action is to append a new version of the affected Admissibility Review or Promotion Decision record with lifecycle `withdrawn` and link the affected record through `withdrawal_record_reference`.
 
 When a producer package is superseded, an existing consumer review or decision may remain active only against the exact superseded package version and exact accepted scope recorded in its package reference. It does not automatically apply to the newer package. If current work should follow the newer package, a new Admissibility Review and any allowed Promotion Decision must be emitted and linked by prior/superseding references.
 
-When a producer package is invalidated or found internally inconsistent, the consumer must reconsider any active review or decision depending on the invalidated basis. If the basis of the consumer record is incorrect, the consumer appends an invalidation record and links it through `invalidation_record_reference`. If a narrower historically accurate decision can remain active under constraints, that constrained effect must be documented in a new superseding record rather than by editing the old one.
+When a producer package is invalidated or found internally inconsistent, the consumer must reconsider any active review or decision depending on the invalidated basis. If the basis of the consumer record is incorrect, the consumer appends a new version of the affected Admissibility Review or Promotion Decision record with lifecycle `invalidated` and links it through `invalidation_record_reference`. If a narrower historically accurate decision can remain active under constraints, that constrained effect must be documented in a new superseding record rather than by editing the old one.
 
 Required linkage rules:
 
 - A superseding record must point to the prior record with `prior_record_reference`.
 - A superseded record must point forward with `superseding_record_reference` when the later record is known.
-- A withdrawal action must create or reference a consumer withdrawal record and populate `withdrawal_record_reference` on affected records when known.
-- An invalidation action must create or reference a consumer invalidation record and populate `invalidation_record_reference` on affected records when known.
+- A withdrawal action must create or reference a new append-only version of the affected Admissibility Review or Promotion Decision record with lifecycle `withdrawn` and populate `withdrawal_record_reference` on affected records when known.
+- An invalidation action must create or reference a new append-only version of the affected Admissibility Review or Promotion Decision record with lifecycle `invalidated` and populate `invalidation_record_reference` on affected records when known.
+- Withdrawal and invalidation are not independent third or fourth document types and do not require separate future schemas under this contract.
 - Reconsideration requires a recorded condition and a new append-only consumer record; it never mutates the original identifier.
 
 Reconsideration conditions include:
@@ -368,10 +370,10 @@ No shared mutable record or cross-repository synchronization contract is created
 3. The exact producer package object reviewed is identified by the required `package_reference` fields, with identity remaining (`package_id`, `package_version`) and strengthened by `content_digest`, `hash_algorithm`, and `canonicalization_method`.
 4. Local provenance remains available through `package_reference`, `provenance_snapshot`, `limitations_snapshot`, reviewed artifact references, empirical outcome, replication status, producer lifecycle references known at review time, timestamps, and consumer authority fields.
 5. After producer correction, the consumer emits a new append-only review for the corrected immutable package version when current authority is needed, links prior and superseding records, and preserves the earlier record historically.
-6. After producer withdrawal, the consumer appends or references a withdrawal record, links affected records through `withdrawal_record_reference`, and removes current effect unless a new constrained consumer record explicitly preserves narrow historical authority.
+6. After producer withdrawal, the consumer appends or references a new version of the affected Admissibility Review or Promotion Decision record with lifecycle `withdrawn`, links affected records through `withdrawal_record_reference`, and removes current effect unless a new constrained consumer record explicitly preserves narrow historical authority.
 7. After producer supersession, earlier consumer records remain historically valid only for the exact superseded package version and do not automatically govern the newer package.
 8. An existing decision can remain active against a superseded package only for the exact package version and accepted scope recorded in that decision; it cannot transfer to the superseding package without a new record.
 9. Acceptance creates only the finite authorized effect `bounded_formalization` within the accepted scope, assumptions, constraints, and preserved limitations.
 10. Acceptance explicitly does not create canonical research-object publication, canonical fixture creation, theorem validation, implementation conformance claims, automation creation, producer evidence mutation, cross-repository synchronization, canonical completion, or runtime authority.
 11. Result states, lifecycle states, and process events are fully separated: admissibility result, admissibility lifecycle, decision result, decision lifecycle, process events, canonical research-object lifecycle, and implementation conformance outcome are distinct axes.
-12. Separate future schemas can encode the model without architectural redesign because identifiers, package references, record models, translation records, finite authority effects, lifecycle linkage, matrix rules, and downstream non-authority are specified as documentation-level contracts.
+12. Separate future schemas can encode the model without architectural redesign because identifiers, package references, the two primary record models, translation records, finite authority effects, lifecycle linkage, matrix rules, and downstream non-authority are specified as documentation-level contracts; withdrawal and invalidation are encoded as append-only versions of those two primary record models, not as independent lifecycle-record schemas.
