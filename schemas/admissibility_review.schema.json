@@ -32,7 +32,7 @@
         },
         "admissibility_id": {
             "$ref": "#/$defs/admissibilityRecordReference",
-            "description": "Repository-scoped immutable Admissibility Review identifier using record_type = admissibility."
+            "description": "Repository-scoped immutable Admissibility Review identifier using record_type = admissibility. The schema validates identifier syntax and excludes ordinal 0000. Repository-local semantic validation must verify that the package_identity_token is the documented Base32 encoding of the exact package_id and package_version and that the identifier is uniquely allocated; that semantic validation is deferred to Issue #41."
         },
         "package_reference": {
             "$ref": "#/$defs/packageReference",
@@ -61,16 +61,7 @@
             "$ref": "#/$defs/limitationsSnapshot"
         },
         "replication_status": {
-            "type": "string",
-            "enum": [
-                "not_attempted",
-                "internally_replicated",
-                "independently_replicated",
-                "partially_replicated",
-                "failed",
-                "blocked",
-                "unavailable"
-            ],
+            "$ref": "#/$defs/replicationStatus",
             "description": "Review-time replication status snapshot using the producer contract finite states. This field does not validate executable behavior or implementation conformance."
         },
         "admissibility_result": {
@@ -196,7 +187,9 @@
                 "package_version",
                 "provenance_source_type",
                 "content_reference",
-                "content_digest"
+                "content_digest",
+                "hash_algorithm",
+                "canonicalization_method"
             ],
             "properties": {
                 "package_id": {
@@ -222,7 +215,8 @@
                     "minLength": 1
                 },
                 "content_digest": {
-                    "$ref": "#/$defs/digest"
+                    "type": "string",
+                    "minLength": 1
                 },
                 "producer_repository": {
                     "type": "string",
@@ -245,6 +239,14 @@
                     "minLength": 1
                 },
                 "producer_lifecycle_record_reference": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "hash_algorithm": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "canonicalization_method": {
                     "type": "string",
                     "minLength": 1
                 }
@@ -349,7 +351,7 @@
                     }
                 }
             ],
-            "description": "Immutable producer package reference model from the Minimal Promotion Contract. content_digest is represented once as digest metadata containing value, hash_algorithm, and canonicalization_method. This is a producer package reference, not an Admissibility Review, Promotion Decision, Canonical Research Object, or implementation-conformance claim."
+            "description": "Immutable producer package reference model from the Minimal Promotion Contract. The documented package digest fields are content_digest, hash_algorithm, and canonicalization_method; no additional package digest object is required. This is a producer package reference, not an Admissibility Review, Promotion Decision, Canonical Research Object, or implementation-conformance claim."
         },
         "artifactReference": {
             "type": "object",
@@ -388,18 +390,20 @@
             "type": "object",
             "additionalProperties": false,
             "required": [
-                "package_reference",
+                "reviewed_claim",
+                "requested_formalization_scope",
+                "package_purpose",
+                "reviewed_empirical_outcome",
                 "artifact_references",
                 "producer_commit",
                 "package_version",
                 "investigation_reference",
                 "retained_classification_reference",
-                "cohort_conclusion_reference"
+                "cohort_conclusion_reference",
+                "replication_status",
+                "limitations_snapshot"
             ],
             "properties": {
-                "package_reference": {
-                    "$ref": "#/$defs/packageReference"
-                },
                 "artifact_references": {
                     "type": "array",
                     "items": {
@@ -432,9 +436,31 @@
                 },
                 "producer_lifecycle_record_reference": {
                     "$ref": "#/$defs/notApplicableOrString"
+                },
+                "reviewed_claim": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Producer-owned claim reviewed by the consumer without reinterpretation, repair, strengthening, or broadening."
+                },
+                "requested_formalization_scope": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Producer-owned bounded requested formalization scope reviewed by the consumer."
+                },
+                "package_purpose": {
+                    "$ref": "#/$defs/packagePurpose"
+                },
+                "reviewed_empirical_outcome": {
+                    "$ref": "#/$defs/empiricalOutcome"
+                },
+                "replication_status": {
+                    "$ref": "#/$defs/replicationStatus"
+                },
+                "limitations_snapshot": {
+                    "$ref": "#/$defs/limitationsSnapshot"
                 }
             },
-            "description": "Immutable local provenance snapshot sufficient for historical traceability without fetching upstream repositories or artifact stores."
+            "description": "Immutable local provenance snapshot for additional locally retained producer material and observations. The top-level package_reference is authoritative, so the snapshot does not duplicate package identity and cannot independently identify a different package."
         },
         "limitationsSnapshot": {
             "type": "object",
@@ -493,7 +519,7 @@
         },
         "admissibilityRecordReference": {
             "type": "string",
-            "pattern": "^saf:admissibility:[a-z2-7]+:[0-9]{4}$"
+            "pattern": "^saf:admissibility:[a-z2-7]+:(?:000[1-9]|00[1-9][0-9]|0[1-9][0-9]{2}|[1-9][0-9]{3})$"
         },
         "admissibilityRecordReferenceOrNotApplicable": {
             "oneOf": [
@@ -523,6 +549,18 @@
                 "supports",
                 "indeterminate",
                 "violates"
+            ]
+        },
+        "replicationStatus": {
+            "type": "string",
+            "enum": [
+                "not_attempted",
+                "internally_replicated",
+                "independently_replicated",
+                "partially_replicated",
+                "failed",
+                "blocked",
+                "unavailable"
             ]
         }
     },
@@ -586,36 +624,302 @@
             }
         },
         {
-            "description": "Outcome-purpose compatibility rule: indeterminate empirical outcomes must not be candidate-invariant reviews.",
-            "not": {
+            "description": "Outcome-purpose-result compatibility matrix for admissible records, derived from docs/minimal-promotion-contract.md. Inadmissible and deferred remain allowed for any outcome-purpose pair by the documentation-level matrix.",
+            "if": {
                 "properties": {
-                    "reviewed_empirical_outcome": {
-                        "const": "indeterminate"
-                    },
-                    "package_purpose": {
-                        "const": "candidate_invariant_review"
+                    "admissibility_result": {
+                        "const": "admissible"
                     }
                 },
                 "required": [
-                    "reviewed_empirical_outcome",
-                    "package_purpose"
+                    "admissibility_result"
+                ]
+            },
+            "then": {
+                "oneOf": [
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "supports"
+                            },
+                            "package_purpose": {
+                                "const": "candidate_invariant_review"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "supports"
+                            },
+                            "package_purpose": {
+                                "const": "bounded_formal_question"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "supports"
+                            },
+                            "package_purpose": {
+                                "const": "vocabulary_alignment"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "supports"
+                            },
+                            "package_purpose": {
+                                "const": "model_obligation"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "indeterminate"
+                            },
+                            "package_purpose": {
+                                "const": "indeterminate_evidence_review"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "indeterminate"
+                            },
+                            "package_purpose": {
+                                "const": "bounded_formal_question"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "indeterminate"
+                            },
+                            "package_purpose": {
+                                "const": "vocabulary_alignment"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "indeterminate"
+                            },
+                            "package_purpose": {
+                                "const": "model_obligation"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "violates"
+                            },
+                            "package_purpose": {
+                                "const": "counterexample_review"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    }
                 ]
             }
         },
         {
-            "description": "Outcome-purpose compatibility rule: violating empirical outcomes must not be candidate-invariant reviews.",
-            "not": {
+            "description": "Outcome-purpose-result compatibility matrix for admissible_with_limitations records, including the documented constrained violates/candidate-invariant row.",
+            "if": {
                 "properties": {
-                    "reviewed_empirical_outcome": {
-                        "const": "violates"
-                    },
-                    "package_purpose": {
-                        "const": "candidate_invariant_review"
+                    "admissibility_result": {
+                        "const": "admissible_with_limitations"
                     }
                 },
                 "required": [
-                    "reviewed_empirical_outcome",
-                    "package_purpose"
+                    "admissibility_result"
+                ]
+            },
+            "then": {
+                "oneOf": [
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "supports"
+                            },
+                            "package_purpose": {
+                                "const": "candidate_invariant_review"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "supports"
+                            },
+                            "package_purpose": {
+                                "const": "bounded_formal_question"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "supports"
+                            },
+                            "package_purpose": {
+                                "const": "vocabulary_alignment"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "supports"
+                            },
+                            "package_purpose": {
+                                "const": "model_obligation"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "indeterminate"
+                            },
+                            "package_purpose": {
+                                "const": "indeterminate_evidence_review"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "indeterminate"
+                            },
+                            "package_purpose": {
+                                "const": "bounded_formal_question"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "indeterminate"
+                            },
+                            "package_purpose": {
+                                "const": "vocabulary_alignment"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "indeterminate"
+                            },
+                            "package_purpose": {
+                                "const": "model_obligation"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "violates"
+                            },
+                            "package_purpose": {
+                                "const": "counterexample_review"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "reviewed_empirical_outcome": {
+                                "const": "violates"
+                            },
+                            "package_purpose": {
+                                "const": "candidate_invariant_review"
+                            }
+                        },
+                        "required": [
+                            "reviewed_empirical_outcome",
+                            "package_purpose"
+                        ]
+                    }
                 ]
             }
         }
