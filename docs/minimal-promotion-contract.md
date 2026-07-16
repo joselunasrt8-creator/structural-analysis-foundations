@@ -2,33 +2,131 @@
 
 ## Status and intent
 
-This document defines the consumer-side Minimal Promotion Contract for this repository. The repository receives immutable Promotion Packages and determines whether bounded formalization is authorized.
+This document defines the consumer-side Minimal Promotion Contract for this repository. The repository receives immutable Minimal Promotion Packages and determines whether bounded formalization is authorized.
 
-The repository reviews submitted packages. It does not reinterpret empirical evidence, reconstruct the producer's claim, or convert a package into canonical authority by receipt alone.
+This is a documentation-level contract only. It defines deterministic consumer record identity and lifecycle linkage before machine-readable schemas are frozen for Admissibility Review and Promotion Decision records. It does not create schemas, validators, review-record instances, promotion decisions, registries, adapters, synchronization, automation, canonical research objects, canonical fixtures, conformance changes, SYNAPSE changes, or theorem/proof expansion.
 
-## Architectural invariants
+The repository reviews submitted packages. It does not reinterpret empirical evidence, reconstruct the producer's claim, rewrite producer package meaning, or convert a package into canonical authority by receipt alone.
 
-The contract preserves the following invariants:
+## Canonical architecture
 
-- **Empirical Evidence ≠ Canonical Authority.** Evidence may support a proposal, but evidence does not itself authorize canonicalization or formalization.
-- **Promotion Package ≠ Promotion Decision.** A submitted package is a producer-owned proposal. The repository's decision is a separate consumer-owned record.
+The promotion architecture preserves this sequence:
+
+```text
+Minimal Promotion Package
+        ↓
+Admissibility Review
+        ↓
+Promotion Decision
+        ↓
+Bounded Formalization
+        ↓
+Canonical Research Object
+        ↓
+Canonical Fixture
+        ↓
+Implementation Conformance
+```
+
+The contract preserves these separations:
+
+- **Producer Proposal ≠ Consumer Decision.** A producer package is a producer-owned proposal; it is not a consumer-owned review or decision.
+- **Package Receipt ≠ Admissibility.** Receipt records that an immutable producer package is available for possible review; it is not an admissibility result.
+- **Admissibility ≠ Promotion Authorization.** An admissibility result determines whether promotion review may proceed; it does not authorize bounded formalization.
 - **Accepted Promotion ≠ Canonical Research Object.** Acceptance authorizes only the bounded formalization scope stated in the decision. It does not create a canonical research object.
 - **Promotion Review ≠ Implementation Conformance.** Promotion review concerns admissibility and bounded authority. It is separate from validating any implementation, adapter, fixture, or executable artifact.
+- **Upstream Provenance ≠ Runtime Dependency.** Producer provenance must be preserved locally, but repository-local validation must not require live producer access.
 
-The producer owns the proposal. The consumer owns the decision.
+The producer owns the proposal. The consumer owns the review and decision.
 
 ## Promotion boundary
 
-A Promotion Package is admissible input to review only as an immutable proposal for bounded formalization. The promotion boundary separates:
+A Minimal Promotion Package is admissible input to review only as an immutable proposal for bounded formalization. The promotion boundary separates:
 
-- producer-owned empirical material, claims, identifiers, rationale, and package provenance; from
-- consumer-owned admissibility findings, promotion decisions, accepted scope, exclusions, and review records.
+- producer-owned package contents, package identity, package version, evidence references, empirical outcome, limitations, lifecycle records, claims, rationale, and provenance; from
+- consumer-owned admissibility findings, promotion decisions, accepted scope, excluded scope, authority effects, local provenance snapshots, and consumer lifecycle records.
 
-Crossing the boundary does not change ownership of the proposal, reclassify empirical evidence as canonical authority, or imply implementation conformance.
+Crossing the boundary does not change ownership of the proposal, reclassify empirical evidence as canonical authority, create a shared mutable record, or imply synchronization with the producer repository.
+
+## Consumer record identifier model
+
+Consumer review records use deterministic, repository-scoped identifiers. Identifiers are documentation-level record identities and must not be left as unconstrained strings.
+
+The deterministic identifier pattern is:
+
+```text
+saf:<record_type>:<package_identity_token>:<ordinal>
+```
+
+where:
+
+- `saf` is the fixed namespace for this repository's consumer records.
+- `<record_type>` is exactly `admissibility` or `decision`.
+- `<package_identity_token>` is `base32url_no_padding(UTF-8(byte_length(package_id) + ":" + package_id + byte_length(package_version) + ":" + package_version))`, where `package_id` and `package_version` are the exact producer-owned strings stored in `package_reference`, each `byte_length` is the decimal UTF-8 byte length of the following value, the encoded byte sequence uses the RFC 4648 base32 alphabet `a-z2-7`, padding `=` is omitted, and letters are emitted lowercase for identifier readability.
+- `<ordinal>` is a zero-padded four-digit decimal sequence allocated append-only within this repository for records of the same `record_type` and `package_identity_token`, starting at `0001`.
+
+This encoding preserves case and character distinctions by encoding the exact UTF-8 bytes of the length-prefixed ordered pair. It is injective because the byte lengths delimit each value unambiguously, the base32 representation is reversible after restoring omitted padding, and no lossy normalization or character replacement is applied. The token remains repository-local and deterministic, does not depend on hashes alone, and does not replace the original `package_id` or `package_version` stored in `package_reference`.
+
+Examples:
+
+| `package_id` | `package_version` | `package_identity_token` | Example identifier |
+| --- | --- | --- | --- |
+| `B2.Package` | `v1.0` | `geyduqrsfzigcy3lmftwknb2oyys4ma` | `saf:admissibility:geyduqrsfzigcy3lmftwknb2oyys4ma:0001` |
+| `pkg:Alpha/β` | `Release 2026-07-16` | `gezdu4dlm45ec3dqnbqs7tvsge4duutfnrswc43feazdamrwfuydoljrgy` | `saf:decision:gezdu4dlm45ec3dqnbqs7tvsge4duutfnrswc43feazdamrwfuydoljrgy:0001` |
+
+Identifier fields have these semantics:
+
+- `admissibility_id` identifies one Admissibility Review record and must use `record_type = admissibility`.
+- `decision_id` identifies one Promotion Decision record and must use `record_type = decision`.
+- `prior_record_reference` references the immediately prior consumer record, when a later record supersedes, withdraws, invalidates, or reconsiders it.
+- `superseding_record_reference` references the later consumer record that superseded the current record, when known.
+- `withdrawal_record_reference` references the append-only Admissibility Review or Promotion Decision record version that changed the affected record lifecycle to `withdrawn`, when applicable.
+- `invalidation_record_reference` references the append-only Admissibility Review or Promotion Decision record version that changed the affected record lifecycle to `invalidated`, when applicable.
+
+Repository-scoped uniqueness is mandatory. Once emitted, an identifier is immutable, must never be reused, and continues to identify the historical record even if the record is superseded, withdrawn, invalidated, or reconsidered. Identifiers encode the record type and exact producer package identity/version token for local intelligibility. They do not encode mutable lifecycle state, admissibility result, decision result, authority effects, reviewer identity, timestamps, downstream canonical objects, or implementation conformance outcomes.
+
+Versioning and supersession never mutate an existing identifier. A new producer package version, consumer supersession, consumer withdrawal, consumer invalidation, or reconsideration receives a new append-only `admissibility` or `decision` record identifier and links back through the appropriate reference fields.
+
+## Immutable producer-package reference model
+
+Every Admissibility Review and Promotion Decision must contain the same immutable `package_reference` model identifying the exact producer package version reviewed. The model supports repository and non-repository packages without weakening immutability.
+
+Common fields required for every package reference are:
+
+| Field | Required | Semantics |
+| --- | --- | --- |
+| `package_id` | Yes | Producer-owned package identity. The consumer copies it and does not rewrite package meaning. |
+| `package_version` | Yes | Producer-owned immutable package version. Package identity remains the pair (`package_id`, `package_version`). |
+| `provenance_source_type` | Yes | Exactly one of `repository`, `release_artifact`, `archive`, `object_store`, or `content_address`. |
+| `content_reference` | Yes | Immutable producer-supplied location, release artifact, archive object, object-store key/version, or content address for the reviewed package version. Mutable URLs, floating branch names, and moving tags are insufficient. |
+| `content_digest` | Yes | Digest of the reviewed package content or package manifest snapshot as observed by the consumer. The digest strengthens identity and provenance but does not replace (`package_id`, `package_version`). |
+| `hash_algorithm` | Yes | Hash algorithm for `content_digest`, such as `sha256`. |
+| `canonicalization_method` | Yes | Producer-declared or consumer-recorded method used to compute the digest, such as canonical JSON, archive digest, or manifest digest. |
+| `producer_lifecycle_record_reference` | Optional | Producer-owned correction, withdrawal, supersession, invalidation, or other lifecycle record referenced by the consumer. Required when such a producer lifecycle record is part of the reviewed package context. |
+
+The provenance union is deterministic and mutually exclusive:
+
+| `provenance_source_type` | Additional required fields | Prohibited branch fields |
+| --- | --- | --- |
+| `repository` | `producer_repository`, `producer_commit` | `producer_artifact_locator`, `producer_artifact_revision`, `content_address` as the primary provenance branch |
+| `release_artifact` | `producer_artifact_locator`, `producer_artifact_revision` | `producer_repository`, `producer_commit`, `content_address` as the primary provenance branch |
+| `archive` | `producer_artifact_locator`, `producer_artifact_revision` | `producer_repository`, `producer_commit`, `content_address` as the primary provenance branch |
+| `object_store` | `producer_artifact_locator`, `producer_artifact_revision` | `producer_repository`, `producer_commit`, `content_address` as the primary provenance branch |
+| `content_address` | `content_address` | `producer_repository`, `producer_commit`, `producer_artifact_locator`, `producer_artifact_revision` as the primary provenance branch |
+
+Every package must have exactly one immutable provenance source. Repository provenance requires a repository identity and immutable commit. Non-repository provenance requires an immutable artifact locator and revision object, or a content address when `provenance_source_type = content_address`. The content digest remains mandatory in all branches and strengthens provenance; it does not replace package identity or the selected provenance source.
+
+A Promotion Decision repeats `package_reference`, and `PromotionDecision.package_reference` must equal the linked `AdmissibilityReview.package_reference` across the full immutable reference: `package_id`, `package_version`, `provenance_source_type`, `content_reference`, `content_digest`, `hash_algorithm`, `canonicalization_method`, repository fields when `repository` is selected, non-repository artifact locator/revision or content address when a non-repository branch is selected, and `producer_lifecycle_record_reference` when applicable. A Promotion Decision must not authorize bounded formalization for any package other than the exact package admitted. If the producer package changes, a new Admissibility Review is required.
+
+The consumer preserves a local provenance snapshot containing the package reference, reviewed claim, purpose, empirical outcome, submitted evidence references, limitations, replication status, producer lifecycle references known at review time, and any locally observed digest metadata. This snapshot makes the consumer record locally intelligible without live upstream access.
+
+A digest mismatch is not repaired by the consumer. If detected before review, the package is `inadmissible` or `deferred` because the exact package cannot be established. If detected after a record exists, the consumer appends a new `admissibility` or `decision` record version with lifecycle `invalidated` or `superseded` and links it through `invalidation_record_reference` or `superseding_record_reference`. Producer correction, withdrawal, or supersession is referenced through `producer_lifecycle_record_reference`; the consumer does not rewrite the original package meaning.
+
+Upstream provenance does not create a live runtime dependency. Repository-local validation must not fetch, clone, import, execute, synchronize with, or otherwise evaluate the producer repository, artifact locator, object store, archive location, or content-address provider to interpret an already emitted consumer record.
 
 ## Admissibility requirements
 
-A Promotion Package is admissible for review only when it provides, at minimum:
+A Minimal Promotion Package is admissible for review only when it provides, at minimum:
 
 1. A stable package identifier.
 2. An immutable package version or content-addressed reference.
@@ -56,6 +154,45 @@ Admissibility must consider both the empirical outcome and the package purpose. 
 
 Admissibility does not require the repository to accept the claim as true. It only determines whether review can proceed without reconstructing missing producer intent or mutating the proposal.
 
+## Admissibility Review record model
+
+An Admissibility Review record is the minimum consumer record that determines whether promotion review may proceed for one immutable package reference. It must include:
+
+- `admissibility_id`
+- `package_reference`
+- `package_purpose`
+- `reviewed_empirical_outcome`
+- `reviewed_artifact_references`
+- `provenance_snapshot`
+- `limitations_snapshot`
+- `replication_status`
+- `admissibility_result`
+- `record_lifecycle`
+- `admissibility_rationale`
+- `review_timestamp`
+- `review_authority`
+- `prior_record_reference`
+- `superseding_record_reference`
+- `withdrawal_record_reference`
+- `invalidation_record_reference`
+- `reconsideration_conditions`
+
+`admissibility_result` is exactly one of:
+
+- `admissible`
+- `admissible_with_limitations`
+- `inadmissible`
+- `deferred`
+
+`record_lifecycle` is exactly one of:
+
+- `active`
+- `superseded`
+- `withdrawn`
+- `invalidated`
+
+The admissibility result and the record lifecycle are independent axes. For example, an `inadmissible` record may be `active` until superseded, and an `admissible` record may later become `superseded` or `invalidated` without changing the historical result. `withdrawal_record_reference` and `invalidation_record_reference` are absent when no withdrawal or invalidation applies, required when `record_lifecycle` is `withdrawn` or `invalidated`, must reference a later append-only Admissibility Review record, and must not reference a separate third schema type.
+
 ## Admissibility review process
 
 Admissibility review is a bounded consumer-side process:
@@ -70,101 +207,93 @@ Admissibility review is a bounded consumer-side process:
 
 The reviewer may reject or defer a package for missing, mutable, ambiguous, or unbounded material. The reviewer must not repair the package by inventing claims, normalizing evidence into new authority, or broadening the requested scope.
 
-## Admissibility result states
+## Promotion Decision record model
 
-Admissibility review produces exactly one of these result states:
+A Promotion Decision record is the minimum consumer record that determines whether bounded formalization is authorized for one admitted package reference. It must link to exactly one Admissibility Review record through `admissibility_id`. A Promotion Decision may exist only when the linked Admissibility Review result is `admissible` or `admissible_with_limitations`. A linked result of `inadmissible` or `deferred` prohibits a Promotion Decision; deferred admissibility requires producer clarification, correction, or a new immutable package before promotion review may proceed.
 
-- **`admissible`.** The package is sufficiently bounded, immutable, and provenance-bearing for promotion review.
-- **`admissible_with_limitations`.** The package is reviewable only if the consumer preserves recorded limitations, such as indeterminate evidence, constrained cohorts, partial replication, limited artifact coverage, or bounded package purpose.
-- **`deferred`.** Review cannot proceed until the producer supplies a new immutable package version or clarifies bounded producer-owned material.
-- **`rejected_as_inadmissible`.** The package is outside the promotion boundary, mutable, unbounded, missing required provenance, or dependent on consumer reinterpretation of empirical evidence.
+A Promotion Decision record must include:
 
-An admissibility result is not a promotion decision. Admissibility lifecycle is recorded separately when later record events require that status.
+- `decision_id`
+- `admissibility_id`
+- `package_reference`
+- `decision_result`
+- `record_lifecycle`
+- `decision_rationale`
+- `decision_timestamp`
+- `decision_authority`
+- `translation_record` (required only for `accepted_for_formalization` and `accepted_with_constraints`; absent otherwise)
+- `translation_record_status`
+- `authorized_effects`
+- `excluded_effects`
+- `preserved_limitations`
+- `reconsideration_conditions`
+- `prior_record_reference`
+- `superseding_record_reference`
+- `withdrawal_record_reference`
+- `invalidation_record_reference`
+- `withdrawal_reason`
+- `invalidity_reason`
 
-## Admissibility-record lifecycle
+`decision_result` is exactly one of:
 
-Admissibility-record lifecycle is separate from the admissibility result. An admissibility record has exactly one lifecycle state:
+- `accepted_for_formalization`
+- `accepted_with_constraints`
+- `rejected`
+- `deferred`
 
-- **`active`.** The admissibility result currently governs review eligibility for the recorded package version.
-- **`superseded`.** A later immutable package version or later admissibility record replaced the record for current review purposes while preserving historical provenance.
-- **`withdrawn`.** The package is no longer under admissibility consideration because the producer withdrew it or the consumer closed it without current effect.
-- **`invalidated`.** The record is retained but no longer authoritative because its provenance, package reference, or admissibility basis was found to be incorrect or outside contract.
+`record_lifecycle` is exactly one of:
 
-Lifecycle states describe what happened to the admissibility record. They are not admissibility conclusions and must not be substituted for admissibility result states.
+- `active`
+- `superseded`
+- `withdrawn`
+- `invalidated`
 
-## Outcome-sensitive admissibility
+The promotion decision result and decision-record lifecycle are independent axes. A rejected or deferred decision may be active as the current decision for a package version; an accepted decision may later be superseded, withdrawn, or invalidated without altering the historical result. `withdrawal_record_reference` and `invalidation_record_reference` are absent when no withdrawal or invalidation applies, required when `record_lifecycle` is `withdrawn` or `invalidated`, must reference a later append-only Promotion Decision record, and must not reference a separate third schema type. `package_reference` must exactly equal the linked Admissibility Review package reference.
 
-When a package includes empirical outcomes, the consumer must retain the producer-supplied outcome classification in the review record and apply outcome-sensitive rules before any promotion decision:
+## Translation record
 
-- **`supports`.** Supporting evidence may authorize bounded formal review within the recorded package purpose and accepted scope. Supporting evidence does not prove necessity, does not establish canonical authority, and does not by itself create an invariant.
-- **`indeterminate`.** Indeterminate evidence may support bounded formal questions, counterexample work, vocabulary alignment, model obligations, or explicit indeterminate-evidence review. It must not be recorded or reused as supported invariant evidence.
-- **`violates`.** Violating evidence must constrain, narrow, reject, or counterexample the proposed scope. It must not be laundered into acceptance by generic reframing, silent narrowing, or omission of the violation.
+`translation_record` is conditional on `decision_result` and must not force placeholder accepted-scope data into rejected or deferred decisions. The deterministic convention is:
 
-The consumer may accept a package with limitations only when the retained outcome classification, package purpose, and accepted scope remain aligned. Outcome classification must be preserved as evidence context, not upgraded into canonical authority.
+| `decision_result` | `translation_record` convention | Additional requirements |
+| --- | --- | --- |
+| `accepted_for_formalization` | Required | Must define accepted and excluded scope. |
+| `accepted_with_constraints` | Required | Must define accepted scope, constraints, preserved limitations, and exclusions. |
+| `rejected` | Prohibited; use `translation_record_status = not_applicable` | `decision_rationale` records why no accepted scope exists. |
+| `deferred` | Prohibited; use `translation_record_status = not_applicable` | `decision_rationale` records what producer clarification, correction, or new immutable package is needed. |
 
-## Promotion decision results
-
-After an admissible or admissible-with-limitations package is reviewed, the repository records exactly one promotion decision result:
-
-- **`accepted_for_formalization`.** Bounded formalization is authorized only for the accepted scope recorded in the decision.
-- **`accepted_with_constraints`.** Bounded formalization is authorized subject to explicit consumer-side constraints, exclusions, limitations, or preconditions recorded in the decision.
-- **`rejected`.** Bounded formalization is not authorized for the submitted package version.
-- **`deferred`.** The consumer does not yet make a promotion decision because additional producer-owned clarification, a new immutable package version, or consumer-side review is required.
-
-A promotion decision result does not itself create schemas, validators, registries, adapters, automation, canonical research objects, fixtures, theorems, or SYNAPSE changes.
-
-## Decision-record lifecycle
-
-Decision-record lifecycle is separate from the promotion decision result. A decision record has exactly one lifecycle state:
-
-- **`active`.** The decision currently governs only its recorded package version and accepted scope.
-- **`superseded`.** A later immutable package version or later decision replaced the record for current review purposes while preserving historical provenance.
-- **`withdrawn`.** The package or decision record is no longer under consideration because the producer withdrew it or the consumer closed it without current effect.
-- **`invalidated`.** The record is retained but no longer authoritative because its provenance, scope, or authority basis was found to be incorrect or outside contract.
-
-Lifecycle states describe what happened to the record. They are not review conclusions and must not be substituted for promotion decision results.
-
-## Decision authority
-
-The repository, acting as consumer, has authority to:
-
-- decide whether a package is admissible;
-- decide whether bounded formalization is authorized;
-- define accepted and excluded formalization scope;
-- record constraints on any accepted promotion;
-- preserve review provenance and lifecycle state; and
-- reject, defer, supersede, or close review.
-
-The producer retains authority over the contents, intended claim, and submitted evidence of the Promotion Package. The consumer must not mutate those producer-owned contents when making a decision.
-
-## Authority effects
-
-A promotion decision has only the effects explicitly recorded in the consumer-side decision:
-
-- It may authorize bounded formalization work in this repository.
-- It may constrain the permissible interpretation of the accepted scope.
-- It may exclude specific claims, evidence uses, implementation implications, or canonical lifecycle effects.
-- It may provide a provenance anchor for later documentation or review.
-
-A promotion decision does not:
-
-- convert empirical evidence into canonical authority;
-- make a Promotion Package a canonical research object;
-- certify implementation conformance;
-- validate executable behavior;
-- require downstream automation; or
-- override canonical lifecycle requirements.
-
-## Accepted and excluded translation
-
-Every accepted or constrained decision must include a direct translation record containing:
+Every required translation record must include:
 
 - `producer_claim`
 - `accepted_formalization_scope`
 - `excluded_formalization_scope`
 - `translation_rationale`
+- `assumptions`
+- `constraints`
+- `permitted_evidence_references`
+- `preserved_limitations`
+- `non_authorized_downstream_effects`
 
-The translation record prevents silent narrowing, broadening, or reframing of the producer-owned claim. If the consumer accepts less than the producer requested, the excluded scope and rationale must be explicit.
+Producer Claim ≠ Accepted Formalization Scope. A narrower accepted scope must be explicit in `accepted_formalization_scope`, `excluded_formalization_scope`, and `translation_rationale`. The consumer must not silently strengthen, reinterpret, generalize, repair, or broaden the producer claim.
+
+## Authority effects
+
+`authorized_effects` and `excluded_effects` use finite documentation-level values.
+
+The only minimum authorized effect defined by this contract is:
+
+- `bounded_formalization`
+
+The following effects are explicitly excluded unless a later, separate architecture layer independently authorizes them:
+
+- `canonical_research_object_publication`
+- `canonical_fixture_creation`
+- `theorem_validation`
+- `implementation_conformance_claim`
+- `automation_creation`
+- `producer_evidence_mutation`
+- `cross_repository_synchronization`
+
+Acceptance authorizes bounded work, not canonical completion. A promotion decision does not convert empirical evidence into canonical authority, make a Minimal Promotion Package a canonical research object, certify implementation conformance, validate executable behavior, require downstream automation, mutate producer evidence, synchronize repositories, or override canonical lifecycle requirements.
 
 ## Accepted formalization scope
 
@@ -191,67 +320,103 @@ Unless explicitly authorized by a later decision, accepted promotion excludes:
 - expansion from a bounded concept into repository-wide architecture; and
 - any claim that acceptance confers canonical lifecycle status.
 
-## Immutable provenance requirements
+## Lifecycle linkage and reconsideration
 
-Every review record must preserve immutable provenance sufficient to identify:
+Consumer records are append-only in meaning. Later records may supersede, withdraw, invalidate, or reconsider authority, but they do not erase earlier consumer records and do not rewrite the submitted producer package.
 
-- the exact Promotion Package version reviewed;
-- the producer or producing authority;
-- the package identifier and content reference;
-- `producer_repository`, where available;
-- `producer_commit`, where available;
-- `artifact_paths`, where available;
-- `artifact_hashes`, where available;
-- `protocol_version`, where available;
-- `investigation_id`, where available;
-- `retained_classification`, where available;
-- `cohort_conclusion`, where available;
-- `empirical_outcome`, where available;
-- `limitations_snapshot`, where available;
-- `replication_status`, where available;
-- `package_purpose`;
-- the submitted evidence references as supplied by the producer;
-- the admissibility result and admissibility lifecycle state;
-- the promotion decision result and decision-record lifecycle state, if any;
-- the accepted and excluded scope, if any;
-- the decision date or review record timestamp; and
-- the consumer-side reviewer or decision authority when recorded by repository process.
+When a producer package is corrected, the consumer must treat the correction as a new producer-owned lifecycle fact. If the corrected package has a new `package_version`, any new review receives new consumer identifiers and links the earlier record through `prior_record_reference` and the later record through `superseding_record_reference`. The earlier record remains historically valid for what was reviewed, but it must not be used as active authority for the corrected package unless a new active consumer record explicitly permits that constrained use.
 
-If the reviewed package cannot be identified immutably, it is not admissible. Upstream provenance is not a runtime dependency: repository-local validation must not depend on fetching, cloning, importing, executing, or otherwise evaluating the producer repository.
+When a producer package is withdrawn, existing consumer records remain historically traceable but no longer provide current authority unless the consumer records a narrow reason that historical bounded formalization remains valid without reliance on the withdrawn package. The usual consumer action is to append a new version of the affected Admissibility Review or Promotion Decision record with lifecycle `withdrawn` and link the affected record through `withdrawal_record_reference`.
 
-## Reconsideration conditions
+When a producer package is superseded, an existing consumer review or decision may remain active only against the exact superseded package version and exact accepted scope recorded in its package reference. It does not automatically apply to the newer package. If current work should follow the newer package, a new Admissibility Review and any allowed Promotion Decision must be emitted and linked by prior/superseding references.
 
-A prior decision may be reconsidered only when one of the following conditions is recorded:
+When a producer package is invalidated or found internally inconsistent, the consumer must reconsider any active review or decision depending on the invalidated basis. If the basis of the consumer record is incorrect, the consumer appends a new version of the affected Admissibility Review or Promotion Decision record with lifecycle `invalidated` and links it through `invalidation_record_reference`. If a narrower historically accurate decision can remain active under constraints, that constrained effect must be documented in a new superseding record rather than by editing the old one.
 
-- the producer submits a new immutable package version;
+Required linkage rules:
+
+- A superseding record must point to the prior record with `prior_record_reference`.
+- A superseded record must point forward with `superseding_record_reference` when the later record is known.
+- A withdrawal action must create or reference a new append-only version of the affected Admissibility Review or Promotion Decision record with lifecycle `withdrawn` and populate `withdrawal_record_reference` on affected records when known.
+- An invalidation action must create or reference a new append-only version of the affected Admissibility Review or Promotion Decision record with lifecycle `invalidated` and populate `invalidation_record_reference` on affected records when known.
+- Withdrawal and invalidation are not independent third or fourth document types and do not require separate future schemas under this contract.
+- Reconsideration requires a recorded condition and a new append-only consumer record; it never mutates the original identifier.
+
+Reconsideration conditions include:
+
+- the producer submits a corrected or new immutable package version;
+- the producer withdraws, supersedes, or invalidates the package;
 - material provenance for the reviewed package is shown to be incorrect or incomplete;
+- a content digest mismatch is detected;
 - the prior decision exceeded its recorded authority or scope;
-- the accepted scope is found to conflict with repository architectural invariants;
-- a later repository decision supersedes the prior decision; or
-- the producer withdraws the package from further consideration.
+- the accepted scope conflicts with repository architectural invariants; or
+- a later repository decision supersedes the prior decision.
 
-Reconsideration does not mutate the original package or erase the prior review record. It creates a new consumer-side review record linked to the prior state.
+## Status-axis separation
 
-## Record lifecycle
+The following axes are distinct and must not be collapsed:
 
-Promotion records follow this lifecycle:
+- Admissibility Result
+- Admissibility Record Lifecycle
+- Promotion Decision Result
+- Promotion Decision Lifecycle
+- Process Event
+- Canonical Research-Object Lifecycle
+- Implementation Conformance Outcome
 
-1. **Received.** An immutable package reference is recorded for possible review.
-2. **Admissibility reviewed.** The repository records `admissible`, `admissible_with_limitations`, `deferred`, or `rejected_as_inadmissible`, plus the separate admissibility lifecycle state.
-3. **Promotion reviewed.** If admissible or admissible with limitations, the repository records a promotion decision result.
-4. **Decision lifecycle recorded.** The repository records the decision-record lifecycle separately as `active`, `superseded`, `withdrawn`, or `invalidated`.
-5. **Superseded or invalidated when applicable.** Later package versions, later decisions, withdrawals, or provenance corrections may change lifecycle status without deleting earlier records.
+`received`, `admissibility_reviewed`, `promotion_reviewed`, and `decision_recorded` are process events, not lifecycle states. This contract does not introduce a third competing status enum. Lifecycle values remain limited to `active`, `superseded`, `withdrawn`, and `invalidated` for consumer records.
 
-Records are append-only in meaning: later records may supersede or correct authority, but they do not rewrite the submitted package or silently alter the historical decision.
+## Outcome-sensitive compatibility matrix
 
-## Separation from canonical lifecycle
+Allowed relationships across empirical outcome, package purpose, admissibility result, and decision result are constrained as follows. In every row, `inadmissible` or `deferred` admissibility means no Promotion Decision; only `admissible` or `admissible_with_limitations` may proceed to promotion review.
 
-Promotion review is upstream of, and separate from, any canonical lifecycle. An accepted promotion may authorize bounded formalization work, but it does not establish a canonical research object or satisfy canonical object requirements.
+| Empirical outcome | Package purpose | Allowed admissibility result | Allowed decision result when admissible |
+| --- | --- | --- | --- |
+| `supports` | `candidate_invariant_review` within registered scope | `admissible`, `admissible_with_limitations`, or `deferred`; `inadmissible` if identity, provenance, or scope fails | May permit `accepted_for_formalization` or `accepted_with_constraints` for bounded candidate-invariant review; may also be `rejected` or `deferred` |
+| `supports` | `bounded_formal_question` | `admissible`, `admissible_with_limitations`, or `deferred`; `inadmissible` if identity, provenance, or scope fails | May permit bounded formalization for the bounded question only; no candidate-invariant authority is implied |
+| `supports` | `vocabulary_alignment` | `admissible`, `admissible_with_limitations`, or `deferred`; `inadmissible` if identity, provenance, or scope fails | May permit vocabulary-alignment formalization only; no candidate-invariant authority is implied |
+| `supports` | `model_obligation` | `admissible`, `admissible_with_limitations`, or `deferred`; `inadmissible` if identity, provenance, or scope fails | May permit model-obligation formalization only; no theorem-validation or implementation-conformance authority is implied |
+| `indeterminate` | `indeterminate_evidence_review` | `admissible`, `admissible_with_limitations`, or `deferred`; `inadmissible` if identity, provenance, or scope fails | May permit `accepted_with_constraints` for indeterminate-evidence review, bounded formal question, vocabulary alignment, or model obligation; must not become supported candidate-invariant authority |
+| `indeterminate` | `bounded_formal_question`, `vocabulary_alignment`, or `model_obligation` | `admissible`, `admissible_with_limitations`, or `deferred`; `inadmissible` if identity, provenance, or scope fails | May permit bounded formalization only for the stated secondary purpose; must not become supported candidate-invariant authority |
+| `violates` | `counterexample_review` | `admissible`, `admissible_with_limitations`, or `deferred`; `inadmissible` if identity, provenance, or scope fails | May permit counterexample review or bounded formal question; must not become supported candidate-invariant authority |
+| `violates` | `candidate_invariant_review` | Usually `inadmissible`, `admissible_with_limitations`, or `deferred` depending on whether review is reframed explicitly by producer-owned purpose | Must not be accepted as supported candidate-invariant authority; any acceptance requires explicit counterexample or bounded-question scope |
+| Any outcome | Any purpose | `inadmissible` or `deferred` | No Promotion Decision |
 
-Any later canonical lifecycle must independently define its object identity, scientific meaning, invariants, evidence contract, reproducibility requirements, schemas, fixtures, and validation process according to the repository's canonical research-object standards.
+Additional matrix rules:
 
-## Separation from implementation conformance
+- `accepted_for_formalization` requires a translation record.
+- `accepted_with_constraints` requires a translation record, constraints, preserved limitations, and exclusions.
+- `rejected` and decision-level `deferred` prohibit `translation_record` and require `translation_record_status = not_applicable` with rationale in `decision_rationale`.
+- `inadmissible` or `deferred` Admissibility Review results always mean no Promotion Decision for that Admissibility Review.
 
-Promotion review is not implementation conformance. It does not validate code, adapters, fixtures, schema validation, algorithms, execution traces, or runtime behavior.
+## B2 constraint
 
-Implementation conformance, if later pursued, must be evaluated by the repository's conformance process against the relevant canonical object or formal specification. An accepted promotion can be cited as authorization for bounded formalization, but it cannot be cited as proof that an implementation conforms.
+The canonical B2 empirical outcome is `indeterminate`. Any future B2 consumer record must preserve `package_purpose = indeterminate_evidence_review` or another explicitly allowed bounded secondary purpose such as `bounded_formal_question`, `vocabulary_alignment`, or `model_obligation`.
+
+A B2 consumer record must not convert B2 into `candidate_invariant_review`, supported invariant evidence, or supported invariant authority.
+
+## Downstream references
+
+References to later Canonical Research Objects or Canonical Fixtures are optional, append-only, non-authoritative downstream links. They must not be required fields in the initial Promotion Decision record. They must not imply that acceptance created those objects, completed canonical review, or satisfied implementation conformance.
+
+## Repository independence
+
+The contract aligns consumer package-reference semantics with producer-owned Minimal Promotion Package identity and provenance. The producer retains ownership over package contents, package identity, package version, evidence references, empirical outcome, limitations, and producer lifecycle records. The consumer retains ownership over admissibility findings, promotion decisions, accepted scope, excluded scope, authority effects, and consumer lifecycle records.
+
+No shared mutable record or cross-repository synchronization contract is created. Consumer records preserve enough local provenance to be historically traceable and locally intelligible without live upstream access.
+
+## Documentation audit for schema readiness
+
+1. Record identifier encoding is collision-safe because `package_identity_token` is a reversible base32 encoding of the exact UTF-8 length-prefixed ordered pair (`package_id`, `package_version`), with no lossy normalization.
+2. `admissibility_id` and `decision_id` remain immutable and repository-scoped.
+3. Withdrawal and invalidation links appear in both minimum record models.
+4. Withdrawal and invalidation remain append-only versions of the same primary record types and not separate schema families.
+5. `translation_record` is required only for `accepted_for_formalization` and `accepted_with_constraints`; it is prohibited for `rejected` and `deferred` decisions under `translation_record_status = not_applicable`.
+6. Deferred admissibility blocks Promotion Decisions until producer clarification, correction, or a new immutable package permits a new admissibility result.
+7. `PromotionDecision.package_reference` must exactly match the linked `AdmissibilityReview.package_reference`; changed packages require a new Admissibility Review.
+8. Repository and non-repository immutable provenance are both representable through the mutually exclusive `provenance_source_type` union.
+9. Mutable provenance remains prohibited; mutable URLs, floating branch names, and moving tags are insufficient.
+10. Supported secondary-purpose packages are covered by the compatibility matrix for `bounded_formal_question`, `vocabulary_alignment`, and `model_obligation`.
+11. B2 remains `indeterminate`.
+12. B2 cannot become supported candidate-invariant authority.
+13. Result state, lifecycle state, process event, and authority effect remain separate axes.
+14. Future Issues #39 and #40 can encode the contract without redesign because identifiers, provenance union, package-reference equality, decision eligibility, translation conditionality, lifecycle linkage, and matrix rules are specified at documentation level.
