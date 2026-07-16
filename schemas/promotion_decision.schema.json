@@ -73,14 +73,10 @@
             "$ref": "#/$defs/decisionAuthority"
         },
         "translation_record_status": {
-            "oneOf": [
-                {
-                    "type": "string",
-                    "const": "provided"
-                },
-                {
-                    "$ref": "#/$defs/notApplicable"
-                }
+            "type": "string",
+            "enum": [
+                "provided",
+                "not_applicable"
             ],
             "description": "Status of the conditional translation record. Rejected and deferred decisions use not_applicable and must not include translation_record."
         },
@@ -93,7 +89,7 @@
                 "type": "string",
                 "const": "bounded_formalization"
             },
-            "minItems": 1,
+            "minItems": 0,
             "uniqueItems": true,
             "description": "The only authorized effect is bounded_formalization. No canonical research-object, canonical fixture, implementation conformance, producer authority, schema, validator, automation, or synchronization authority is created."
         },
@@ -108,9 +104,7 @@
                     "implementation_conformance_claim",
                     "automation_creation",
                     "producer_evidence_mutation",
-                    "cross_repository_synchronization",
-                    "schema_creation",
-                    "validator_creation"
+                    "cross_repository_synchronization"
                 ]
             },
             "contains": {
@@ -120,6 +114,11 @@
                 {
                     "contains": {
                         "const": "canonical_fixture_creation"
+                    }
+                },
+                {
+                    "contains": {
+                        "const": "theorem_validation"
                     }
                 },
                 {
@@ -134,16 +133,6 @@
                 },
                 {
                     "contains": {
-                        "const": "schema_creation"
-                    }
-                },
-                {
-                    "contains": {
-                        "const": "validator_creation"
-                    }
-                },
-                {
-                    "contains": {
                         "const": "automation_creation"
                     }
                 },
@@ -153,8 +142,10 @@
                     }
                 }
             ],
+            "minItems": 7,
+            "maxItems": 7,
             "uniqueItems": true,
-            "description": "Documented excluded boundaries against canonical research-object creation, canonical fixture creation, implementation conformance, producer evidence mutation, schema creation, validator creation, automation, and synchronization."
+            "description": "The exact finite contract exclusions: canonical research-object publication, canonical fixture creation, theorem validation, implementation conformance, producer evidence mutation, automation, and synchronization."
         },
         "preserved_limitations": {
             "$ref": "#/$defs/stringArray"
@@ -205,6 +196,11 @@
                 "properties": {
                     "translation_record_status": {
                         "const": "provided"
+                    },
+                    "authorized_effects": {
+                        "const": [
+                            "bounded_formalization"
+                        ]
                     }
                 }
             }
@@ -254,7 +250,10 @@
                 },
                 "properties": {
                     "translation_record_status": {
-                        "$ref": "#/$defs/notApplicable"
+                        "const": "not_applicable"
+                    },
+                    "authorized_effects": {
+                        "const": []
                     }
                 }
             }
@@ -288,6 +287,11 @@
                             ]
                         }
                     ]
+                },
+                "properties": {
+                    "superseding_record_reference": {
+                        "$ref": "#/$defs/notApplicable"
+                    }
                 }
             }
         },
@@ -320,6 +324,11 @@
                             ]
                         }
                     ]
+                },
+                "properties": {
+                    "superseding_record_reference": {
+                        "$ref": "#/$defs/notApplicable"
+                    }
                 }
             }
         },
@@ -358,6 +367,11 @@
                             ]
                         }
                     ]
+                },
+                "properties": {
+                    "superseding_record_reference": {
+                        "$ref": "#/$defs/notApplicable"
+                    }
                 }
             }
         },
@@ -373,6 +387,11 @@
                 ]
             },
             "then": {
+                "properties": {
+                    "superseding_record_reference": {
+                        "$ref": "#/$defs/decisionRecordReference"
+                    }
+                },
                 "not": {
                     "anyOf": [
                         {
@@ -383,6 +402,16 @@
                         {
                             "required": [
                                 "invalidation_record_reference"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "withdrawal_reason"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "invalidity_reason"
                             ]
                         }
                     ]
