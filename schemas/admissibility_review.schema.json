@@ -11,11 +11,7 @@
         "package_reference",
         "reviewed_empirical_outcome",
         "package_purpose",
-        "producer_identity",
-        "producer_repository",
-        "producer_commit",
         "provenance_snapshot",
-        "submitted_evidence",
         "reviewed_artifact_references",
         "limitations_snapshot",
         "replication_status",
@@ -23,13 +19,10 @@
         "record_lifecycle",
         "review_timestamp",
         "review_authority",
-        "review_rationale",
         "admissibility_rationale",
         "reconsideration_conditions",
         "prior_record_reference",
-        "superseding_record_reference",
-        "withdrawal_record_reference",
-        "invalidation_record_reference"
+        "superseding_record_reference"
     ],
     "properties": {
         "schema_version": {
@@ -53,29 +46,8 @@
             "$ref": "#/$defs/packagePurpose",
             "description": "Producer package purpose. This value must not be silently converted into candidate-invariant authority."
         },
-        "producer_identity": {
-            "type": "string",
-            "minLength": 1,
-            "description": "Producer identity or accountable producing authority copied for local review intelligibility; it does not transfer producer authority to the consumer."
-        },
-        "producer_repository": {
-            "$ref": "#/$defs/notApplicableOrString",
-            "description": "Producer repository when repository provenance is selected; otherwise not_applicable. This is retained provenance and not a runtime dependency."
-        },
-        "producer_commit": {
-            "$ref": "#/$defs/notApplicableOrString",
-            "description": "Immutable producer commit when repository provenance is selected; otherwise not_applicable."
-        },
         "provenance_snapshot": {
             "$ref": "#/$defs/provenanceSnapshot"
-        },
-        "submitted_evidence": {
-            "type": "array",
-            "items": {
-                "$ref": "#/$defs/artifactReference"
-            },
-            "uniqueItems": true,
-            "description": "Submitted producer evidence artifacts or references preserved locally; the consumer does not mutate evidence into canonical authority."
         },
         "reviewed_artifact_references": {
             "type": "array",
@@ -89,8 +61,17 @@
             "$ref": "#/$defs/limitationsSnapshot"
         },
         "replication_status": {
-            "$ref": "#/$defs/notApplicableOrString",
-            "description": "Review-time replication status snapshot. This field does not validate executable behavior or implementation conformance."
+            "type": "string",
+            "enum": [
+                "not_attempted",
+                "internally_replicated",
+                "independently_replicated",
+                "partially_replicated",
+                "failed",
+                "blocked",
+                "unavailable"
+            ],
+            "description": "Review-time replication status snapshot using the producer contract finite states. This field does not validate executable behavior or implementation conformance."
         },
         "admissibility_result": {
             "type": "string",
@@ -120,11 +101,6 @@
         "review_authority": {
             "$ref": "#/$defs/reviewAuthority"
         },
-        "review_rationale": {
-            "type": "string",
-            "minLength": 1,
-            "description": "Consumer review rationale. This must not contain Promotion Decision authorization or accepted formalization scope."
-        },
         "admissibility_rationale": {
             "type": "string",
             "minLength": 1,
@@ -146,18 +122,33 @@
             "$ref": "#/$defs/admissibilityRecordReferenceOrNotApplicable"
         },
         "withdrawal_record_reference": {
-            "$ref": "#/$defs/admissibilityRecordReferenceOrNotApplicable",
-            "description": "Absent as not_applicable when no withdrawal applies; when applicable, references a later append-only Admissibility Review record, not a separate schema type."
+            "$ref": "#/$defs/admissibilityRecordReference",
+            "description": "Required only when record_lifecycle is withdrawn; otherwise this field must be absent."
         },
         "invalidation_record_reference": {
-            "$ref": "#/$defs/admissibilityRecordReferenceOrNotApplicable",
-            "description": "Absent as not_applicable when no invalidation applies; when applicable, references a later append-only Admissibility Review record, not a separate schema type."
+            "$ref": "#/$defs/admissibilityRecordReference",
+            "description": "Required only when record_lifecycle is invalidated; otherwise this field must be absent."
         }
     },
     "$defs": {
         "notApplicable": {
-            "type": "string",
-            "const": "not_applicable"
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "value",
+                "rationale"
+            ],
+            "properties": {
+                "value": {
+                    "type": "string",
+                    "const": "not_applicable"
+                },
+                "rationale": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "description": "Rationale-bearing intentional absence representation. Do not use for lifecycle references that the contract says are absent when not applicable."
         },
         "notApplicableOrString": {
             "oneOf": [
@@ -205,10 +196,7 @@
                 "package_version",
                 "provenance_source_type",
                 "content_reference",
-                "content_digest",
-                "digest",
-                "hash_algorithm",
-                "canonicalization_method"
+                "content_digest"
             ],
             "properties": {
                 "package_id": {
@@ -234,19 +222,7 @@
                     "minLength": 1
                 },
                 "content_digest": {
-                    "type": "string",
-                    "minLength": 1
-                },
-                "digest": {
                     "$ref": "#/$defs/digest"
-                },
-                "hash_algorithm": {
-                    "type": "string",
-                    "minLength": 1
-                },
-                "canonicalization_method": {
-                    "type": "string",
-                    "minLength": 1
                 },
                 "producer_repository": {
                     "type": "string",
@@ -373,7 +349,7 @@
                     }
                 }
             ],
-            "description": "Immutable producer package reference model from the Minimal Promotion Contract. This is a producer package reference, not an Admissibility Review, Promotion Decision, Canonical Research Object, or implementation-conformance claim."
+            "description": "Immutable producer package reference model from the Minimal Promotion Contract. content_digest is represented once as digest metadata containing value, hash_algorithm, and canonicalization_method. This is a producer package reference, not an Admissibility Review, Promotion Decision, Canonical Research Object, or implementation-conformance claim."
         },
         "artifactReference": {
             "type": "object",
@@ -519,20 +495,6 @@
             "type": "string",
             "pattern": "^saf:admissibility:[a-z2-7]+:[0-9]{4}$"
         },
-        "decisionRecordReference": {
-            "type": "string",
-            "pattern": "^saf:decision:[a-z2-7]+:[0-9]{4}$"
-        },
-        "recordReference": {
-            "oneOf": [
-                {
-                    "$ref": "#/$defs/admissibilityRecordReference"
-                },
-                {
-                    "$ref": "#/$defs/decisionRecordReference"
-                }
-            ]
-        },
         "admissibilityRecordReferenceOrNotApplicable": {
             "oneOf": [
                 {
@@ -542,7 +504,7 @@
                     "$ref": "#/$defs/admissibilityRecordReference"
                 }
             ],
-            "description": "Either not_applicable or an append-only Admissibility Review record reference; this schema does not create a separate withdrawal, invalidation, or Promotion Decision record type."
+            "description": "Either a rationale-bearing not_applicable object or an append-only Admissibility Review record reference. Lifecycle withdrawal and invalidation references use absence instead when not applicable."
         },
         "packagePurpose": {
             "type": "string",
@@ -563,5 +525,99 @@
                 "violates"
             ]
         }
-    }
+    },
+    "allOf": [
+        {
+            "if": {
+                "properties": {
+                    "record_lifecycle": {
+                        "const": "withdrawn"
+                    }
+                },
+                "required": [
+                    "record_lifecycle"
+                ]
+            },
+            "then": {
+                "required": [
+                    "withdrawal_record_reference"
+                ],
+                "not": {
+                    "required": [
+                        "invalidation_record_reference"
+                    ]
+                }
+            },
+            "else": {
+                "not": {
+                    "required": [
+                        "withdrawal_record_reference"
+                    ]
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "record_lifecycle": {
+                        "const": "invalidated"
+                    }
+                },
+                "required": [
+                    "record_lifecycle"
+                ]
+            },
+            "then": {
+                "required": [
+                    "invalidation_record_reference"
+                ],
+                "not": {
+                    "required": [
+                        "withdrawal_record_reference"
+                    ]
+                }
+            },
+            "else": {
+                "not": {
+                    "required": [
+                        "invalidation_record_reference"
+                    ]
+                }
+            }
+        },
+        {
+            "description": "Outcome-purpose compatibility rule: indeterminate empirical outcomes must not be candidate-invariant reviews.",
+            "not": {
+                "properties": {
+                    "reviewed_empirical_outcome": {
+                        "const": "indeterminate"
+                    },
+                    "package_purpose": {
+                        "const": "candidate_invariant_review"
+                    }
+                },
+                "required": [
+                    "reviewed_empirical_outcome",
+                    "package_purpose"
+                ]
+            }
+        },
+        {
+            "description": "Outcome-purpose compatibility rule: violating empirical outcomes must not be candidate-invariant reviews.",
+            "not": {
+                "properties": {
+                    "reviewed_empirical_outcome": {
+                        "const": "violates"
+                    },
+                    "package_purpose": {
+                        "const": "candidate_invariant_review"
+                    }
+                },
+                "required": [
+                    "reviewed_empirical_outcome",
+                    "package_purpose"
+                ]
+            }
+        }
+    ]
 }
