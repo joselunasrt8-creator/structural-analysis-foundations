@@ -17,7 +17,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable
 
-from jsonschema import Draft202012Validator
+from jsonschema import Draft202012Validator, FormatChecker
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -26,9 +26,9 @@ SCHEMA_PATHS = {
     "decision": Path("schemas/promotion_decision.schema.json"),
 }
 SUPPORTED_SCHEMA_VERSIONS = {"admissibility": {"v1"}, "decision": {"v1"}}
-DISCOVERY_GLOBS = (
-    "promotion-records/admissibility/*.json",
-    "promotion-records/decisions/*.json",
+DISCOVERY_DIRECTORIES = (
+    Path("promotion-records/admissibility"),
+    Path("promotion-records/decisions"),
 )
 IDENTIFIER_RE = re.compile(r"^saf:(admissibility|decision):([a-z2-7]+):([0-9]{4})$")
 EXCLUDED_EFFECTS = {
@@ -70,9 +70,38 @@ def _display_path(path: Path, root: Path) -> str:
 def discover_paths(root: Path) -> list[Path]:
     """Discover only regular, non-symlink records in the bounded canonical layout."""
     paths: list[Path] = []
-    for pattern in DISCOVERY_GLOBS:
-        paths.extend(path for path in root.glob(pattern) if path.is_file() and not path.is_symlink())
+    for relative in DISCOVERY_DIRECTORIES:
+        directory = root / relative
+        if _has_symlink_component(directory, root) or not directory.is_dir():
+            continue
+        paths.extend(path for path in directory.glob("*.json") if path.is_file() and not _has_symlink_component(path, root))
     return sorted(set(paths), key=lambda path: path.relative_to(root).as_posix())
+
+
+def _has_symlink_component(path: Path, root: Path) -> bool:
+    """Return whether a repository-relative path traverses any symlink."""
+    try:
+        relative = path.relative_to(root)
+    except ValueError:
+        return True
+    current = root
+    for part in relative.parts:
+        current = current / part
+        if current.is_symlink():
+            return True
+    return False
+
+
+def _discovery_boundary_errors(root: Path) -> list[str]:
+    errors: list[str] = []
+    for relative in DISCOVERY_DIRECTORIES:
+        current = root
+        for part in relative.parts:
+            current = current / part
+            if current.is_symlink():
+                errors.append(f"{current.relative_to(root).as_posix()}: canonical record discovery cannot traverse a symlink")
+                break
+    return errors
 
 
 def normalize_explicit_paths(root: Path, paths: Iterable[Path]) -> tuple[list[Path], list[str]]:
@@ -90,7 +119,7 @@ def normalize_explicit_paths(root: Path, paths: Iterable[Path]) -> tuple[list[Pa
         if resolved_root not in (resolved, *resolved.parents):
             errors.append(f"{display}: input is outside the repository root")
             continue
-        if candidate.is_symlink() or not resolved.is_file():
+        if _has_symlink_component(candidate, root) or not resolved.is_file():
             errors.append(f"{display}: input must be a regular non-symlink file")
             continue
         normalized.setdefault(resolved, resolved)
@@ -125,7 +154,12 @@ def _not_applicable(value: Any) -> bool:
 def _meaningful_limitations(snapshot: Any) -> list[str]:
     if not isinstance(snapshot, dict):
         return []
-    return [item for field in ("assumptions", "known_limitations", "not_claimed") for item in snapshot.get(field, []) if isinstance(item, str) and item]
+    result: list[str] = []
+    for field in ("assumptions", "known_limitations", "not_claimed"):
+        items = snapshot.get(field)
+        if isinstance(items, list):
+            result.extend(item for item in items if isinstance(item, str) and item)
+    return result
 
 
 def _load_schemas(root: Path) -> tuple[dict[str, Draft202012Validator], list[str]]:
@@ -136,7 +170,7 @@ def _load_schemas(root: Path) -> tuple[dict[str, Draft202012Validator], list[str
         try:
             schema = json.loads(path.read_text(encoding="utf-8"))
             Draft202012Validator.check_schema(schema)
-            validators[kind] = Draft202012Validator(schema)
+            validators[kind] = Draft202012Validator(schema, format_checker=FormatChecker())
         except Exception as exc:  # noqa: BLE001 - schema failures become stable validation errors.
             errors.append(f"{relative.as_posix()}: invalid Draft 2020-12 schema: {exc}")
     return validators, sorted(errors)
@@ -160,8 +194,11 @@ def _validate_snapshot(record: Record, errors: list[str]) -> None:
     if not isinstance(snapshot, dict):
         return
     prefix = record.display_path
+    package = value.get("package_reference")
+    if not isinstance(package, dict):
+        return
     comparisons = (
-        ("package_version", value.get("package_reference", {}).get("package_version")),
+        ("package_version", package.get("package_version")),
         ("package_purpose", value.get("package_purpose")),
         ("reviewed_empirical_outcome", value.get("reviewed_empirical_outcome")),
         ("artifact_references", value.get("reviewed_artifact_references")),
@@ -170,13 +207,12 @@ def _validate_snapshot(record: Record, errors: list[str]) -> None:
     )
     for field, expected in comparisons:
         _require(snapshot.get(field) == expected, errors, f"{prefix}:$.provenance_snapshot.{field}", f"must exactly equal $.{field if field not in {'artifact_references'} else 'reviewed_artifact_references'}")
-    package = value.get("package_reference", {})
     if package.get("provenance_source_type") == "repository":
         _require(snapshot.get("producer_commit") == package.get("producer_commit"), errors, f"{prefix}:$.provenance_snapshot.producer_commit", "must exactly equal $.package_reference.producer_commit")
     if "producer_lifecycle_record_reference" in package:
         _require(snapshot.get("producer_lifecycle_record_reference") == package["producer_lifecycle_record_reference"], errors, f"{prefix}:$.provenance_snapshot.producer_lifecycle_record_reference", "must preserve the package lifecycle reference")
     hashes = snapshot.get("hashes")
-    if hashes is not None:
+    if isinstance(hashes, list):
         expected_digest = {
             "hash_algorithm": package.get("hash_algorithm"),
             "value": package.get("content_digest"),
@@ -209,29 +245,58 @@ def _validate_identifier(record: Record, errors: list[str]) -> None:
 def _validate_decision(record: Record, reviews: dict[str, list[Record]], errors: list[str]) -> None:
     value = record.value
     prefix = record.display_path
-    linked_records = reviews.get(value.get("admissibility_id"), [])
+    admissibility_id = value.get("admissibility_id")
+    linked_records = reviews.get(admissibility_id, []) if isinstance(admissibility_id, str) else []
     _require(len(linked_records) == 1, errors, f"{prefix}:$.admissibility_id", "must resolve to exactly one discovered Admissibility Review")
     if len(linked_records) != 1:
         return
     review = linked_records[0].value
-    _require(review.get("admissibility_result") in {"admissible", "admissible_with_limitations"}, errors, f"{prefix}:$.admissibility_id", f"linked review result {review.get('admissibility_result')!r} is not eligible for a Promotion Decision")
+    eligible = review.get("admissibility_result") in {"admissible", "admissible_with_limitations"}
+    _require(eligible, errors, f"{prefix}:$.admissibility_id", f"linked review result {review.get('admissibility_result')!r} is not eligible for a Promotion Decision")
     _require(value.get("package_reference") == review.get("package_reference"), errors, f"{prefix}:$.package_reference", "must exactly equal the linked Admissibility Review package_reference")
     translation = value.get("translation_record")
     accepted = value.get("decision_result") in {"accepted_for_formalization", "accepted_with_constraints"}
     if accepted and isinstance(translation, dict):
-        snapshot = review.get("provenance_snapshot", {})
+        snapshot = review.get("provenance_snapshot")
+        if not isinstance(snapshot, dict):
+            snapshot = {}
         _require(translation.get("producer_claim") == snapshot.get("reviewed_claim"), errors, f"{prefix}:$.translation_record.producer_claim", "must exactly preserve the linked review producer claim")
-        excluded = translation.get("excluded_formalization_scope", [])
-        _require(translation.get("accepted_formalization_scope") not in excluded, errors, f"{prefix}:$.translation_record.accepted_formalization_scope", "must not exactly duplicate an excluded scope item")
+        excluded = translation.get("excluded_formalization_scope")
+        if isinstance(excluded, list):
+            _require(translation.get("accepted_formalization_scope") not in excluded, errors, f"{prefix}:$.translation_record.accepted_formalization_scope", "must not exactly duplicate an excluded scope item")
         limitations = _meaningful_limitations(review.get("limitations_snapshot"))
         if review.get("admissibility_result") == "admissible_with_limitations":
-            _require(all(item in value.get("preserved_limitations", []) for item in limitations), errors, f"{prefix}:$.preserved_limitations", "must preserve every linked review limitation")
-            _require(all(item in translation.get("preserved_limitations", []) for item in limitations), errors, f"{prefix}:$.translation_record.preserved_limitations", "must preserve every linked review limitation")
+            decision_limitations = value.get("preserved_limitations")
+            translated_limitations = translation.get("preserved_limitations")
+            if isinstance(decision_limitations, list):
+                _require(all(item in decision_limitations for item in limitations), errors, f"{prefix}:$.preserved_limitations", "must preserve every linked review limitation")
+            if isinstance(translated_limitations, list):
+                _require(all(item in translated_limitations for item in limitations), errors, f"{prefix}:$.translation_record.preserved_limitations", "must preserve every linked review limitation")
         if value.get("decision_result") == "accepted_with_constraints":
             _require(bool(translation.get("constraints")), errors, f"{prefix}:$.translation_record.constraints", "must be non-empty for accepted_with_constraints")
             _require(bool(translation.get("excluded_formalization_scope")), errors, f"{prefix}:$.translation_record.excluded_formalization_scope", "must be non-empty for accepted_with_constraints")
             _require(bool(translation.get("preserved_limitations")), errors, f"{prefix}:$.translation_record.preserved_limitations", "must be non-empty for accepted_with_constraints")
-    _require(set(value.get("excluded_effects", [])) == EXCLUDED_EFFECTS, errors, f"{prefix}:$.excluded_effects", "must contain exactly the mandatory excluded-effect set")
+    excluded_effects = value.get("excluded_effects")
+    if isinstance(excluded_effects, list) and all(isinstance(effect, str) for effect in excluded_effects):
+        _require(set(excluded_effects) == EXCLUDED_EFFECTS, errors, f"{prefix}:$.excluded_effects", "must contain exactly the mandatory excluded-effect set")
+    if eligible:
+        allowed = _allowed_decision_results(review.get("reviewed_empirical_outcome"), review.get("package_purpose"))
+        if allowed is not None:
+            _require(value.get("decision_result") in allowed, errors, f"{prefix}:$.decision_result", "is incompatible with the linked review outcome and package purpose")
+
+
+def _allowed_decision_results(outcome: Any, purpose: Any) -> set[str] | None:
+    """Return the decision-result row defined by the normative compatibility matrix."""
+    nonaccepted = {"rejected", "deferred"}
+    if outcome == "supports" and purpose in {"candidate_invariant_review", "bounded_formal_question", "vocabulary_alignment", "model_obligation"}:
+        return nonaccepted | {"accepted_for_formalization", "accepted_with_constraints"}
+    if outcome == "indeterminate" and purpose in {"indeterminate_evidence_review", "bounded_formal_question", "vocabulary_alignment", "model_obligation"}:
+        return nonaccepted | {"accepted_with_constraints"}
+    if outcome == "violates" and purpose == "counterexample_review":
+        return nonaccepted | {"accepted_for_formalization", "accepted_with_constraints"}
+    if outcome == "violates" and purpose == "candidate_invariant_review":
+        return nonaccepted | {"accepted_with_constraints"}
+    return None
 
 
 def _validate_lifecycle(record: Record, by_id: dict[str, list[Record]], errors: list[str]) -> None:
@@ -250,10 +315,13 @@ def _validate_lifecycle(record: Record, by_id: dict[str, list[Record]], errors: 
         targets = by_id.get(prior, [])
         _require(len(targets) == 1, errors, f"{prefix}:$.prior_record_reference", "must resolve to exactly one discovered record")
         if len(targets) == 1:
-            target_parts = _identifier_parts(targets[0].identifier)
-            _require(targets[0].kind == record.kind, errors, f"{prefix}:$.prior_record_reference", "must reference the same record type")
-            _require(target_parts is not None and target_parts[1] == current[1], errors, f"{prefix}:$.prior_record_reference", "must use the same package identity token")
-            _require(target_parts is not None and target_parts[2] < current[2], errors, f"{prefix}:$.prior_record_reference", "must reference a lower ordinal")
+            target = targets[0]
+            target_parts = _identifier_parts(target.identifier)
+            _require(target.kind == record.kind, errors, f"{prefix}:$.prior_record_reference", "must reference the same record type")
+            if target_parts is not None and target_parts[1] == current[1]:
+                _require(target_parts[2] == current[2] - 1, errors, f"{prefix}:$.prior_record_reference", "must reference the immediately preceding ordinal")
+            else:
+                _require(_is_cross_version_lineage(record, target), errors, f"{prefix}:$.prior_record_reference", "cross-token linkage must preserve the producer package_id and change package_version")
     for field in known_fields:
         reference = value.get(field)
         if not isinstance(reference, str):
@@ -265,18 +333,65 @@ def _validate_lifecycle(record: Record, by_id: dict[str, list[Record]], errors: 
         target = targets[0]
         target_parts = _identifier_parts(target.identifier)
         _require(target.kind == record.kind, errors, f"{prefix}:$.{field}", "must reference the same record type")
-        _require(target_parts is not None and target_parts[1] == current[1], errors, f"{prefix}:$.{field}", "must use the same package identity token")
-        _require(target_parts is not None and target_parts[2] > current[2], errors, f"{prefix}:$.{field}", "must reference a higher ordinal")
+        if target_parts is not None and target_parts[1] == current[1]:
+            _require(target_parts[2] == current[2] + 1, errors, f"{prefix}:$.{field}", "must reference the immediately following ordinal")
+        else:
+            _require(_is_cross_version_lineage(record, target), errors, f"{prefix}:$.{field}", "cross-token linkage must preserve the producer package_id and change package_version")
         _require(target.value.get("prior_record_reference") == record.identifier, errors, f"{prefix}:$.{field}", "target record must link back through prior_record_reference")
+        expected_lifecycle = {
+            "withdrawal_record_reference": "withdrawn",
+            "invalidation_record_reference": "invalidated",
+        }.get(field)
+        if expected_lifecycle is not None:
+            _require(target.value.get("record_lifecycle") == expected_lifecycle, errors, f"{prefix}:$.{field}", f"target record lifecycle must be {expected_lifecycle}")
     if lifecycle == "superseded":
         reference = value.get("superseding_record_reference")
         _require(isinstance(reference, str) or _not_applicable(reference), errors, f"{prefix}:$.superseding_record_reference", "must be a known later record or rationale-bearing not_applicable")
 
 
+def _is_cross_version_lineage(record: Record, target: Record) -> bool:
+    if record.kind != target.kind:
+        return False
+    package = record.value.get("package_reference")
+    target_package = target.value.get("package_reference")
+    return (
+        isinstance(package, dict)
+        and isinstance(target_package, dict)
+        and isinstance(package.get("package_id"), str)
+        and package.get("package_id") == target_package.get("package_id")
+        and isinstance(package.get("package_version"), str)
+        and isinstance(target_package.get("package_version"), str)
+        and package.get("package_version") != target_package.get("package_version")
+    )
+
+
+def _validate_sequences(records: list[Record], errors: list[str]) -> None:
+    sequences: dict[tuple[str, str], list[tuple[int, Record]]] = {}
+    for record in records:
+        parts = _identifier_parts(record.identifier)
+        if parts is not None:
+            sequences.setdefault((parts[0], parts[1]), []).append((parts[2], record))
+    for (kind, token), entries in sorted(sequences.items()):
+        ordered = sorted(entries, key=lambda entry: (entry[0], entry[1].display_path))
+        ordinals = [ordinal for ordinal, _ in ordered]
+        if ordinals and ordinals[0] != 1:
+            errors.append(f"{ordered[0][1].display_path}:$: {kind} sequence {token!r} must begin at ordinal 0001")
+        expected = list(range(1, len(ordinals) + 1))
+        if len(set(ordinals)) == len(ordinals) and ordinals != expected:
+            errors.append(f"{ordered[0][1].display_path}:$: {kind} sequence {token!r} ordinals must be allocated contiguously from 0001")
+
+
 def validate(root: Path, explicit_paths: Iterable[Path] | None = None) -> tuple[int, list[str]]:
     """Validate a discovered or explicit set and return (record count, errors)."""
     root = root.resolve()
-    paths, path_errors = (normalize_explicit_paths(root, explicit_paths) if explicit_paths is not None else (discover_paths(root), []))
+    discovered = discover_paths(root)
+    path_errors = _discovery_boundary_errors(root)
+    if explicit_paths is not None:
+        explicit, explicit_errors = normalize_explicit_paths(root, explicit_paths)
+        path_errors.extend(explicit_errors)
+        paths = sorted({path.resolve(): path.resolve() for path in [*discovered, *explicit]}.values(), key=lambda path: _display_path(path, root))
+    else:
+        paths = discovered
     validators, errors = _load_schemas(root)
     errors.extend(path_errors)
     records: list[Record] = []
@@ -314,6 +429,7 @@ def validate(root: Path, explicit_paths: Iterable[Path] | None = None) -> tuple[
         if len(duplicates) > 1:
             for record in duplicates:
                 errors.append(f"{record.display_path}:$: duplicate consumer identifier {identifier!r}")
+    _validate_sequences(records, errors)
     for record in records:
         if record.kind == "decision":
             _validate_decision(record, reviews, errors)
