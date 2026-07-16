@@ -389,7 +389,7 @@
             "then": {
                 "properties": {
                     "superseding_record_reference": {
-                        "$ref": "#/$defs/decisionRecordReference"
+                        "$ref": "#/$defs/decisionRecordReferenceOrNotApplicable"
                     }
                 },
                 "not": {

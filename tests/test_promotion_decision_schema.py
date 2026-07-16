@@ -231,10 +231,25 @@ def test_active_records_prohibit_superseding_decision_reference() -> None:
     assert_invalid(record)
 
 
-def test_superseded_records_require_superseding_decision_reference() -> None:
+def test_active_records_allow_documented_absent_superseding_reference() -> None:
+    assert_valid(base_record(lifecycle="active"))
+
+
+def test_superseded_records_allow_known_superseding_decision_reference() -> None:
     assert_valid(base_record(lifecycle="superseded"))
+
+
+def test_superseded_records_allow_unknown_superseding_decision_reference() -> None:
     record = base_record(lifecycle="superseded")
-    record["superseding_record_reference"] = not_applicable()
+    record["superseding_record_reference"] = not_applicable(
+        "The later superseding record identifier is not currently known."
+    )
+    assert_valid(record)
+
+
+def test_superseded_records_reject_bare_not_applicable_reference() -> None:
+    record = base_record(lifecycle="superseded")
+    record["superseding_record_reference"] = "not_applicable"
     assert_invalid(record)
 
 
