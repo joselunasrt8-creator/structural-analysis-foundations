@@ -49,6 +49,10 @@ Investigates the minimal mathematical interface required for admissible structur
 
 The repository distinguishes canonical research objects from implementation artifacts. A canonical research object fixes the scientific meaning of an observation, its stable schema, its invariants, and its evidence contract before any particular algorithm realizes it. Implementations are therefore conformance hypotheses against the research object, not the source of the object's authority.
 
+Current governance and review documentation includes:
+
+- [Minimal Promotion Contract](docs/minimal-promotion-contract.md) — the consumer-side review contract for immutable Promotion Packages and bounded formalization authorization.
+
 Current canonical research-object documentation includes:
 
 - [Dependency Predicate](paper-1-dependency/research-objects/definition.dependency.dependency-predicate.json) — the first canonical object, grounded in Paper 1's workload-relative dependency predicate.
