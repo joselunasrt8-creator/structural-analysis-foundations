@@ -1,0 +1,148 @@
+{
+  "schema_version": "v1",
+  "decision_id": "saf:decision:guyduyrsfvtw65tfojxgc3tdmuwwg33in5zhilljnzsgk5dfojwws3tborss2zlwnfsgk3tdmuwxezlwnfsxonb2oyys4ma:0001",
+  "admissibility_id": "saf:admissibility:guyduyrsfvtw65tfojxgc3tdmuwwg33in5zhilljnzsgk5dfojwws3tborss2zlwnfsgk3tdmuwxezlwnfsxonb2oyys4ma:0001",
+  "package_reference": {
+    "package_id": "b2-governance-cohort-indeterminate-evidence-review",
+    "package_version": "v1.0",
+    "provenance_source_type": "repository",
+    "content_reference": "investigations/b2-governance-cohort/promotion-packages/b2-governance-cohort-indeterminate-evidence-review-v1.0.json",
+    "content_digest": "26a0aaa66568277936c38db638eb7b6d00679528e24c2b29886e311561929ada",
+    "hash_algorithm": "sha256",
+    "canonicalization_method": "repository file bytes without transformation",
+    "producer_repository": "architecturalboundary-research",
+    "producer_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7"
+  },
+  "decision_result": "accepted_with_constraints",
+  "record_lifecycle": "active",
+  "decision_rationale": "Repository policy permits accepted_with_constraints for an indeterminate empirical outcome whose producer purpose is indeterminate_evidence_review. The decision authorizes only the producer-requested bounded review of formal representation of the documented indeterminacy and missing-measurement obligations. It preserves the producer's limitations, exclusions, uncertainties, and non-claims and excludes candidate-invariant, theorem, implementation, and execution authority.",
+  "decision_timestamp": "2026-07-17T03:06:08Z",
+  "decision_authority": {
+    "authority_id": "structural-analysis-foundations:issue-42-promotion-decision",
+    "authority_type": "repository"
+  },
+  "translation_record_status": "provided",
+  "authorized_effects": [
+    "bounded_formalization"
+  ],
+  "excluded_effects": [
+    "canonical_research_object_publication",
+    "canonical_fixture_creation",
+    "theorem_validation",
+    "implementation_conformance_claim",
+    "producer_evidence_mutation",
+    "automation_creation",
+    "cross_repository_synchronization"
+  ],
+  "preserved_limitations": [
+    "Committed BOR lineage bounds evidence to the recorded documentation snapshots.",
+    "The outcome remains indeterminate because missing measurements have precedence.",
+    "The frozen preregistration leaves documentation snapshot stability unresolved but non-blocking, and the retained result contains seven missing measurements across three systems.",
+    "envoy-ext-authz: m_R, m_RL",
+    "google-zanzibar: m_E, m_LE",
+    "openfga: m_L, m_E, m_LE",
+    "The nine-system governance cohort does not establish a universal invariant.",
+    "Publication readiness does not resolve scientific indeterminacy or establish formalization eligibility.",
+    "Missing values are not zero values and must not be coerced.",
+    "The package does not create or infer measurements.",
+    "The six systems are not the complete frozen cohort.",
+    "Indeterminate evidence has precedence under I5.",
+    "Per-system supporting classifications do not make the cohort outcome supporting.",
+    "Indeterminate evidence is not supporting evidence.",
+    "No missing measurement is inferred from other observations.",
+    "Absence of a recorded counterexample is not evidence of universal support.",
+    "An empty negative-evidence category does not convert indeterminate evidence into supporting evidence.",
+    "Per-system support does not override I5 cohort precedence.",
+    "These classifications are empirical outputs, not candidate invariants or consumer decisions.",
+    "candidate_invariant_review",
+    "B2 establishes an architectural invariant, formal object, theorem, or proof obligation.",
+    "The six supporting per-system classifications establish a supporting cohort outcome.",
+    "Indeterminate evidence is supporting evidence.",
+    "Publication readiness establishes scientific support or formalization eligibility.",
+    "This package is an admissibility review, promotion decision, canonical research object, canonical fixture, implementation-conformance record, automation input, synchronization contract, consumer record, or downstream authority.",
+    "Producer Proposal ≠ Consumer Decision. Evidence ≠ Formalization. Publication Readiness ≠ Formalization Eligibility. Indeterminate Evidence ≠ Supporting Evidence. This producer-owned package only identifies material for inspection; it neither authorizes promotion nor creates consumer authority, and raw evidence remains upstream in the referenced canonical artifacts."
+  ],
+  "reconsideration_conditions": [
+    "A new immutable producer package changes the indeterminate outcome, missing-measurement record, evidence lineage, limitation set, or requested formalization surface.",
+    "A producer correction, withdrawal, supersession, or invalidation record becomes applicable.",
+    "Bounded formalization cannot preserve the recorded indeterminacy and exclusions without strengthening or repairing the producer claim."
+  ],
+  "prior_record_reference": {
+    "value": "not_applicable",
+    "rationale": "This is the initial consumer promotion decision for this producer package identity and version."
+  },
+  "superseding_record_reference": {
+    "value": "not_applicable",
+    "rationale": "No superseding consumer promotion decision is known."
+  },
+  "translation_record": {
+    "producer_claim": "The consumer may inspect the canonical B2 evidence chain to determine whether and how a formal model could preserve the cohort’s indeterminate outcome and its missing-measurement obligations; this producer proposal does not request candidate-invariant review or assert supporting evidence.",
+    "accepted_formalization_scope": "bounded review of whether a formal model can represent the documented B2 indeterminacy without treating it as a candidate invariant",
+    "excluded_formalization_scope": [
+      "Candidate-invariant authority or candidate-invariant review.",
+      "Theorem, proof, proof-obligation, or theorem-validation authority.",
+      "Implementation, adapter, fixture, validator, registry, or implementation-conformance authority.",
+      "Execution, replay, automation, synchronization, or runtime authority.",
+      "Canonical research-object publication or canonical fixture creation.",
+      "Any inference, repair, coercion, supplementation, strengthening, generalization, or mutation of producer evidence.",
+      "Any conversion of per-system supporting classifications, empty counterexample evidence, empty negative evidence, or publication readiness into cohort support or formalization eligibility."
+    ],
+    "translation_rationale": "The accepted scope exactly preserves the producer's proposed foundation surface and narrows its effect to bounded formalization eligibility. The package remains an indeterminate producer proposal, and neither the review nor this decision supplies candidate-invariant, theorem, implementation, or execution authority.",
+    "assumptions": [
+      "Committed BOR lineage bounds evidence to the recorded documentation snapshots.",
+      "The outcome remains indeterminate because missing measurements have precedence."
+    ],
+    "constraints": [
+      "Formalization must preserve the cohort outcome as indeterminate.",
+      "Formalization must preserve all seven missing registered measurements across envoy-ext-authz, google-zanzibar, and openfga without coercion or inference.",
+      "Formalization must retain the precedence of indeterminate evidence over the six per-system supporting classifications.",
+      "Formalization must treat all producer evidence references as provenance-bound inputs rather than downstream authority.",
+      "Formalization must remain within the accepted scope and every excluded scope item.",
+      "The immutable producer snapshot and consumer records must remain separate append-only provenance layers."
+    ],
+    "permitted_evidence_references": [
+      "investigations/b2-governance-cohort/preregistration/i1_i5_registration.json",
+      "investigations/b2-governance-cohort/dataset/b2-governance-cohort-i4.dataset.json",
+      "investigations/b2-governance-cohort/analysis/b2-governance-cohort-i4.analysis.json",
+      "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.retained-classification.json",
+      "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.cohort-conclusion.json"
+    ],
+    "preserved_limitations": [
+      "Committed BOR lineage bounds evidence to the recorded documentation snapshots.",
+      "The outcome remains indeterminate because missing measurements have precedence.",
+      "The frozen preregistration leaves documentation snapshot stability unresolved but non-blocking, and the retained result contains seven missing measurements across three systems.",
+      "envoy-ext-authz: m_R, m_RL",
+      "google-zanzibar: m_E, m_LE",
+      "openfga: m_L, m_E, m_LE",
+      "The nine-system governance cohort does not establish a universal invariant.",
+      "Publication readiness does not resolve scientific indeterminacy or establish formalization eligibility.",
+      "Missing values are not zero values and must not be coerced.",
+      "The package does not create or infer measurements.",
+      "The six systems are not the complete frozen cohort.",
+      "Indeterminate evidence has precedence under I5.",
+      "Per-system supporting classifications do not make the cohort outcome supporting.",
+      "Indeterminate evidence is not supporting evidence.",
+      "No missing measurement is inferred from other observations.",
+      "Absence of a recorded counterexample is not evidence of universal support.",
+      "An empty negative-evidence category does not convert indeterminate evidence into supporting evidence.",
+      "Per-system support does not override I5 cohort precedence.",
+      "These classifications are empirical outputs, not candidate invariants or consumer decisions.",
+      "candidate_invariant_review",
+      "B2 establishes an architectural invariant, formal object, theorem, or proof obligation.",
+      "The six supporting per-system classifications establish a supporting cohort outcome.",
+      "Indeterminate evidence is supporting evidence.",
+      "Publication readiness establishes scientific support or formalization eligibility.",
+      "This package is an admissibility review, promotion decision, canonical research object, canonical fixture, implementation-conformance record, automation input, synchronization contract, consumer record, or downstream authority.",
+      "Producer Proposal ≠ Consumer Decision. Evidence ≠ Formalization. Publication Readiness ≠ Formalization Eligibility. Indeterminate Evidence ≠ Supporting Evidence. This producer-owned package only identifies material for inspection; it neither authorizes promotion nor creates consumer authority, and raw evidence remains upstream in the referenced canonical artifacts."
+    ],
+    "non_authorized_downstream_effects": [
+      "Candidate-invariant authority.",
+      "Theorem or proof authority.",
+      "Implementation or implementation-conformance authority.",
+      "Execution, replay, automation, synchronization, or runtime authority.",
+      "Canonical research-object publication.",
+      "Canonical fixture creation.",
+      "Producer evidence mutation."
+    ]
+  }
+}

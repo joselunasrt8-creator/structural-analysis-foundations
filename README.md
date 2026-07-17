@@ -61,6 +61,7 @@ Implementations are conformance hypotheses against authoritative research object
 Current governance and review documentation includes:
 
 - [Minimal Promotion Contract](docs/minimal-promotion-contract.md) — the consumer-side review contract for immutable Promotion Packages and bounded formalization authorization.
+- [Consumer Promotion Records](promotion-records/README.md) — immutable package snapshots, admissibility reviews, and bounded promotion decisions emitted under that contract.
 
 Canonical authority is an explicit status, separate from maturity (`seed`, `extracted`, `verified`) and editorial lifecycle (`draft`, `reviewed`, `published`, `deprecated`). A seed remains noncanonical until its source extraction and dependencies are checked, validation evidence and a review are recorded, and canonical authority is explicitly assigned. See [Research-object lifecycle and authority](docs/research-object-lifecycle.md) for the transition criteria and required references.
 
