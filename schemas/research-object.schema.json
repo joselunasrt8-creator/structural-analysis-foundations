@@ -18,7 +18,8 @@
     "validation",
     "exports",
     "lifecycle_status",
-    "maturity"
+    "maturity",
+    "authority_status"
   ],
   "properties": {
     "id": {
@@ -108,9 +109,61 @@
     "maturity": {
       "type": "string",
       "enum": ["seed", "extracted", "verified"]
+    },
+    "authority_status": {
+      "type": "string",
+      "enum": ["noncanonical", "canonical"]
+    },
+    "review_reference": {
+      "$ref": "#/$defs/artifact_reference"
+    },
+    "evidence_references": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/artifact_reference"
+      }
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "authority_status": {"const": "canonical"}
+        },
+        "required": ["authority_status"]
+      },
+      "then": {
+        "required": ["review_reference", "evidence_references"],
+        "properties": {
+          "maturity": {"const": "verified"},
+          "lifecycle_status": {"enum": ["reviewed", "published"]},
+          "validation": {
+            "properties": {
+              "status": {"const": "validated"}
+            }
+          }
+        }
+      }
+    }
+  ],
   "$defs": {
+    "artifact_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file"],
+      "properties": {
+        "file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "anchor": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
     "source_reference": {
       "type": "object",
       "additionalProperties": false,

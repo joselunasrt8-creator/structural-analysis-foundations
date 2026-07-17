@@ -99,10 +99,36 @@ def validate_source(source: Any, obj_path: Path, paper_dir: Path, errors: list[s
         require(f"\\label{{{anchor}}}" in text or anchor in text, errors, f"{obj_path}: source anchor {anchor!r} not found in {source_file}")
 
 
+def validate_artifact_reference(reference: Any, field: str, obj_path: Path, root: Path, errors: list[str]) -> None:
+    """Validate a review or evidence reference against a repository artifact."""
+    require(isinstance(reference, dict), errors, f"{obj_path}: {field} must be an object")
+    if not isinstance(reference, dict):
+        return
+    allowed = {"file", "anchor"}
+    for key in reference:
+        require(key in allowed, errors, f"{obj_path}: unsupported {field} field {key!r}")
+    file_name = reference.get("file")
+    anchor = reference.get("anchor")
+    require(isinstance(file_name, str) and bool(file_name), errors, f"{obj_path}: invalid {field}.file")
+    require(anchor is None or isinstance(anchor, str) and bool(anchor), errors, f"{obj_path}: invalid {field}.anchor")
+    if not isinstance(file_name, str) or not file_name:
+        return
+    reference_path = Path(file_name)
+    contained = not reference_path.is_absolute() and ".." not in reference_path.parts
+    require(contained, errors, f"{obj_path}: {field}.file must be repository-relative and contained")
+    if not contained:
+        return
+    artifact_path = root / file_name
+    require(artifact_path.is_file(), errors, f"{obj_path}: missing {field} file {file_name}")
+    if isinstance(anchor, str) and anchor and artifact_path.is_file():
+        require(anchor in artifact_path.read_text(encoding="utf-8"), errors, f"{obj_path}: {field} anchor {anchor!r} not found in {file_name}")
+
+
 def validate_object(
     obj: dict[str, Any],
     obj_path: Path,
     paper_dir: Path,
+    root: Path,
     schema: dict[str, Any],
     errors: list[str],
 ) -> None:
@@ -140,6 +166,8 @@ def validate_object(
     require(isinstance(obj.get("canonical_statement"), str) and bool(obj["canonical_statement"]), errors, f"{obj_path}: invalid canonical_statement")
     require(obj.get("lifecycle_status") in lifecycle_statuses, errors, f"{obj_path}: invalid lifecycle_status")
     require(obj.get("maturity") in maturities, errors, f"{obj_path}: invalid maturity")
+    authority_status = obj.get("authority_status")
+    require(authority_status in {"noncanonical", "canonical"}, errors, f"{obj_path}: invalid authority_status")
 
     provenance = obj.get("provenance")
     require(isinstance(provenance, dict), errors, f"{obj_path}: provenance must be an object")
@@ -168,6 +196,17 @@ def validate_object(
         require(validation.get("status") in validation_statuses, errors, f"{obj_path}: invalid validation.status")
 
     require(isinstance(obj.get("exports"), dict), errors, f"{obj_path}: exports must be an object")
+
+    if authority_status == "canonical":
+        require(obj.get("maturity") == "verified", errors, f"{obj_path}: canonical authority requires maturity 'verified'")
+        require(obj.get("lifecycle_status") in {"reviewed", "published"}, errors, f"{obj_path}: canonical authority requires lifecycle_status 'reviewed' or 'published'")
+        require(isinstance(validation, dict) and validation.get("status") == "validated", errors, f"{obj_path}: canonical authority requires validation.status 'validated'")
+        validate_artifact_reference(obj.get("review_reference"), "review_reference", obj_path, root, errors)
+        evidence = obj.get("evidence_references")
+        require(isinstance(evidence, list) and bool(evidence), errors, f"{obj_path}: canonical authority requires at least one evidence_reference")
+        if isinstance(evidence, list):
+            for index, reference in enumerate(evidence):
+                validate_artifact_reference(reference, f"evidence_references[{index}]", obj_path, root, errors)
 
 
 def discover_manifests(root: Path) -> list[Path]:
@@ -216,7 +255,7 @@ def validate(root: Path) -> tuple[int, int, list[str]]:
                 errors.append(f"{obj_path.relative_to(root)}: invalid JSON: {exc}")
                 continue
             rel_obj_path = obj_path.relative_to(root)
-            validate_object(obj, rel_obj_path, paper_dir, schema, errors)
+            validate_object(obj, rel_obj_path, paper_dir, root, schema, errors)
             require(obj.get("paper") == paper_id, errors, f"{rel_obj_path}: paper does not match manifest")
             if isinstance(obj.get("id"), str):
                 require(obj["id"] not in objects_by_id, errors, f"{rel_obj_path}: duplicate id {obj['id']}")

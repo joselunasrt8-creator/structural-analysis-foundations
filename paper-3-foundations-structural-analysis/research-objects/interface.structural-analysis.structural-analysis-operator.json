@@ -29,5 +29,6 @@
   },
   "exports": {},
   "lifecycle_status": "draft",
-  "maturity": "seed"
+  "maturity": "seed",
+  "authority_status": "noncanonical"
 }
