@@ -47,7 +47,7 @@ Investigates the minimal mathematical interface required for admissible structur
 
 ## Research authority and artifact terms
 
-The repository uses four separate terms:
+The repository uses four separate terms. The JSON records currently under `paper-*/research-objects/` are **seed records**, not authoritative research objects:
 
 - **Authoritative research object:** an accepted, versioned research object that fixes research meaning, including its stable schema, invariants, and evidence contract. It is authoritative only for the meaning within its declared scope.
 - **Human-authored manuscript source:** paper-local `main.tex`, bibliography, included prose, figures, and appendices maintained by authors and reviewers to express the paper's narrative and typesetting. It is not a substitute for an authoritative research object.
@@ -62,10 +62,12 @@ Current governance and review documentation includes:
 
 - [Minimal Promotion Contract](docs/minimal-promotion-contract.md) — the consumer-side review contract for immutable Promotion Packages and bounded formalization authorization.
 
-Current authoritative research-object documentation includes:
+Canonical authority is an explicit status, separate from maturity (`seed`, `extracted`, `verified`) and editorial lifecycle (`draft`, `reviewed`, `published`, `deprecated`). A seed remains noncanonical until its source extraction and dependencies are checked, validation evidence and a review are recorded, and canonical authority is explicitly assigned. See [Research-object lifecycle and authority](docs/research-object-lifecycle.md) for the transition criteria and required references.
 
-- [Dependency Predicate](paper-1-dependency/research-objects/definition.dependency.dependency-predicate.json) — the first canonical object, grounded in Paper 1's workload-relative dependency predicate.
-- [Reachability Profile](docs/research-objects/canonical-reachability-profile.md) — the second canonical object, a language-independent structural observation over roots and targets that demonstrates extensibility beyond a single dependency analysis.
+Current seed and canonical-specification documentation includes:
+
+- [Dependency Predicate seed](paper-1-dependency/research-objects/definition.dependency.dependency-predicate.json) — a source-linked seed grounded in Paper 1's workload-relative dependency predicate.
+- [Reachability Profile seed](paper-3-foundations-structural-analysis/research-objects/concept.structural-observation.reachability-profile.json) — a source-linked seed whose separate [canonical specification](docs/research-objects/canonical-reachability-profile.md) does not, by itself, promote the seed record.
 
 Additional research objects should be added by defining the scientific purpose, inputs, outputs, invariants, preconditions, postconditions, evidence contract, reproducibility requirements, canonical schema, and deterministic fixture before introducing any implementation-specific adapter. This preserves the architecture:
 

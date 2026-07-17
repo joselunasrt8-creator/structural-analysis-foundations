@@ -49,6 +49,7 @@ class ResearchObjectValidatorNegativeTests(unittest.TestCase):
             "exports": {},
             "lifecycle_status": "draft",
             "maturity": "seed",
+            "authority_status": "noncanonical",
         }
         self.write_object(self.object_rel, self.obj)
         self.write_manifest(["README.md", "main.tex", "references.bib", "pdf/paper.pdf"], [self.object_rel])
@@ -103,6 +104,46 @@ class ResearchObjectValidatorNegativeTests(unittest.TestCase):
         self.obj["lifecycle_status"] = "canonical"
         self.write_object(self.object_rel, self.obj)
         self.assert_invalid_contains("invalid lifecycle_status")
+
+    def test_canonical_authority_without_transition_evidence_is_rejected(self) -> None:
+        self.obj["authority_status"] = "canonical"
+        self.write_object(self.object_rel, self.obj)
+        self.assert_invalid_contains("canonical authority requires maturity 'verified'")
+        self.assert_invalid_contains("canonical authority requires at least one evidence_reference")
+
+    def test_canonical_authority_with_review_and_evidence_is_accepted(self) -> None:
+        (self.root / "reviews").mkdir()
+        (self.root / "reviews" / "example.md").write_text("# Accepted review\n", encoding="utf-8")
+        (self.root / "evidence").mkdir()
+        (self.root / "evidence" / "example.txt").write_text("validated result\n", encoding="utf-8")
+        self.obj.update(
+            {
+                "authority_status": "canonical",
+                "maturity": "verified",
+                "lifecycle_status": "reviewed",
+                "validation": {"status": "validated"},
+                "review_reference": {"file": "reviews/example.md", "anchor": "Accepted review"},
+                "evidence_references": [{"file": "evidence/example.txt"}],
+            }
+        )
+        self.write_object(self.object_rel, self.obj)
+        _manifest_count, _object_count, errors = validator.validate(self.root)
+        self.assertEqual([], errors)
+
+    def test_canonical_evidence_must_be_repository_contained(self) -> None:
+        self.obj.update(
+            {
+                "authority_status": "canonical",
+                "maturity": "verified",
+                "lifecycle_status": "reviewed",
+                "validation": {"status": "validated"},
+                "review_reference": {"file": "../outside-review.md"},
+                "evidence_references": [{"file": "/tmp/outside-evidence.txt"}],
+            }
+        )
+        self.write_object(self.object_rel, self.obj)
+        self.assert_invalid_contains("review_reference.file must be repository-relative and contained")
+        self.assert_invalid_contains("evidence_references[0].file must be repository-relative and contained")
 
     def test_paper_object_mismatch_is_rejected(self) -> None:
         self.obj["paper"] = "paper-2-example"

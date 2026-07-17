@@ -29,9 +29,10 @@
   ],
   "validation": {
     "status": "not_validated",
-    "notes": "Issue 29 canonical research object; full implementation-independent specification, schema, and fixture are documented outside the seed manifest."
+    "notes": "Phase 1 seed object; a separate implementation-independent specification, schema, and fixture do not promote this record."
   },
   "exports": {},
   "lifecycle_status": "draft",
-  "maturity": "seed"
+  "maturity": "seed",
+  "authority_status": "noncanonical"
 }
