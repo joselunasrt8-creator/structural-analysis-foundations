@@ -6,21 +6,23 @@ Date: 2026-07-07
 
 A GitHub PDF rendering failure should be treated as a symptom of an artifact-centric publication boundary, not as the core architectural problem. The current repository is suitable for a three-paper LaTeX trilogy with reproducibility guardrails, but it is not yet an architecture for decade-scale scientific research production.
 
-The repository currently has two competing meanings of “canonical”:
+The repository previously used “canonical” for two different surfaces:
 
 1. `main.tex` plus paper-local bibliography files are the practical manuscript sources used by the LaTeX workflow.
-2. Committed PDFs under each `pdf/` directory are described as canonical published artifacts.
+2. Committed PDFs under each `pdf/` directory were described as published authority.
 
-For a system expected to scale to 50+ papers, thousands of definitions, theorem/proof objects, cross-paper dependencies, datasets, implementations, AI-assisted authoring, and future formal tooling, PDFs must never be canonical. They are release artifacts. LaTeX should remain a high-quality human publication target and authoring interface, but it should not be the only source of truth for research semantics.
+For a system expected to scale to 50+ papers, thousands of definitions, theorem/proof objects, cross-paper dependencies, datasets, implementations, AI-assisted authoring, and future formal tooling, PDFs must never govern research meaning. They are immutable release artifacts. LaTeX should remain a high-quality human publication target and authoring interface, but it should not be the only source of truth for research semantics.
 
-The recommended architecture is a hybrid research-object system:
+The reconciled terminology for the recommended hybrid research-object system is:
 
-- **Human-authored source:** semantic Markdown or LaTeX fragments optimized for authors and reviewers.
-- **Canonical machine-readable source:** versioned research objects in a strict schema, preferably YAML or JSON-LD serialized from a typed object model.
+- **Human-authored manuscript source:** semantic Markdown, LaTeX fragments, or the current paper-local `main.tex` and inputs maintained by authors and reviewers.
+- **Authoritative research object:** an accepted, versioned research object in a strict schema, preferably YAML or JSON-LD serialized from a typed object model; it governs research meaning within its declared scope.
 - **Graph index:** generated from canonical objects, not hand-maintained as the primary source.
-- **Generated artifacts:** LaTeX, PDFs, HTML, search indexes, graph exports, proof-assistant stubs, software APIs, and LLM packs.
+- **Generated candidate artifacts:** rebuildable LaTeX assemblies, PDFs, HTML, search indexes, graph exports, proof-assistant stubs, software APIs, and LLM packs awaiting validation or release.
 - **Validation artifacts:** build logs, schema reports, reference checks, provenance manifests, object graph checks, reproducibility reports.
-- **Release artifacts:** immutable publication bundles containing generated PDFs, source snapshots, object manifests, checksums, datasets, software versions, and citation metadata.
+- **Immutable release artifacts:** reviewed, versioned publication PDFs or bundles containing generated PDFs, source snapshots, object manifests, checksums, datasets, software versions, and citation metadata; corrections create new artifacts rather than modifying released bytes.
+
+The authority rule is **authoritative research object → human-authored manuscript source → immutable release artifact** for meaning covered by an accepted object. Thus, if a research object, `main.tex`, and a committed PDF disagree, the object wins and the downstream surfaces must be reconciled. If no accepted object covers the disputed content, `main.tex` wins. A committed PDF is never semantic authority; disagreement makes it a stale release.
 
 The key architectural move is to make reusable research objects first-class. Definitions, notation, theorems, proofs, equations, claims, assumptions, citations, datasets, figures, and software implementations should have stable IDs, typed schemas, provenance, dependency edges, validation state, and publication mappings. Papers should become curated narrative views over this object graph, not isolated containers that duplicate concepts.
 
@@ -29,7 +31,7 @@ The key architectural move is to make reusable research objects first-class. Def
 - **Intent:** determine the correct long-term research architecture rather than patch a PDF symptom.
 - **Exact scope:** repository architecture assessment and migration plan only.
 - **Affected files:** this assessment document.
-- **Preserved invariants:** no manuscript content changes, no canonical PDF changes, no workflow changes, no build behavior changes, no research semantics changes.
+- **Preserved invariants:** no manuscript content changes, no PDF release-artifact changes, no workflow changes, no build behavior changes, no research semantics changes.
 - **Mutation-capable surfaces identified:** LaTeX sources, bibliographies, checked-in PDFs, ZIP bundles, GitHub Actions workflow, paper-local internal proof/dependency logs, top-level documentation.
 - **Replay implications:** documentation-only change; future implementation should replay the architecture decision before mutating build, publication, or research-object layers.
 - **Proof requirements:** file topology inspection, workflow inspection, manuscript object inspection, current reproducibility policy inspection.
@@ -70,7 +72,7 @@ flowchart TD
 
 ### Current architecture interpretation
 
-The repository is primarily **paper-centric**. Each paper directory owns its manuscript, bibliography, figures, appendices, and canonical PDF artifact. The CI workflow validates each paper independently using LaTeX. Paper 3 adds early research-governance artifacts: a proof log, theorem dependency graph, development protocol, and theorem workspace.
+The repository is primarily **paper-centric**. Each paper directory owns its manuscript, bibliography, figures, appendices, and immutable PDF release artifact. The CI workflow validates each paper independently using LaTeX. Paper 3 adds early research-governance artifacts: a proof log, theorem dependency graph, development protocol, and theorem workspace.
 
 This is a strong architecture for a small trilogy, but it does not expose a durable cross-paper object layer. Definitions and theorems exist mostly as LaTeX labels inside manuscripts. Citations exist as paper-local BibTeX entries. PDFs and ZIP bundles are checked in beside source, but release provenance is not fully machine-verifiable.
 
@@ -115,13 +117,13 @@ flowchart TD
 
 ## D. Canonical research object model
 
-### Canonical source-of-truth decision
+### Research-authority decision
 
-The canonical source of truth should be a **typed research object graph serialized as versioned YAML or JSON-LD**, with optional generated RDF/OWL/property-graph exports.
+The authority for research meaning should be a **typed research object graph serialized as versioned YAML or JSON-LD**, with optional generated RDF/OWL/property-graph exports.
 
 Recommended policy:
 
-- **Canonical semantic layer:** YAML or JSON-LD files that define typed research objects with stable IDs.
+- **Authoritative semantic layer:** accepted YAML or JSON-LD files that define typed research objects with stable IDs.
 - **Canonical graph layer:** generated graph database/export derived from objects, never hand-edited as the only source.
 - **Human narrative layer:** Markdown or LaTeX authored/assembled from object references.
 - **Publication layer:** generated LaTeX/PDF/HTML artifacts.
@@ -147,7 +149,7 @@ Why not only a graph:
 - A graph is the correct index and dependency substrate, but editing raw graph triples is not the best authoring experience.
 - The graph should be compiled from typed object files with schema validation.
 
-Why PDFs are never canonical:
+Why PDFs are never research authority:
 
 - PDFs are lossy presentation artifacts.
 - They do not preserve stable semantic identity for definitions, assumptions, theorem dependencies, proof obligations, datasets, or executable provenance.
@@ -350,7 +352,7 @@ Build stages:
 4. **Typeset build:** render LaTeX and compile PDF.
 5. **Web build:** render HTML with object IDs and backlinks.
 6. **Tool export:** generate JSON, JSON-LD, RDF, GraphML, LLM packs, API docs, and proof-assistant stubs.
-7. **Release build:** bundle source, generated artifacts, validation reports, checksums, and metadata.
+7. **Release build:** bundle source, generated candidate artifacts, validation reports, checksums, and metadata.
 
 ## G. Validation pipeline
 
@@ -390,6 +392,10 @@ Validation should be layered so that semantic failures are caught before PDF fai
 - Datasets have checksums and licenses.
 - Software examples/tests pass.
 - Links are checked.
+- Each paper view preserves the meaning, identity, and selected version of every authoritative research object it includes.
+- Each generated candidate PDF materially matches its manuscript source and selected research objects.
+- Release validation reports a committed PDF as stale when its recorded source commit or object versions trail accepted inputs, or when a fresh candidate differs materially beyond permitted metadata variation.
+- Publication is blocked by any unresolved object/source/candidate mismatch.
 
 ### AI/tooling validation
 
@@ -401,6 +407,8 @@ Validation should be layered so that semantic failures are caught before PDF fai
 ## H. Publication pipeline
 
 Publication should be a release process, not a side effect of validation.
+
+An accepted change moves in one direction: accepted/versioned research object (or accepted manuscript change where no object exists) → reconciled human-authored manuscript source → validated generated candidate PDF → provenance and digest capture → new immutable PDF release artifact. A later semantic or source change makes the prior release stale; it does not mutate the released bytes or transfer authority to the PDF.
 
 ```text
 Validated objects
@@ -612,7 +620,7 @@ A release bundle should contain:
 - Clear three-paper research program.
 - Paper-local build boundaries.
 - CI validates each paper independently.
-- Reproducibility policy distinguishes validation outputs from canonical published PDFs.
+- Reproducibility policy distinguishes generated candidate artifacts from immutable PDF release artifacts.
 - Paper 3 already contains internal theorem/proof governance artifacts.
 - Existing manuscript labels provide a seed for object extraction.
 
