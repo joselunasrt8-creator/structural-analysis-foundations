@@ -1,0 +1,1764 @@
+{
+  "schema_version": "minimal-promotion-package-schema-v1",
+  "package_id": "b2-governance-cohort-indeterminate-evidence-review",
+  "package_version": "v1.0",
+  "package_status": "current",
+  "package_purpose": "indeterminate_evidence_review",
+  "source_repository": "architecturalboundary-research",
+  "source_commit_sha": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+  "created_at": "2026-07-16T17:03:43Z",
+  "hash_algorithm": "sha256",
+  "protocol_version": "protocol-v1",
+  "investigation_id": "b2-governance-cohort",
+  "registration_ref_and_hash": {
+    "artifact_class": "Registration",
+    "repository_relative_path": "investigations/b2-governance-cohort/preregistration/i1_i5_registration.json",
+    "artifact_identifier": "b2-i1-i5-registration",
+    "lifecycle_stage": "canonical",
+    "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+    "lineage_role": "registration source",
+    "required_for_purpose": true,
+    "digest": {
+      "digest": "92b34a856f6e59f77215dbc639c3a28203ccfcce58ded2f3c5f1ed0baba794bd",
+      "hash_algorithm": "sha256",
+      "canonicalization_method": "repository file bytes without transformation"
+    }
+  },
+  "decision_rule_ref": {
+    "artifact_class": "Registration",
+    "repository_relative_path": "investigations/b2-governance-cohort/preregistration/i1_i5_registration.json",
+    "artifact_identifier": "b2-i1-i5-registration",
+    "lifecycle_stage": "canonical",
+    "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+    "lineage_role": "registration source",
+    "required_for_purpose": true,
+    "digest": {
+      "digest": "92b34a856f6e59f77215dbc639c3a28203ccfcce58ded2f3c5f1ed0baba794bd",
+      "hash_algorithm": "sha256",
+      "canonicalization_method": "repository file bytes without transformation"
+    }
+  },
+  "cohort_rule_ref": {
+    "artifact_class": "Registration",
+    "repository_relative_path": "investigations/b2-governance-cohort/preregistration/i1_i5_registration.json",
+    "artifact_identifier": "b2-i1-i5-registration",
+    "lifecycle_stage": "canonical",
+    "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+    "lineage_role": "registration source",
+    "required_for_purpose": true,
+    "digest": {
+      "digest": "92b34a856f6e59f77215dbc639c3a28203ccfcce58ded2f3c5f1ed0baba794bd",
+      "hash_algorithm": "sha256",
+      "canonicalization_method": "repository file bytes without transformation"
+    }
+  },
+  "source_artifact_refs_and_hashes": [
+    {
+      "artifact_class": "Protocol",
+      "repository_relative_path": "protocol/protocol-v1/protocol.md",
+      "artifact_identifier": {
+        "value": "not_applicable",
+        "rationale": "This canonical text artifact defines no internal machine-readable identifier; path, commit, and digest bind it immutably."
+      },
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "protocol source",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "b77a4d7a7b271cdf29e9b07875671d253051acc5376771765c11ba059007d3af",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "Registration",
+      "repository_relative_path": "investigations/b2-governance-cohort/preregistration/i1_i5_registration.json",
+      "artifact_identifier": "b2-i1-i5-registration",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "registration source",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "92b34a856f6e59f77215dbc639c3a28203ccfcce58ded2f3c5f1ed0baba794bd",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "BOR",
+      "repository_relative_path": "investigations/b2-governance-cohort/bor/aws-iam.bor.json",
+      "artifact_identifier": "bor-b2-aws-iam",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "observation input",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "91b7a9269ce5e9fb725471acc630d601104fbb8e1e46efb989c30b02a0bebd48",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "BOR",
+      "repository_relative_path": "investigations/b2-governance-cohort/bor/cedar-amazon-verified-permissions.bor.json",
+      "artifact_identifier": "bor-b2-cedar-amazon-verified-permissions",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "observation input",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "208bee5a8c2ce222ec7b01301eddbf41306c59af256ea29f0c25770adc755cda",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "BOR",
+      "repository_relative_path": "investigations/b2-governance-cohort/bor/envoy-ext-authz.bor.json",
+      "artifact_identifier": "bor-b2-envoy-ext-authz",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "observation input",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "7106716844df1900476416d806c741c05a71b9b62d70eae8119d31dad7ccd71b",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "BOR",
+      "repository_relative_path": "investigations/b2-governance-cohort/bor/google-zanzibar.bor.json",
+      "artifact_identifier": "bor-b2-google-zanzibar",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "observation input",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "d23ebbc16535587a2f43b3e88832aa6d9cf6aa8654c8d1cf52c5194f775bea1a",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "BOR",
+      "repository_relative_path": "investigations/b2-governance-cohort/bor/hashicorp-vault.bor.json",
+      "artifact_identifier": "bor-b2-hashicorp-vault",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "observation input",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "18ebfc417cfd59fbdfa6d67a500179638e867046f2bc3fcef224f5ca6d78e358",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "BOR",
+      "repository_relative_path": "investigations/b2-governance-cohort/bor/istio-authorizationpolicy.bor.json",
+      "artifact_identifier": "bor-b2-istio-authorizationpolicy",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "observation input",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "6b620fbcfb08d656ef5d0881ab6c6be783a9b206ebd2d16abd6ef0727ea08384",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "BOR",
+      "repository_relative_path": "investigations/b2-governance-cohort/bor/kubernetes-rbac-admission.bor.json",
+      "artifact_identifier": "bor-b2-kubernetes-rbac-admission",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "observation input",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "8d85bbca1a8584ec0e7dc7aa5c5a759b79373115b6c2c3d2c6c211dda2d03a73",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "BOR",
+      "repository_relative_path": "investigations/b2-governance-cohort/bor/open-policy-agent-gatekeeper.bor.json",
+      "artifact_identifier": "bor-b2-open-policy-agent-gatekeeper",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "observation input",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "ab7f970fae14541baa6c1f67cef83a6298ca3852dad42b4cdb8c062aed6014de",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "BOR",
+      "repository_relative_path": "investigations/b2-governance-cohort/bor/openfga.bor.json",
+      "artifact_identifier": "bor-b2-openfga",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "observation input",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "8dc320b76a79a9083d3013418cc92d806422b5bc28e204ae9a7b5e706b9cc116",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "SRF",
+      "repository_relative_path": "investigations/b2-governance-cohort/srf/aws-iam.srf.json",
+      "artifact_identifier": "srf-b2-aws-iam",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "surface record",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "4e0341d9e1ad4633d92f19552de69c6048fef4aec144af37709248b071188f5f",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "SRF",
+      "repository_relative_path": "investigations/b2-governance-cohort/srf/cedar-amazon-verified-permissions.srf.json",
+      "artifact_identifier": "srf-b2-cedar-amazon-verified-permissions",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "surface record",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "6ed4ab2ee1e9a9335c92275aa1099a983400a3c827c64e6cfed0e7f35d379b65",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "SRF",
+      "repository_relative_path": "investigations/b2-governance-cohort/srf/envoy-ext-authz.srf.json",
+      "artifact_identifier": "srf-b2-envoy-ext-authz",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "surface record",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "c910a481b6927222fe6f4cd07fd724fab3ce1e65cdd5f503c03d43f5868c0fda",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "SRF",
+      "repository_relative_path": "investigations/b2-governance-cohort/srf/google-zanzibar.srf.json",
+      "artifact_identifier": "srf-b2-google-zanzibar",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "surface record",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "6d0c5b5ac99708683d19aa9242cbfaf9dac85018bdaed1b0f421e21d17dcbc51",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "SRF",
+      "repository_relative_path": "investigations/b2-governance-cohort/srf/hashicorp-vault.srf.json",
+      "artifact_identifier": "srf-b2-hashicorp-vault",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "surface record",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "d1bb579ce4a6798244456ace43473391e977b361d87788ded34d762f3cd818e2",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "SRF",
+      "repository_relative_path": "investigations/b2-governance-cohort/srf/istio-authorizationpolicy.srf.json",
+      "artifact_identifier": "srf-b2-istio-authorizationpolicy",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "surface record",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "8c65727681dee058ba505c77ce19345f39118a121bec29c3f1db3fe481a61a46",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "SRF",
+      "repository_relative_path": "investigations/b2-governance-cohort/srf/kubernetes-rbac-admission.srf.json",
+      "artifact_identifier": "srf-b2-kubernetes-rbac-admission",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "surface record",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "2a317628b8b74547369d207f00d1b64b685fb395a698fa23a0fac75a637c8580",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "SRF",
+      "repository_relative_path": "investigations/b2-governance-cohort/srf/open-policy-agent-gatekeeper.srf.json",
+      "artifact_identifier": "srf-b2-open-policy-agent-gatekeeper",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "surface record",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "38abbaf8aa6accfc01bfc6c7f92b3db58685a0768785254b14fbcf6320a3e0da",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "SRF",
+      "repository_relative_path": "investigations/b2-governance-cohort/srf/openfga.srf.json",
+      "artifact_identifier": "srf-b2-openfga",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "surface record",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "4713c40a42464e5479b6a59b242546d4e24943972d225f65ebb6355f7939c839",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "DER",
+      "repository_relative_path": "investigations/b2-governance-cohort/der/aws-iam.der.json",
+      "artifact_identifier": "der-b2-aws-iam-request-context-policy-evaluation-boundary",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "derived evidence",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "fb0c5445a53d18374a64afdca5965398f0f6d7abeade625463ddb07d52471800",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "DER",
+      "repository_relative_path": "investigations/b2-governance-cohort/der/cedar-amazon-verified-permissions.der.json",
+      "artifact_identifier": "der-b2-cedar-amazon-verified-permissions-policy-store-evaluation-boundary",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "derived evidence",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "4424581f19821d540aa81b442e3b2b2ff4a4faa39a82dc8772446272290831e9",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "DER",
+      "repository_relative_path": "investigations/b2-governance-cohort/der/envoy-ext-authz.der.json",
+      "artifact_identifier": "der-b2-envoy-ext-authz-external-authorization-boundary",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "derived evidence",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "b0bfd532d0a033276b1ea864007e3c1c5b735143593f1064899bf52d99371a67",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "DER",
+      "repository_relative_path": "investigations/b2-governance-cohort/der/google-zanzibar.der.json",
+      "artifact_identifier": "der-b2-google-zanzibar-relation-tuple-check-boundary",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "derived evidence",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "8201f053bdecef009691925e69addd696c7d94ad79cd035df2660d1ee7ce9493",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "DER",
+      "repository_relative_path": "investigations/b2-governance-cohort/der/hashicorp-vault.der.json",
+      "artifact_identifier": "der-b2-hashicorp-vault-authenticated-path-policy-boundary",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "derived evidence",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "5e10d9c2a17615a9d4952b308b0bcc44d540da13fe6e34a683187e0b713088eb",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "DER",
+      "repository_relative_path": "investigations/b2-governance-cohort/der/istio-authorizationpolicy.der.json",
+      "artifact_identifier": "der-b2-istio-authorizationpolicy-workload-action-order-boundary",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "derived evidence",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "42ea56f9dcc01600aa3d261fc6c5cd01a33c55fffa66d79bb78fe41f89c763d7",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "DER",
+      "repository_relative_path": "investigations/b2-governance-cohort/der/kubernetes-rbac-admission.der.json",
+      "artifact_identifier": "der-b2-kubernetes-rbac-admission-api-server-admission-boundary",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "derived evidence",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "8df571393339fff3882a2f5c75da709e73793599797851c80a803081f4815deb",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "DER",
+      "repository_relative_path": "investigations/b2-governance-cohort/der/open-policy-agent-gatekeeper.der.json",
+      "artifact_identifier": "der-b2-open-policy-agent-gatekeeper-admission-audit-enforcement-boundary",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "derived evidence",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "2f5e2cfd8a72fdcbbe460c04fe23cbf9a5c36350484b8bda4a0abc2a1f11d35e",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "DER",
+      "repository_relative_path": "investigations/b2-governance-cohort/der/openfga.der.json",
+      "artifact_identifier": "der-b2-openfga-authorization-model-version-boundary",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "derived evidence",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "257a2f2926e1d682758d019b10f47d1d142d7379114b5ab10d68ef4a93ad7f97",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "MSR",
+      "repository_relative_path": "investigations/b2-governance-cohort/msr/aws-iam.msr.json",
+      "artifact_identifier": "msr-b2-aws-iam-reference-execution",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "measurement summary",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "33d4cdfa540387e59198339c80326117b887c2f42f32d69d07bacb25b8cc7e6c",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "MSR",
+      "repository_relative_path": "investigations/b2-governance-cohort/msr/cedar-amazon-verified-permissions.msr.json",
+      "artifact_identifier": "msr-b2-cedar-amazon-verified-permissions-reference-execution",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "measurement summary",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "007c499aedcf6340c68c341f52b3c92a78d794136fd276ac7c2d7d7919dc300a",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "MSR",
+      "repository_relative_path": "investigations/b2-governance-cohort/msr/envoy-ext-authz.msr.json",
+      "artifact_identifier": "msr-b2-envoy-ext-authz-reference-execution",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "measurement summary",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "9edb93cde1f945d459b27cbd97c98abe38369a4a83f444c69d3fbae3966b434b",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "MSR",
+      "repository_relative_path": "investigations/b2-governance-cohort/msr/google-zanzibar.msr.json",
+      "artifact_identifier": "msr-b2-google-zanzibar-reference-execution",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "measurement summary",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "5438ba1d7a53eb769527e7a81279a286ad648098e3d3568cfa3ad0847562e227",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "MSR",
+      "repository_relative_path": "investigations/b2-governance-cohort/msr/hashicorp-vault.msr.json",
+      "artifact_identifier": "msr-b2-hashicorp-vault-reference-execution",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "measurement summary",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "c70138294ccfdf1f91e7e7094a44dca180ebbb43e96a7750c4287dd9833691a3",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "MSR",
+      "repository_relative_path": "investigations/b2-governance-cohort/msr/istio-authorizationpolicy.msr.json",
+      "artifact_identifier": "msr-b2-istio-authorizationpolicy-reference-execution",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "measurement summary",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "bde2fab9677595bf0331bcb751766b845a4b935f4586ab14392d23d98b13fa95",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "MSR",
+      "repository_relative_path": "investigations/b2-governance-cohort/msr/kubernetes-rbac-admission.msr.json",
+      "artifact_identifier": "msr-b2-kubernetes-rbac-admission-reference-execution",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "measurement summary",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "32640414dd53642e9f9c68510f8075cc640df561c75dfc7ef42ca76cb7c562b0",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "MSR",
+      "repository_relative_path": "investigations/b2-governance-cohort/msr/open-policy-agent-gatekeeper.msr.json",
+      "artifact_identifier": "msr-b2-open-policy-agent-gatekeeper-reference-execution",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "measurement summary",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "7f3c691ea7c0bc553cdcb09610d6754f43bd8aefeceada60761df276b617ad24",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "MSR",
+      "repository_relative_path": "investigations/b2-governance-cohort/msr/openfga.msr.json",
+      "artifact_identifier": "msr-b2-openfga-reference-execution",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "measurement summary",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "04d7ce8eef2377a7edbabf0e594ad59badfc7f959dca7acc24fe54959ea6f625",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "Comparative Dataset",
+      "repository_relative_path": "investigations/b2-governance-cohort/dataset/b2-governance-cohort-i4.dataset.json",
+      "artifact_identifier": "dataset-b2-governance-cohort-i4",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "dataset projection",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "d687d64ae19dd44a18c0c597c43118fd95ad4ef83d6ad3aa026c2ab498ac12a5",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    {
+      "artifact_class": "Analysis",
+      "repository_relative_path": "investigations/b2-governance-cohort/analysis/b2-governance-cohort-i4.analysis.json",
+      "artifact_identifier": "analysis-b2-governance-cohort-i4-measurement-distribution",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "analysis result",
+      "required_for_purpose": true,
+      "digest": {
+        "digest": "f2ab4fa318b420e164d2c1c84f93b6c60ff33bb2485050ff27a618f05e9e58f0",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    }
+  ],
+  "retained_classification_ref_and_hash": {
+    "artifact_class": "Retained Classification",
+    "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.retained-classification.json",
+    "artifact_identifier": "retained-classification-b2-governance-cohort-i5",
+    "lifecycle_stage": "canonical",
+    "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+    "lineage_role": "retained classification",
+    "required_for_purpose": true,
+    "digest": {
+      "digest": "1848116b6273389a25862a7cd3c51572f31a266df872510671969fb0dd12c14e",
+      "hash_algorithm": "sha256",
+      "canonicalization_method": "repository file bytes without transformation"
+    }
+  },
+  "cohort_conclusion_ref_and_hash": {
+    "artifact_class": "Cohort Conclusion",
+    "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.cohort-conclusion.json",
+    "artifact_identifier": "cohort-conclusion-b2-governance-cohort-i5",
+    "lifecycle_stage": "canonical",
+    "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+    "lineage_role": "cohort conclusion",
+    "required_for_purpose": true,
+    "digest": {
+      "digest": "64dd314e979521330f1ab7da302e615eddea0829f6a69ab0ae63bd465ea98a9d",
+      "hash_algorithm": "sha256",
+      "canonicalization_method": "repository file bytes without transformation"
+    }
+  },
+  "per_system_classification_summary": {
+    "category": "per-system classification",
+    "systems": [
+      "aws-iam",
+      "cedar-amazon-verified-permissions",
+      "envoy-ext-authz",
+      "google-zanzibar",
+      "hashicorp-vault",
+      "istio-authorizationpolicy",
+      "kubernetes-rbac-admission",
+      "open-policy-agent-gatekeeper",
+      "openfga"
+    ],
+    "artifacts": [
+      {
+        "artifact_class": "Analysis",
+        "repository_relative_path": "investigations/b2-governance-cohort/analysis/b2-governance-cohort-i4.analysis.json",
+        "artifact_identifier": "analysis-b2-governance-cohort-i4-measurement-distribution",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "analysis result",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "f2ab4fa318b420e164d2c1c84f93b6c60ff33bb2485050ff27a618f05e9e58f0",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Retained Classification",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.retained-classification.json",
+        "artifact_identifier": "retained-classification-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "retained classification",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "1848116b6273389a25862a7cd3c51572f31a266df872510671969fb0dd12c14e",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Cohort Conclusion",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.cohort-conclusion.json",
+        "artifact_identifier": "cohort-conclusion-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "cohort conclusion",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "64dd314e979521330f1ab7da302e615eddea0829f6a69ab0ae63bd465ea98a9d",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      }
+    ],
+    "measurements": [
+      "m_R",
+      "m_L",
+      "m_E",
+      "m_RL",
+      "m_LE"
+    ],
+    "lineage_refs": [
+      {
+        "artifact_class": "Registration",
+        "repository_relative_path": "investigations/b2-governance-cohort/preregistration/i1_i5_registration.json",
+        "artifact_identifier": "b2-i1-i5-registration",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "registration source",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "92b34a856f6e59f77215dbc639c3a28203ccfcce58ded2f3c5f1ed0baba794bd",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Comparative Dataset",
+        "repository_relative_path": "investigations/b2-governance-cohort/dataset/b2-governance-cohort-i4.dataset.json",
+        "artifact_identifier": "dataset-b2-governance-cohort-i4",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "dataset projection",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "d687d64ae19dd44a18c0c597c43118fd95ad4ef83d6ad3aa026c2ab498ac12a5",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Analysis",
+        "repository_relative_path": "investigations/b2-governance-cohort/analysis/b2-governance-cohort-i4.analysis.json",
+        "artifact_identifier": "analysis-b2-governance-cohort-i4-measurement-distribution",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "analysis result",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "f2ab4fa318b420e164d2c1c84f93b6c60ff33bb2485050ff27a618f05e9e58f0",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Retained Classification",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.retained-classification.json",
+        "artifact_identifier": "retained-classification-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "retained classification",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "1848116b6273389a25862a7cd3c51572f31a266df872510671969fb0dd12c14e",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Cohort Conclusion",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.cohort-conclusion.json",
+        "artifact_identifier": "cohort-conclusion-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "cohort conclusion",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "64dd314e979521330f1ab7da302e615eddea0829f6a69ab0ae63bd465ea98a9d",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      }
+    ],
+    "interpretation_limits": [
+      "Per-system support does not override I5 cohort precedence.",
+      "These classifications are empirical outputs, not candidate invariants or consumer decisions."
+    ],
+    "summary": "The retained classification records six systems as supports, three as indeterminate, and zero as violates under frozen I5."
+  },
+  "cohort_outcome": "indeterminate",
+  "basis_systems": [
+    "envoy-ext-authz",
+    "google-zanzibar",
+    "openfga"
+  ],
+  "missing_measurement_summary": {
+    "category": "missing measurements",
+    "systems": [
+      "envoy-ext-authz",
+      "google-zanzibar",
+      "openfga"
+    ],
+    "artifacts": [
+      {
+        "artifact_class": "Analysis",
+        "repository_relative_path": "investigations/b2-governance-cohort/analysis/b2-governance-cohort-i4.analysis.json",
+        "artifact_identifier": "analysis-b2-governance-cohort-i4-measurement-distribution",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "analysis result",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "f2ab4fa318b420e164d2c1c84f93b6c60ff33bb2485050ff27a618f05e9e58f0",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Retained Classification",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.retained-classification.json",
+        "artifact_identifier": "retained-classification-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "retained classification",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "1848116b6273389a25862a7cd3c51572f31a266df872510671969fb0dd12c14e",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Cohort Conclusion",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.cohort-conclusion.json",
+        "artifact_identifier": "cohort-conclusion-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "cohort conclusion",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "64dd314e979521330f1ab7da302e615eddea0829f6a69ab0ae63bd465ea98a9d",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      }
+    ],
+    "measurements": [
+      "envoy-ext-authz: m_R, m_RL",
+      "google-zanzibar: m_E, m_LE",
+      "openfga: m_L, m_E, m_LE"
+    ],
+    "lineage_refs": [
+      {
+        "artifact_class": "Registration",
+        "repository_relative_path": "investigations/b2-governance-cohort/preregistration/i1_i5_registration.json",
+        "artifact_identifier": "b2-i1-i5-registration",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "registration source",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "92b34a856f6e59f77215dbc639c3a28203ccfcce58ded2f3c5f1ed0baba794bd",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Comparative Dataset",
+        "repository_relative_path": "investigations/b2-governance-cohort/dataset/b2-governance-cohort-i4.dataset.json",
+        "artifact_identifier": "dataset-b2-governance-cohort-i4",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "dataset projection",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "d687d64ae19dd44a18c0c597c43118fd95ad4ef83d6ad3aa026c2ab498ac12a5",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Analysis",
+        "repository_relative_path": "investigations/b2-governance-cohort/analysis/b2-governance-cohort-i4.analysis.json",
+        "artifact_identifier": "analysis-b2-governance-cohort-i4-measurement-distribution",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "analysis result",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "f2ab4fa318b420e164d2c1c84f93b6c60ff33bb2485050ff27a618f05e9e58f0",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Retained Classification",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.retained-classification.json",
+        "artifact_identifier": "retained-classification-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "retained classification",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "1848116b6273389a25862a7cd3c51572f31a266df872510671969fb0dd12c14e",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Cohort Conclusion",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.cohort-conclusion.json",
+        "artifact_identifier": "cohort-conclusion-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "cohort conclusion",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "64dd314e979521330f1ab7da302e615eddea0829f6a69ab0ae63bd465ea98a9d",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      }
+    ],
+    "interpretation_limits": [
+      "Missing values are not zero values and must not be coerced.",
+      "The package does not create or infer measurements."
+    ],
+    "summary": "Seven registered measurements are missing across the three basis systems; frozen I5 therefore makes their classifications and the cohort outcome indeterminate."
+  },
+  "supporting_evidence_summary": {
+    "category": "supporting evidence",
+    "systems": [
+      "aws-iam",
+      "cedar-amazon-verified-permissions",
+      "hashicorp-vault",
+      "istio-authorizationpolicy",
+      "kubernetes-rbac-admission",
+      "open-policy-agent-gatekeeper"
+    ],
+    "artifacts": [
+      {
+        "artifact_class": "Analysis",
+        "repository_relative_path": "investigations/b2-governance-cohort/analysis/b2-governance-cohort-i4.analysis.json",
+        "artifact_identifier": "analysis-b2-governance-cohort-i4-measurement-distribution",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "analysis result",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "f2ab4fa318b420e164d2c1c84f93b6c60ff33bb2485050ff27a618f05e9e58f0",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Retained Classification",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.retained-classification.json",
+        "artifact_identifier": "retained-classification-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "retained classification",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "1848116b6273389a25862a7cd3c51572f31a266df872510671969fb0dd12c14e",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Cohort Conclusion",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.cohort-conclusion.json",
+        "artifact_identifier": "cohort-conclusion-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "cohort conclusion",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "64dd314e979521330f1ab7da302e615eddea0829f6a69ab0ae63bd465ea98a9d",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      }
+    ],
+    "measurements": [
+      "m_R=1",
+      "m_L=1",
+      "m_E=1",
+      "m_RL=1",
+      "m_LE=1"
+    ],
+    "lineage_refs": [
+      {
+        "artifact_class": "Registration",
+        "repository_relative_path": "investigations/b2-governance-cohort/preregistration/i1_i5_registration.json",
+        "artifact_identifier": "b2-i1-i5-registration",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "registration source",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "92b34a856f6e59f77215dbc639c3a28203ccfcce58ded2f3c5f1ed0baba794bd",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Comparative Dataset",
+        "repository_relative_path": "investigations/b2-governance-cohort/dataset/b2-governance-cohort-i4.dataset.json",
+        "artifact_identifier": "dataset-b2-governance-cohort-i4",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "dataset projection",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "d687d64ae19dd44a18c0c597c43118fd95ad4ef83d6ad3aa026c2ab498ac12a5",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Analysis",
+        "repository_relative_path": "investigations/b2-governance-cohort/analysis/b2-governance-cohort-i4.analysis.json",
+        "artifact_identifier": "analysis-b2-governance-cohort-i4-measurement-distribution",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "analysis result",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "f2ab4fa318b420e164d2c1c84f93b6c60ff33bb2485050ff27a618f05e9e58f0",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Retained Classification",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.retained-classification.json",
+        "artifact_identifier": "retained-classification-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "retained classification",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "1848116b6273389a25862a7cd3c51572f31a266df872510671969fb0dd12c14e",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Cohort Conclusion",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.cohort-conclusion.json",
+        "artifact_identifier": "cohort-conclusion-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "cohort conclusion",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "64dd314e979521330f1ab7da302e615eddea0829f6a69ab0ae63bd465ea98a9d",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      }
+    ],
+    "interpretation_limits": [
+      "The six systems are not the complete frozen cohort.",
+      "Indeterminate evidence has precedence under I5.",
+      "Per-system supporting classifications do not make the cohort outcome supporting."
+    ],
+    "summary": "Six systems have complete all-one I4 vectors and per-system classification supports; this is retained as complete outcome context, not as support for a cohort invariant."
+  },
+  "indeterminate_evidence_summary": {
+    "category": "indeterminate evidence",
+    "systems": [
+      "envoy-ext-authz",
+      "google-zanzibar",
+      "openfga"
+    ],
+    "artifacts": [
+      {
+        "artifact_class": "Analysis",
+        "repository_relative_path": "investigations/b2-governance-cohort/analysis/b2-governance-cohort-i4.analysis.json",
+        "artifact_identifier": "analysis-b2-governance-cohort-i4-measurement-distribution",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "analysis result",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "f2ab4fa318b420e164d2c1c84f93b6c60ff33bb2485050ff27a618f05e9e58f0",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Retained Classification",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.retained-classification.json",
+        "artifact_identifier": "retained-classification-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "retained classification",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "1848116b6273389a25862a7cd3c51572f31a266df872510671969fb0dd12c14e",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Cohort Conclusion",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.cohort-conclusion.json",
+        "artifact_identifier": "cohort-conclusion-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "cohort conclusion",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "64dd314e979521330f1ab7da302e615eddea0829f6a69ab0ae63bd465ea98a9d",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      }
+    ],
+    "measurements": [
+      "envoy-ext-authz: m_R and m_RL missing",
+      "google-zanzibar: m_E and m_LE missing",
+      "openfga: m_L, m_E, and m_LE missing"
+    ],
+    "lineage_refs": [
+      {
+        "artifact_class": "Registration",
+        "repository_relative_path": "investigations/b2-governance-cohort/preregistration/i1_i5_registration.json",
+        "artifact_identifier": "b2-i1-i5-registration",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "registration source",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "92b34a856f6e59f77215dbc639c3a28203ccfcce58ded2f3c5f1ed0baba794bd",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Comparative Dataset",
+        "repository_relative_path": "investigations/b2-governance-cohort/dataset/b2-governance-cohort-i4.dataset.json",
+        "artifact_identifier": "dataset-b2-governance-cohort-i4",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "dataset projection",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "d687d64ae19dd44a18c0c597c43118fd95ad4ef83d6ad3aa026c2ab498ac12a5",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Analysis",
+        "repository_relative_path": "investigations/b2-governance-cohort/analysis/b2-governance-cohort-i4.analysis.json",
+        "artifact_identifier": "analysis-b2-governance-cohort-i4-measurement-distribution",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "analysis result",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "f2ab4fa318b420e164d2c1c84f93b6c60ff33bb2485050ff27a618f05e9e58f0",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Retained Classification",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.retained-classification.json",
+        "artifact_identifier": "retained-classification-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "retained classification",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "1848116b6273389a25862a7cd3c51572f31a266df872510671969fb0dd12c14e",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Cohort Conclusion",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.cohort-conclusion.json",
+        "artifact_identifier": "cohort-conclusion-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "cohort conclusion",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "64dd314e979521330f1ab7da302e615eddea0829f6a69ab0ae63bd465ea98a9d",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      }
+    ],
+    "interpretation_limits": [
+      "Indeterminate evidence is not supporting evidence.",
+      "No missing measurement is inferred from other observations."
+    ],
+    "summary": "The three basis systems contain missing registered measurements and are classified indeterminate; the canonical cohort conclusion is indeterminate."
+  },
+  "negative_evidence_summary": {
+    "category": "negative evidence",
+    "systems": [],
+    "artifacts": [
+      {
+        "artifact_class": "Analysis",
+        "repository_relative_path": "investigations/b2-governance-cohort/analysis/b2-governance-cohort-i4.analysis.json",
+        "artifact_identifier": "analysis-b2-governance-cohort-i4-measurement-distribution",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "analysis result",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "f2ab4fa318b420e164d2c1c84f93b6c60ff33bb2485050ff27a618f05e9e58f0",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Retained Classification",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.retained-classification.json",
+        "artifact_identifier": "retained-classification-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "retained classification",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "1848116b6273389a25862a7cd3c51572f31a266df872510671969fb0dd12c14e",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Cohort Conclusion",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.cohort-conclusion.json",
+        "artifact_identifier": "cohort-conclusion-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "cohort conclusion",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "64dd314e979521330f1ab7da302e615eddea0829f6a69ab0ae63bd465ea98a9d",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      }
+    ],
+    "measurements": [],
+    "lineage_refs": [
+      {
+        "artifact_class": "Registration",
+        "repository_relative_path": "investigations/b2-governance-cohort/preregistration/i1_i5_registration.json",
+        "artifact_identifier": "b2-i1-i5-registration",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "registration source",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "92b34a856f6e59f77215dbc639c3a28203ccfcce58ded2f3c5f1ed0baba794bd",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Comparative Dataset",
+        "repository_relative_path": "investigations/b2-governance-cohort/dataset/b2-governance-cohort-i4.dataset.json",
+        "artifact_identifier": "dataset-b2-governance-cohort-i4",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "dataset projection",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "d687d64ae19dd44a18c0c597c43118fd95ad4ef83d6ad3aa026c2ab498ac12a5",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Analysis",
+        "repository_relative_path": "investigations/b2-governance-cohort/analysis/b2-governance-cohort-i4.analysis.json",
+        "artifact_identifier": "analysis-b2-governance-cohort-i4-measurement-distribution",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "analysis result",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "f2ab4fa318b420e164d2c1c84f93b6c60ff33bb2485050ff27a618f05e9e58f0",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Retained Classification",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.retained-classification.json",
+        "artifact_identifier": "retained-classification-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "retained classification",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "1848116b6273389a25862a7cd3c51572f31a266df872510671969fb0dd12c14e",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Cohort Conclusion",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.cohort-conclusion.json",
+        "artifact_identifier": "cohort-conclusion-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "cohort conclusion",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "64dd314e979521330f1ab7da302e615eddea0829f6a69ab0ae63bd465ea98a9d",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      }
+    ],
+    "interpretation_limits": [
+      "An empty negative-evidence category does not convert indeterminate evidence into supporting evidence."
+    ],
+    "summary": "No system is classified violates and no registered measurement equals zero in the retained classification; the category is explicitly empty rather than fabricated."
+  },
+  "known_limitations": {
+    "category": "known limitations",
+    "systems": [
+      "aws-iam",
+      "cedar-amazon-verified-permissions",
+      "envoy-ext-authz",
+      "google-zanzibar",
+      "hashicorp-vault",
+      "istio-authorizationpolicy",
+      "kubernetes-rbac-admission",
+      "open-policy-agent-gatekeeper",
+      "openfga"
+    ],
+    "artifacts": [
+      {
+        "artifact_class": "Registration",
+        "repository_relative_path": "investigations/b2-governance-cohort/preregistration/i1_i5_registration.json",
+        "artifact_identifier": "b2-i1-i5-registration",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "registration source",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "92b34a856f6e59f77215dbc639c3a28203ccfcce58ded2f3c5f1ed0baba794bd",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Analysis",
+        "repository_relative_path": "investigations/b2-governance-cohort/analysis/b2-governance-cohort-i4.analysis.json",
+        "artifact_identifier": "analysis-b2-governance-cohort-i4-measurement-distribution",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "analysis result",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "f2ab4fa318b420e164d2c1c84f93b6c60ff33bb2485050ff27a618f05e9e58f0",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Retained Classification",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.retained-classification.json",
+        "artifact_identifier": "retained-classification-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "retained classification",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "1848116b6273389a25862a7cd3c51572f31a266df872510671969fb0dd12c14e",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Cohort Conclusion",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.cohort-conclusion.json",
+        "artifact_identifier": "cohort-conclusion-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "cohort conclusion",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "64dd314e979521330f1ab7da302e615eddea0829f6a69ab0ae63bd465ea98a9d",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Publication Readiness Audit",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/final_publication_audit.md",
+        "artifact_identifier": {
+          "value": "not_applicable",
+          "rationale": "This canonical text artifact defines no internal machine-readable identifier; path, commit, and digest bind it immutably."
+        },
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "publication-state binding",
+        "required_for_purpose": false,
+        "digest": {
+          "digest": "e0c2ebe87f9093ebeda90334e5c00f971481d646157cc511c2307b36765321e8",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      }
+    ],
+    "measurements": [
+      "documentation snapshot stability",
+      "seven missing I4 measurements"
+    ],
+    "lineage_refs": [
+      {
+        "artifact_class": "Protocol",
+        "repository_relative_path": "protocol/protocol-v1/protocol.md",
+        "artifact_identifier": {
+          "value": "not_applicable",
+          "rationale": "This canonical text artifact defines no internal machine-readable identifier; path, commit, and digest bind it immutably."
+        },
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "protocol source",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "b77a4d7a7b271cdf29e9b07875671d253051acc5376771765c11ba059007d3af",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Registration",
+        "repository_relative_path": "investigations/b2-governance-cohort/preregistration/i1_i5_registration.json",
+        "artifact_identifier": "b2-i1-i5-registration",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "registration source",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "92b34a856f6e59f77215dbc639c3a28203ccfcce58ded2f3c5f1ed0baba794bd",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Comparative Dataset",
+        "repository_relative_path": "investigations/b2-governance-cohort/dataset/b2-governance-cohort-i4.dataset.json",
+        "artifact_identifier": "dataset-b2-governance-cohort-i4",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "dataset projection",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "d687d64ae19dd44a18c0c597c43118fd95ad4ef83d6ad3aa026c2ab498ac12a5",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Analysis",
+        "repository_relative_path": "investigations/b2-governance-cohort/analysis/b2-governance-cohort-i4.analysis.json",
+        "artifact_identifier": "analysis-b2-governance-cohort-i4-measurement-distribution",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "analysis result",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "f2ab4fa318b420e164d2c1c84f93b6c60ff33bb2485050ff27a618f05e9e58f0",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Retained Classification",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.retained-classification.json",
+        "artifact_identifier": "retained-classification-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "retained classification",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "1848116b6273389a25862a7cd3c51572f31a266df872510671969fb0dd12c14e",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Cohort Conclusion",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.cohort-conclusion.json",
+        "artifact_identifier": "cohort-conclusion-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "cohort conclusion",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "64dd314e979521330f1ab7da302e615eddea0829f6a69ab0ae63bd465ea98a9d",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Publication Readiness Audit",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/final_publication_audit.md",
+        "artifact_identifier": {
+          "value": "not_applicable",
+          "rationale": "This canonical text artifact defines no internal machine-readable identifier; path, commit, and digest bind it immutably."
+        },
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "publication-state binding",
+        "required_for_purpose": false,
+        "digest": {
+          "digest": "e0c2ebe87f9093ebeda90334e5c00f971481d646157cc511c2307b36765321e8",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      }
+    ],
+    "interpretation_limits": [
+      "The nine-system governance cohort does not establish a universal invariant.",
+      "Committed BOR lineage bounds evidence to the recorded documentation snapshots.",
+      "Publication readiness does not resolve scientific indeterminacy or establish formalization eligibility."
+    ],
+    "summary": "The frozen preregistration leaves documentation snapshot stability unresolved but non-blocking, and the retained result contains seven missing measurements across three systems."
+  },
+  "known_counterexamples": {
+    "category": "known counterexamples",
+    "systems": [],
+    "artifacts": [
+      {
+        "artifact_class": "Analysis",
+        "repository_relative_path": "investigations/b2-governance-cohort/analysis/b2-governance-cohort-i4.analysis.json",
+        "artifact_identifier": "analysis-b2-governance-cohort-i4-measurement-distribution",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "analysis result",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "f2ab4fa318b420e164d2c1c84f93b6c60ff33bb2485050ff27a618f05e9e58f0",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Retained Classification",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.retained-classification.json",
+        "artifact_identifier": "retained-classification-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "retained classification",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "1848116b6273389a25862a7cd3c51572f31a266df872510671969fb0dd12c14e",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Cohort Conclusion",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.cohort-conclusion.json",
+        "artifact_identifier": "cohort-conclusion-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "cohort conclusion",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "64dd314e979521330f1ab7da302e615eddea0829f6a69ab0ae63bd465ea98a9d",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      }
+    ],
+    "measurements": [],
+    "lineage_refs": [
+      {
+        "artifact_class": "Registration",
+        "repository_relative_path": "investigations/b2-governance-cohort/preregistration/i1_i5_registration.json",
+        "artifact_identifier": "b2-i1-i5-registration",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "registration source",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "92b34a856f6e59f77215dbc639c3a28203ccfcce58ded2f3c5f1ed0baba794bd",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Comparative Dataset",
+        "repository_relative_path": "investigations/b2-governance-cohort/dataset/b2-governance-cohort-i4.dataset.json",
+        "artifact_identifier": "dataset-b2-governance-cohort-i4",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "dataset projection",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "d687d64ae19dd44a18c0c597c43118fd95ad4ef83d6ad3aa026c2ab498ac12a5",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Analysis",
+        "repository_relative_path": "investigations/b2-governance-cohort/analysis/b2-governance-cohort-i4.analysis.json",
+        "artifact_identifier": "analysis-b2-governance-cohort-i4-measurement-distribution",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "analysis result",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "f2ab4fa318b420e164d2c1c84f93b6c60ff33bb2485050ff27a618f05e9e58f0",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Retained Classification",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.retained-classification.json",
+        "artifact_identifier": "retained-classification-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "retained classification",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "1848116b6273389a25862a7cd3c51572f31a266df872510671969fb0dd12c14e",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      },
+      {
+        "artifact_class": "Cohort Conclusion",
+        "repository_relative_path": "investigations/b2-governance-cohort/results/b2-governance-cohort-i5.cohort-conclusion.json",
+        "artifact_identifier": "cohort-conclusion-b2-governance-cohort-i5",
+        "lifecycle_stage": "canonical",
+        "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+        "lineage_role": "cohort conclusion",
+        "required_for_purpose": true,
+        "digest": {
+          "digest": "64dd314e979521330f1ab7da302e615eddea0829f6a69ab0ae63bd465ea98a9d",
+          "hash_algorithm": "sha256",
+          "canonicalization_method": "repository file bytes without transformation"
+        }
+      }
+    ],
+    "interpretation_limits": [
+      "Absence of a recorded counterexample is not evidence of universal support.",
+      "The outcome remains indeterminate because missing measurements have precedence."
+    ],
+    "summary": "No concrete counterexample is recorded by the canonical B2 retained classification or cohort conclusion; the category is explicitly empty."
+  },
+  "replication_status": "not_attempted",
+  "replay_capability": "fully_replayable",
+  "replay_execution_status": "not_attempted",
+  "validation_commands": [
+    {
+      "command": "python3 scripts/validate.py",
+      "working_directory": ".",
+      "expected_exit_status": 0,
+      "scope": "canonical repository artifacts, lineage, generated-artifact freshness, registries, and publication state",
+      "canonicality": "canonical",
+      "execution_context": "ci-and-local"
+    },
+    {
+      "command": "python - <<'PY'\nimport json\nfrom pathlib import Path\nfrom jsonschema.validators import validator_for\nschema=json.loads(Path('schemas/minimal_promotion_package.schema.json').read_text())\nValidator=validator_for(schema)\nValidator.check_schema(schema)\npackage=json.loads(Path('investigations/b2-governance-cohort/promotion-packages/b2-governance-cohort-indeterminate-evidence-review-v1.0.json').read_text())\nValidator(schema).validate(package)\nprint('package validates')\nPY",
+      "working_directory": ".",
+      "expected_exit_status": 0,
+      "scope": "this Minimal Promotion Package instance against the merged schema",
+      "canonicality": "non-canonical",
+      "execution_context": "local"
+    }
+  ],
+  "publication_state": {
+    "publication_manifest_ref": {
+      "artifact_class": "Publication Manifest",
+      "repository_relative_path": "releases/publication-state-manifest.json",
+      "artifact_identifier": "releases/publication-state-manifest.json",
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "publication-state binding",
+      "required_for_purpose": false,
+      "digest": {
+        "digest": "8d04def20b34427209459fe470799c64d1dc00dbcc10e0985d056826c4866c35",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    "release_summary_ref": {
+      "artifact_class": "Release Summary",
+      "repository_relative_path": "releases/b2-publication-v1.0/RELEASE_SUMMARY.md",
+      "artifact_identifier": {
+        "value": "not_applicable",
+        "rationale": "This canonical text artifact defines no internal machine-readable identifier; path, commit, and digest bind it immutably."
+      },
+      "lifecycle_stage": "release-candidate",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "publication-state binding",
+      "required_for_purpose": false,
+      "digest": {
+        "digest": "951d0a47022a6aa3e90947630982d05ffbb0e8e33c41fb07b32b4f0647aa95bb",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    "publication_readiness_audit_ref": {
+      "artifact_class": "Publication Readiness Audit",
+      "repository_relative_path": "investigations/b2-governance-cohort/results/final_publication_audit.md",
+      "artifact_identifier": {
+        "value": "not_applicable",
+        "rationale": "This canonical text artifact defines no internal machine-readable identifier; path, commit, and digest bind it immutably."
+      },
+      "lifecycle_stage": "canonical",
+      "source_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7",
+      "lineage_role": "publication-state binding",
+      "required_for_purpose": false,
+      "digest": {
+        "digest": "e0c2ebe87f9093ebeda90334e5c00f971481d646157cc511c2307b36765321e8",
+        "hash_algorithm": "sha256",
+        "canonicalization_method": "repository file bytes without transformation"
+      }
+    },
+    "publication_readiness_is_not_formalization_eligibility": true
+  },
+  "proposed_foundation_repository": "structural-analysis-foundations",
+  "proposed_foundation_surface": "bounded review of whether a formal model can represent the documented B2 indeterminacy without treating it as a candidate invariant",
+  "candidate_claim": "The consumer may inspect the canonical B2 evidence chain to determine whether and how a formal model could preserve the cohort’s indeterminate outcome and its missing-measurement obligations; this producer proposal does not request candidate-invariant review or assert supporting evidence.",
+  "excluded_claims": [
+    "candidate_invariant_review",
+    "B2 establishes an architectural invariant, formal object, theorem, or proof obligation.",
+    "The six supporting per-system classifications establish a supporting cohort outcome.",
+    "Indeterminate evidence is supporting evidence.",
+    "Publication readiness establishes scientific support or formalization eligibility.",
+    "This package is an admissibility review, promotion decision, canonical research object, canonical fixture, implementation-conformance record, automation input, synchronization contract, consumer record, or downstream authority."
+  ],
+  "non_authority_statement": "Producer Proposal ≠ Consumer Decision. Evidence ≠ Formalization. Publication Readiness ≠ Formalization Eligibility. Indeterminate Evidence ≠ Supporting Evidence. This producer-owned package only identifies material for inspection; it neither authorizes promotion nor creates consumer authority, and raw evidence remains upstream in the referenced canonical artifacts.",
+  "supersession_lineage": {
+    "value": "not_applicable",
+    "rationale": "This is the first immutable version in this producer package lineage and supersedes no package."
+  },
+  "correction_reason": {
+    "value": "not_applicable",
+    "rationale": "This current package version is not a correction."
+  },
+  "withdrawal_reason": {
+    "value": "not_applicable",
+    "rationale": "This current package version is not withdrawn."
+  },
+  "package_content_reference": "investigations/b2-governance-cohort/promotion-packages/b2-governance-cohort-indeterminate-evidence-review-v1.0.json",
+  "package_content_digest": {
+    "digest": "4fb1e08a8a0489d6715ab30e9c52ee96d269d7dd7c1d7b918d38f10800832cca",
+    "hash_algorithm": "sha256",
+    "canonicalization_method": "RFC 8785-style deterministic JSON (UTF-8, sorted keys, compact separators) with package_content_digest.digest represented as an empty string to avoid a self-referential digest"
+  },
+  "producer_repository": "architecturalboundary-research",
+  "producer_commit": "b6a837e916fdf18ebed35896de223cc2429d61e7"
+}

@@ -52,6 +52,7 @@ The repository distinguishes canonical research objects from implementation arti
 Current governance and review documentation includes:
 
 - [Minimal Promotion Contract](docs/minimal-promotion-contract.md) — the consumer-side review contract for immutable Promotion Packages and bounded formalization authorization.
+- [Consumer Promotion Records](promotion-records/README.md) — immutable package snapshots, admissibility reviews, and bounded promotion decisions emitted under that contract.
 
 Current canonical research-object documentation includes:
 
