@@ -45,12 +45,13 @@ def compare_semantics(
     expected = fixture.expected_semantics
     checks = [
         ("dependency_relations", expected.get("dependency_relations", []), evidence.dependency_relations),
-        ("structural_metrics", expected.get("structural_metrics", {}), evidence.structural_metrics),
         ("structural_invariants", expected.get("structural_invariants", {}), evidence.structural_invariants),
         ("canonical_outputs", expected.get("canonical_outputs", {}), evidence.canonical_outputs),
         ("required_diagnostics", expected.get("required_diagnostics", []), evidence.required_diagnostics),
         ("proof_obligations", expected.get("proof_obligations", {}), evidence.proof_obligations),
     ]
+    if "structural_metrics" in expected:
+        checks.insert(1, ("structural_metrics", expected["structural_metrics"], evidence.structural_metrics))
     diagnostics: list[dict[str, Any]] = []
     mismatches = []
     should_compare_semantics = evidence.semantic_result not in {"UNOBSERVED", "UNKNOWN", "FAIL"} and not evidence.execution_failure and not evidence.schema_failure

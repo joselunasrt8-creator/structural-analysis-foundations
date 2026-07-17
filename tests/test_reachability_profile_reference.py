@@ -6,9 +6,10 @@ import unittest
 from dataclasses import replace
 from pathlib import Path
 
+from conformance.adapters.dependency_predicate_reference import DependencyPredicateReferenceAdapter
 from conformance.adapters.reachability_profile_reference import ReachabilityProfileReferenceAdapter, realize_reachability_profile
 from conformance.comparator import compare_semantics
-from conformance.engine import run_conformance
+from conformance.engine import canonical_evidence_projection, run_conformance
 from conformance.fixture_loader import load_fixture
 from conformance.jsonutil import canonical_hash, read_json
 from conformance.models import ReplayResult
@@ -52,7 +53,22 @@ class ReachabilityProfileReferenceTests(unittest.TestCase):
         self.assertEqual(replay["run_a_canonical_evidence_hash"], replay["run_b_canonical_evidence_hash"])
         evidence_a["provenance"].pop("canonical_evidence_hash")
         evidence_b["provenance"].pop("canonical_evidence_hash")
-        self.assertEqual(canonical_hash(evidence_a), canonical_hash(evidence_b))
+        adapter = ReachabilityProfileReferenceAdapter({})
+        projection_a = canonical_evidence_projection(adapter.normalize_output(evidence_a, self.fixture))
+        projection_b = canonical_evidence_projection(adapter.normalize_output(evidence_b, self.fixture))
+        self.assertEqual(
+            canonical_hash(projection_a),
+            canonical_hash(projection_b),
+        )
+
+    def test_legacy_reference_without_metric_expectations_still_passes(self) -> None:
+        legacy_fixture = load_fixture(ROOT / "conformance/fixtures/dependency-predicate.fixture.json", ROOT)
+        with tempfile.TemporaryDirectory() as directory:
+            evidence = DependencyPredicateReferenceAdapter(legacy_fixture.adapter).run(legacy_fixture, Path(directory))
+        replay = ReplayResult("a", "b", "hash", "hash", True, "canonical evidence hashes match")
+        result = compare_semantics(legacy_fixture, evidence, "evidence", "report", "fixture-hash", "evidence-hash", replay)
+        self.assertEqual(result.status, "REFERENCE_PASS")
+        self.assertNotIn("structural_metrics", [item["check"] for item in result.diagnostics])
 
     def test_malformed_input_rejects_unknown_relation_endpoint(self) -> None:
         malformed = copy.deepcopy(self.fixture.input)

@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 from collections import deque
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from conformance.adapter_api import RepositoryAdapter
-from conformance.jsonutil import canonical_hash, read_json, write_json
+from conformance.jsonutil import canonical_hash, write_json
 from conformance.models import CanonicalEvidence, CanonicalFixture
 from conformance.schema_validation import validate_evidence_file
 
@@ -116,7 +117,6 @@ class ReachabilityProfileReferenceAdapter(RepositoryAdapter):
         self.config = config
 
     def load_canonical_fixture(self, fixture: CanonicalFixture) -> CanonicalFixture:
-        realize_reachability_profile(fixture.input)
         return fixture
 
     def execute_implementation(self, fixture: CanonicalFixture, artifact_dir: Path) -> Path:
@@ -131,7 +131,7 @@ class ReachabilityProfileReferenceAdapter(RepositoryAdapter):
             "fixture_id": fixture.fixture_id,
             "generated_artifacts": [],
             "implementation_version": "reachability-profile-reference-v1",
-            "observed_execution_timestamp": fixture.deterministic_timestamp,
+            "observed_execution_timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
             "provenance": {"canonical_input_hash": canonical_hash(fixture.input), "tool_version": "conformance-0.1.0"},
             "repository": "structural-analysis-foundations",
             "repository_url": "local://conformance/adapters/reachability_profile_reference.py",
