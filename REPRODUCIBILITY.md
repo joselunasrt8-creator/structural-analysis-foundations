@@ -1,10 +1,19 @@
 # Reproducibility Specification
 
-This document is the canonical repository policy for reproducible research builds in Structural Analysis Foundations. It defines repository-level reproducibility requirements independently of manuscript content.
+This document is the authoritative repository policy for reproducible research builds in Structural Analysis Foundations. It defines repository-level reproducibility requirements independently of manuscript content.
+
+## Authority and artifact vocabulary
+
+- **Authoritative research object:** an accepted, versioned object that governs research meaning within its declared scope.
+- **Human-authored manuscript source:** a paper's `main.tex`, `references.bib`, and paper-local included prose, figures, and appendices. It governs narrative or scholarly content not yet represented by an accepted research object.
+- **Generated candidate artifact:** a reproducible review output, including `main.pdf`, logs, auxiliary files, previews, and reports. It is neither authority nor a publication.
+- **Immutable release artifact:** a reviewed, committed `pdf/paperN.pdf` produced from an identified source commit. Its bytes are not overwritten after publication; a correction is published as a new release artifact.
+
+For content represented by an accepted research object, precedence is **authoritative research object → human-authored manuscript source → immutable release artifact**. If all three disagree, the research object wins. If no accepted object covers the content, manuscript source wins. In either case, a differing committed PDF is a stale release, not competing authority, and must not be presented as aligned until a new release passes the transition below.
 
 ## Reproducibility objective
 
-The repository is reproducible when each paper can be built from its own source tree, with the documented TeX environment and build command, without depending on another paper's files and without replacing the canonical published PDFs as a side effect of validation.
+The repository is reproducible when each paper can be built from its own source tree, with the documented TeX environment and build command, without depending on another paper's files and without replacing immutable release artifacts as a side effect of validation.
 
 Reproducibility in this repository means:
 
@@ -12,7 +21,7 @@ Reproducibility in this repository means:
 - each paper has an independent build boundary;
 - continuous integration validates the same build boundary used locally;
 - generated build outputs are treated as temporary workflow artifacts; and
-- canonical published PDFs are updated only through an intentional release action.
+- immutable release artifacts are created only through an intentional release action.
 
 ## Repository invariants
 
@@ -39,9 +48,9 @@ No paper may depend on another paper's source tree. In particular:
 - Paper 3 source must not import, include, or reference Paper 1 or Paper 2 source files.
 - Shared research meaning may be discussed in manuscript prose, but build inputs must remain local to the paper being built.
 
-## Canonical artifacts
+## Release artifacts
 
-The canonical published PDFs are:
+The current immutable PDF release artifacts are:
 
 - `paper-1-dependency/pdf/paper1.pdf`
 - `paper-2-canonical-structural-analysis/pdf/paper2.pdf`
@@ -49,7 +58,7 @@ The canonical published PDFs are:
 
 These files are release artifacts, not routine CI outputs. CI must never overwrite them.
 
-Generated PDFs such as `main.pdf` are temporary workflow artifacts only. They may be used to inspect a build, debug a pull request, or compare candidate output, but they are not canonical unless an explicit release change copies or regenerates the appropriate `pdf/paperN.pdf` file under review.
+Generated PDFs such as `main.pdf` are generated candidate artifacts only. They may be used to inspect a build, debug a pull request, or compare candidate output, but they are not publications. Only an explicit, reviewed release action may add a new `pdf/paperN.pdf` release artifact.
 
 ## Build reproducibility
 
@@ -72,7 +81,7 @@ The CI workflow is expected to:
 - collect build logs and auxiliary outputs for workflow inspection; and
 - upload generated outputs as temporary workflow artifacts.
 
-The workflow must not write generated PDFs into any `pdf/paperN.pdf` canonical artifact path.
+The workflow must not write generated PDFs into any `pdf/paperN.pdf` release-artifact path.
 
 ### Expected build command
 
@@ -89,7 +98,7 @@ cd paper-1-dependency
 latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode main.tex
 ```
 
-Equivalent local commands are acceptable for authoring, provided they preserve the same paper-local build boundary and do not overwrite canonical PDFs.
+Equivalent local commands are acceptable for authoring, provided they preserve the same paper-local build boundary and do not overwrite immutable PDF release artifacts.
 
 ### Bibliography requirements
 
@@ -126,7 +135,7 @@ Research changes alter manuscript substance or canonical research artifacts. Exa
 - edits to theorem statements, proofs, definitions, examples, or exposition;
 - changes to figures, appendices, citations, or bibliography entries that affect a paper's scholarly content;
 - changes to `main.tex` or included paper-local source files; and
-- regeneration of a canonical `pdf/paperN.pdf` release artifact.
+- publication of an immutable `pdf/paperN.pdf` release artifact.
 
 Research changes require paper-specific review and must preserve the independent build boundary of the affected paper.
 
@@ -139,7 +148,7 @@ Documentation changes explain repository use, governance, build policy, or relea
 - contributor notes; and
 - explanatory comments that do not change build behavior.
 
-Documentation changes must not modify canonical PDFs or manuscript content unless they are explicitly reclassified as research changes.
+Documentation changes must not modify immutable release artifacts or manuscript content unless they are explicitly reclassified as research changes.
 
 ### Infrastructure changes
 
@@ -150,19 +159,19 @@ Infrastructure changes alter validation, automation, dependency baselines, or re
 - build scripts or linting configuration; and
 - repository automation that can create, move, or delete generated artifacts.
 
-Infrastructure changes must preserve the repository invariants in this document. Any infrastructure change that can write to canonical artifact paths must be treated as release-sensitive and reviewed as a potential research or release change.
+Infrastructure changes must preserve the repository invariants in this document. Any infrastructure change that can write to release-artifact paths must be treated as release-sensitive and reviewed as a potential research or release change.
 
 ## Release policy
 
-Canonical PDFs should be regenerated only when at least one of the following conditions is true:
+New PDF release artifacts should be published only when at least one of the following conditions is true:
 
 - manuscript content changes;
 - accepted editorial revisions occur; or
 - a version number changes.
 
-Canonical PDFs must never be regenerated simply because CI runs. CI validates candidate builds; it does not publish them.
+PDF release artifacts must never be published simply because CI runs. CI validates generated candidate artifacts; it does not publish them.
 
-When a canonical PDF is regenerated, the release change should identify:
+When a PDF release artifact is created, the release change must identify:
 
 - which paper changed;
 - why regeneration is required;
@@ -170,18 +179,35 @@ When a canonical PDF is regenerated, the release change should identify:
 - which TeX baseline and build command were used; and
 - whether the change is research, editorial, or version-only.
 
-A release commit may include both source changes and the corresponding canonical PDF update when that pairing is necessary to keep the published artifact aligned with the manuscript source. A release commit must not include unrelated infrastructure or documentation drift unless explicitly justified.
+### Accepted-change-to-release transition
+
+An accepted research change reaches publication only through this ordered transition:
+
+1. Review and accept the changed research object; record its version and scope. If the change has no object representation, record acceptance of the manuscript change instead.
+2. Update the human-authored manuscript source so every selected object statement and version is represented accurately, with no unresolved semantic differences.
+3. Validate object schemas/invariants and the paper-local source boundary.
+4. Build `main.pdf` as a generated candidate artifact using the documented TeX baseline and command.
+5. Compare the candidate against the accepted objects and manuscript source. Review rendered equations, citations, references, figures, and other material content; byte equality is not required when only permitted PDF metadata differs.
+6. Record the source commit, selected object versions, TeX baseline, build command, validation evidence, and candidate digest in release provenance.
+7. In an explicit release change, publish the reviewed candidate at `pdf/paperN.pdf` as a new immutable release artifact; tag or otherwise version it so later corrections do not rewrite its identity.
+
+A release commit may include source changes and the corresponding new PDF release artifact when needed to keep them aligned. It must not include unrelated infrastructure or documentation drift unless explicitly justified. Until steps 1–7 pass, an older committed PDF remains historical but is marked stale relative to the accepted objects or manuscript source.
 
 ## Acceptance criteria
 
-This document is the canonical repository policy governing reproducible research builds. Future changes to paper sources, canonical PDFs, CI workflows, build scripts, or release procedures should be evaluated against this specification.
+This document is the authoritative repository policy governing reproducible research builds. Future changes to research objects, paper sources, PDF release artifacts, CI workflows, build scripts, or release procedures should be evaluated against this specification.
 
 A repository change satisfies this reproducibility specification when it:
 
 - preserves independent buildability for all three papers;
 - does not introduce cross-paper source-tree dependencies;
-- keeps canonical PDFs separate from temporary generated PDFs;
+- keeps immutable PDF release artifacts separate from generated candidate PDFs;
 - uses the documented TeX baseline and build boundary for validation;
 - classifies repository evolution as research, documentation, or infrastructure change;
-- regenerates canonical PDFs only under the release policy; and
+- publishes PDF release artifacts only under the release policy;
+- verifies that each manuscript statement covered by an accepted research object has the same meaning, object identity, and version as that object;
+- verifies that each generated candidate PDF materially matches both the accepted objects selected for the paper and the human-authored manuscript source;
+- records release provenance sufficient to associate the immutable PDF with its source commit, selected object versions, build environment, command, and digest;
+- detects a stale release whenever accepted object meaning or manuscript source has changed since the recorded release provenance, or when a fresh candidate materially differs from the committed PDF for reasons other than permitted metadata variation;
+- blocks publication while any object/source/candidate mismatch is unresolved and marks an existing mismatched PDF release as stale rather than treating it as authority; and
 - leaves reproducibility evidence visible through build logs, workflow artifacts, or documented local commands.
