@@ -45,6 +45,7 @@ def compare_semantics(
     expected = fixture.expected_semantics
     checks = [
         ("dependency_relations", expected.get("dependency_relations", []), evidence.dependency_relations),
+        ("structural_metrics", expected.get("structural_metrics", {}), evidence.structural_metrics),
         ("structural_invariants", expected.get("structural_invariants", {}), evidence.structural_invariants),
         ("canonical_outputs", expected.get("canonical_outputs", {}), evidence.canonical_outputs),
         ("required_diagnostics", expected.get("required_diagnostics", []), evidence.required_diagnostics),

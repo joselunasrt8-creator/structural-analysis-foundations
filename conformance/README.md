@@ -53,6 +53,7 @@ flowchart TD
 - `comparator.py` compares semantics rather than formatting, ordering, or serialization details.
 - `reporter.py` writes deterministic result artifacts.
 - `adapters/dependency_predicate_reference.py` is the local reference adapter for validating the harness path.
+- `adapters/reachability_profile_reference.py` is the bounded local reference realization for the canonical Reachability Profile.
 - `adapters/dependency_algebra_external.py` is the external adapter boundary for an actual `dependency-algebra` implementation. It returns `UNOBSERVED` when the implementation is unavailable.
 - `fixtures/dependency-predicate.fixture.json` is the reference fixture for Paper 1's Dependency Predicate research object.
 - `fixtures/dependency-predicate.external.fixture.json` is the external fixture for dependency-algebra observation.
@@ -69,7 +70,7 @@ The second canonical research object is the Reachability Profile:
 - schema: `schemas/canonical-reachability-profile.schema.json`
 - deterministic fixture: `conformance/fixtures/canonical-reachability-profile.fixture.json`
 
-The fixture is intentionally language-independent and not bound to SYNAPSE, dependency-algebra, or any programming language. It defines expected semantics, not a complete canonical evidence envelope. Future adapters may execute implementations against it; those adapters must produce evidence conforming to `schemas/evidence.schema.json` and compare the fixture-defined semantic projection fields: `canonical_outputs`, `structural_metrics`, `structural_invariants`, and `required_diagnostics`.
+The fixture is intentionally language-independent and not bound to SYNAPSE, dependency-algebra, or any programming language. It defines expected semantics, not a complete canonical evidence envelope. Its bounded reference adapter consumes only the fixture's finite canonical structural object and workload. Adapters must produce evidence conforming to `schemas/evidence.schema.json` and compare the fixture-defined semantic projection fields: `canonical_outputs`, `structural_metrics`, `structural_invariants`, and `required_diagnostics`.
 
 To add another research object:
 
@@ -113,6 +114,18 @@ Validate the reference harness path:
 
 ```bash
 python -m conformance --fixture conformance/fixtures/dependency-predicate.fixture.json
+```
+
+Execute the bounded Reachability Profile reference realization:
+
+```bash
+python -m conformance --fixture conformance/fixtures/canonical-reachability-profile.fixture.json
+```
+
+The canonical result is written to exactly:
+
+```text
+conformance/artifacts/paper3.reachability-profile.basic-v1/reachability-profile-reference/evidence.json
 ```
 
 Observe the external adapter boundary:

@@ -114,6 +114,18 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
+    "adapter": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "const": "reachability-profile-reference"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
     "description": {
       "minLength": 1,
       "type": "string"
@@ -352,6 +364,7 @@
     }
   },
   "required": [
+    "adapter",
     "description",
     "deterministic_timestamp",
     "evidence_contract",

@@ -33,6 +33,9 @@ jobs:
       - name: Validate canonical fixture schemas
         run: python tools/validate_canonical_fixtures.py
 
+      - name: Run reachability profile reference realization
+        run: python -m conformance --fixture conformance/fixtures/canonical-reachability-profile.fixture.json
+
       - name: Run reference harness validation
         run: python -m conformance --fixture conformance/fixtures/dependency-predicate.fixture.json
 
