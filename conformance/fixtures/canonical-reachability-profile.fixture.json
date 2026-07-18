@@ -1,4 +1,7 @@
 {
+  "adapter": {
+    "name": "reachability-profile-reference"
+  },
   "description": "Canonical Reachability Profile fixture: roots r1 and r2 are evaluated against targets t1 and t2 over a deterministic directed structural object. Exactly two of the four root-target pairs are reachable.",
   "deterministic_timestamp": "2026-01-01T00:00:00Z",
   "evidence_contract": {
@@ -44,7 +47,7 @@
     },
     "required_diagnostics": [
       {
-        "code": "REACHABILITY_PROFILE_EVALUATED",
+        "code": "CANONICAL_ORDERING_CONFIRMED",
         "level": "info"
       },
       {
@@ -52,7 +55,7 @@
         "level": "info"
       },
       {
-        "code": "CANONICAL_ORDERING_CONFIRMED",
+        "code": "REACHABILITY_PROFILE_EVALUATED",
         "level": "info"
       }
     ],
