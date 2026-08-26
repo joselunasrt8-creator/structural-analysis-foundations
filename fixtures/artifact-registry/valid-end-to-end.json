@@ -1,0 +1,630 @@
+{
+  "fixture_id": "artifact-registry-valid-end-to-end-v1",
+  "schema_path": "schemas/artifact.schema.json",
+  "description": "Compressed canonical chain plus records that preserve validation, authorization, execution, and supersession distinctions.",
+  "compressed_chain": [
+    {
+      "artifact_id": "artifact:repository_snapshot:synapse-at-abc",
+      "artifact_type": "repository_snapshot",
+      "version": 1,
+      "content_hash": "sha256:b037b1b2629a9d5bc8c94c05d8e6157545f5b074c396a1d415120880d090d2d7"
+    },
+    {
+      "artifact_id": "artifact:observation:reachable-nodes",
+      "artifact_type": "observation",
+      "version": 1,
+      "content_hash": "sha256:21cebeb16dc3bbac7a2e4a98631773177fc2afdc8bf3ba05619904e68ac619ee"
+    },
+    {
+      "artifact_id": "artifact:evidence_record:reachability-evidence",
+      "artifact_type": "evidence_record",
+      "version": 1,
+      "content_hash": "sha256:ec0e3a46241bec75636e45312faa19cc4b1aa54e641c7a949c57c13e3302d2af"
+    },
+    {
+      "artifact_id": "artifact:model_object:reachability-profile",
+      "artifact_type": "model_object",
+      "version": 1,
+      "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+    },
+    {
+      "artifact_id": "artifact:analysis_result:reachability-analysis",
+      "artifact_type": "analysis_result",
+      "version": 1,
+      "content_hash": "sha256:b4645c8d6fcb7a0c3b0cec7144f1606c247bc5e62c7a971ce779211bd9e153fa"
+    },
+    {
+      "artifact_id": "artifact:decision_reference:adopt-analysis",
+      "artifact_type": "decision_reference",
+      "version": 1,
+      "content_hash": "sha256:fea557ebd8f45f6cf18dab52254752ec528e05cdb575809d1c5d29c4e1ffda6b"
+    }
+  ],
+  "artifacts": [
+    {
+      "schema_version": "1.0.0",
+      "artifact_id": "artifact:repository_snapshot:synapse-at-abc",
+      "artifact_type": "repository_snapshot",
+      "version": 1,
+      "producer": {
+        "id": "synapse/reference-fixture",
+        "kind": "software",
+        "version": "1.0.0"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "artifact_id": "artifact:observation:reachable-nodes",
+          "artifact_type": "observation",
+          "version": 1,
+          "content_hash": "sha256:21cebeb16dc3bbac7a2e4a98631773177fc2afdc8bf3ba05619904e68ac619ee"
+        }
+      ],
+      "provenance": {
+        "origin": {
+          "locator": "https://github.com/joselunasrt8-creator/SYNAPSE",
+          "revision": "abc123"
+        },
+        "method": "deterministic canonical fixture construction",
+        "parameters": {},
+        "environment": {
+        "format": "synapse-canonical-json-v1"
+        },
+        "produced_at": "2026-08-26T00:00:00Z"
+      },
+      "content_hash": "sha256:b037b1b2629a9d5bc8c94c05d8e6157545f5b074c396a1d415120880d090d2d7",
+      "lifecycle_state": "active",
+      "validity": {
+        "state": "unassessed",
+        "confidence": 0,
+        "basis": ""
+      },
+      "supersession": {},
+      "relationships": [],
+      "payload": {
+        "repository": "SYNAPSE",
+        "commit": "abc123"
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "artifact_id": "artifact:observation:reachable-nodes",
+      "artifact_type": "observation",
+      "version": 1,
+      "producer": {
+        "id": "synapse/reference-fixture",
+        "kind": "software",
+        "version": "1.0.0"
+      },
+      "inputs": [
+        {
+          "artifact_id": "artifact:repository_snapshot:synapse-at-abc",
+          "artifact_type": "repository_snapshot",
+          "version": 1,
+          "content_hash": "sha256:b037b1b2629a9d5bc8c94c05d8e6157545f5b074c396a1d415120880d090d2d7"
+        }
+      ],
+      "outputs": [
+        {
+          "artifact_id": "artifact:evidence_record:reachability-evidence",
+          "artifact_type": "evidence_record",
+          "version": 1,
+          "content_hash": "sha256:ec0e3a46241bec75636e45312faa19cc4b1aa54e641c7a949c57c13e3302d2af"
+        }
+      ],
+      "provenance": {
+        "origin": {
+          "locator": "https://github.com/joselunasrt8-creator/SYNAPSE",
+          "revision": "abc123"
+        },
+        "method": "deterministic canonical fixture construction",
+        "parameters": {},
+        "environment": {
+          "format": "synapse-canonical-json-v1"
+        },
+        "produced_at": "2026-08-26T00:01:00Z"
+      },
+      "content_hash": "sha256:21cebeb16dc3bbac7a2e4a98631773177fc2afdc8bf3ba05619904e68ac619ee",
+      "lifecycle_state": "active",
+      "validity": {
+        "state": "unassessed",
+        "confidence": 0,
+        "basis": ""
+      },
+      "supersession": {},
+      "relationships": [
+        {
+          "assertion_id": "rel:observation-derived",
+          "type": "derived_from",
+          "target": {
+            "artifact_id": "artifact:repository_snapshot:synapse-at-abc",
+            "artifact_type": "repository_snapshot",
+            "version": 1,
+            "content_hash": "sha256:b037b1b2629a9d5bc8c94c05d8e6157545f5b074c396a1d415120880d090d2d7"
+          },
+          "rationale": "Observation selects facts from the exact snapshot."
+        }
+      ],
+      "payload": {
+        "nodes": [
+          "a",
+          "b"
+        ]
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "artifact_id": "artifact:evidence_record:reachability-evidence",
+      "artifact_type": "evidence_record",
+      "version": 1,
+      "producer": {
+        "id": "synapse/reference-fixture",
+        "kind": "software",
+        "version": "1.0.0"
+      },
+      "inputs": [
+        {
+          "artifact_id": "artifact:observation:reachable-nodes",
+          "artifact_type": "observation",
+          "version": 1,
+          "content_hash": "sha256:21cebeb16dc3bbac7a2e4a98631773177fc2afdc8bf3ba05619904e68ac619ee"
+        }
+      ],
+      "outputs": [
+        {
+          "artifact_id": "artifact:model_object:reachability-profile",
+          "artifact_type": "model_object",
+          "version": 1,
+          "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+        }
+      ],
+      "provenance": {
+        "origin": {
+          "locator": "https://github.com/joselunasrt8-creator/SYNAPSE",
+          "revision": "abc123"
+        },
+        "method": "deterministic canonical fixture construction",
+        "parameters": {},
+        "environment": {
+          "format": "synapse-canonical-json-v1"
+        },
+        "produced_at": "2026-08-26T00:02:00Z"
+      },
+      "content_hash": "sha256:ec0e3a46241bec75636e45312faa19cc4b1aa54e641c7a949c57c13e3302d2af",
+      "lifecycle_state": "active",
+      "validity": {
+        "state": "unassessed",
+        "confidence": 0,
+        "basis": ""
+      },
+      "supersession": {},
+      "relationships": [
+        {
+          "assertion_id": "rel:evidence-supports-observation",
+          "type": "supports",
+          "target": {
+            "artifact_id": "artifact:observation:reachable-nodes",
+            "artifact_type": "observation",
+            "version": 1,
+            "content_hash": "sha256:21cebeb16dc3bbac7a2e4a98631773177fc2afdc8bf3ba05619904e68ac619ee"
+          },
+          "rationale": "Captured evidence increases confidence in the observation."
+        },
+        {
+          "assertion_id": "rel:evidence-produced-by-run",
+          "type": "produced_by",
+          "target": {
+            "artifact_id": "artifact:execution_record:analysis-run",
+            "artifact_type": "execution_record",
+            "version": 1,
+            "content_hash": "sha256:6260b1232619b3b08ac1a2b7a5bdd0b346d1bb10ed871f94b273cdee4facf04a"
+          },
+          "rationale": "The execution record emitted this evidence payload."
+        }
+      ],
+      "payload": {
+        "observation_count": 1
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "artifact_id": "artifact:model_object:reachability-profile",
+      "artifact_type": "model_object",
+      "version": 1,
+      "producer": {
+        "id": "synapse/reference-fixture",
+        "kind": "software",
+        "version": "1.0.0"
+      },
+      "inputs": [
+        {
+          "artifact_id": "artifact:evidence_record:reachability-evidence",
+          "artifact_type": "evidence_record",
+          "version": 1,
+          "content_hash": "sha256:ec0e3a46241bec75636e45312faa19cc4b1aa54e641c7a949c57c13e3302d2af"
+        }
+      ],
+      "outputs": [
+        {
+          "artifact_id": "artifact:analysis_result:reachability-analysis",
+          "artifact_type": "analysis_result",
+          "version": 1,
+          "content_hash": "sha256:b4645c8d6fcb7a0c3b0cec7144f1606c247bc5e62c7a971ce779211bd9e153fa"
+        }
+      ],
+      "provenance": {
+        "origin": {
+          "locator": "https://github.com/joselunasrt8-creator/SYNAPSE",
+          "revision": "abc123"
+        },
+        "method": "deterministic canonical fixture construction",
+        "parameters": {},
+        "environment": {
+          "format": "synapse-canonical-json-v1"
+        },
+        "produced_at": "2026-08-26T00:03:00Z"
+      },
+      "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f",
+      "lifecycle_state": "active",
+      "validity": {
+        "state": "unassessed",
+        "confidence": 0,
+        "basis": ""
+      },
+      "supersession": {},
+      "relationships": [
+        {
+          "assertion_id": "rel:model-implements-profile",
+          "type": "implements",
+          "target": {
+            "artifact_id": "artifact:observation:reachable-nodes",
+            "artifact_type": "observation",
+            "version": 1,
+            "content_hash": "sha256:21cebeb16dc3bbac7a2e4a98631773177fc2afdc8bf3ba05619904e68ac619ee"
+          },
+          "rationale": "The model realizes the observed reachability structure."
+        },
+        {
+          "assertion_id": "rel:model-executed-as-run",
+          "type": "executed_as",
+          "target": {
+            "artifact_id": "artifact:execution_record:analysis-run",
+            "artifact_type": "execution_record",
+            "version": 1,
+            "content_hash": "sha256:6260b1232619b3b08ac1a2b7a5bdd0b346d1bb10ed871f94b273cdee4facf04a"
+          },
+          "rationale": "This model was instantiated by the bounded execution."
+        }
+      ],
+      "payload": {
+        "research_object_id": "concept.structural-observation.reachability-profile"
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "artifact_id": "artifact:analysis_result:reachability-analysis",
+      "artifact_type": "analysis_result",
+      "version": 1,
+      "producer": {
+        "id": "synapse/reference-fixture",
+        "kind": "software",
+        "version": "1.0.0"
+      },
+      "inputs": [
+        {
+          "artifact_id": "artifact:model_object:reachability-profile",
+          "artifact_type": "model_object",
+          "version": 1,
+          "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+        }
+      ],
+      "outputs": [
+        {
+          "artifact_id": "artifact:decision_reference:adopt-analysis",
+          "artifact_type": "decision_reference",
+          "version": 1,
+          "content_hash": "sha256:fea557ebd8f45f6cf18dab52254752ec528e05cdb575809d1c5d29c4e1ffda6b"
+        }
+      ],
+      "provenance": {
+        "origin": {
+          "locator": "https://github.com/joselunasrt8-creator/SYNAPSE",
+          "revision": "abc123"
+        },
+        "method": "deterministic canonical fixture construction",
+        "parameters": {},
+        "environment": {
+          "format": "synapse-canonical-json-v1"
+        },
+        "produced_at": "2026-08-26T00:04:00Z"
+      },
+      "content_hash": "sha256:b4645c8d6fcb7a0c3b0cec7144f1606c247bc5e62c7a971ce779211bd9e153fa",
+      "lifecycle_state": "active",
+      "validity": {
+        "state": "unassessed",
+        "confidence": 0,
+        "basis": ""
+      },
+      "supersession": {},
+      "relationships": [
+        {
+          "assertion_id": "rel:analysis-derived-from-model",
+          "type": "derived_from",
+          "target": {
+            "artifact_id": "artifact:model_object:reachability-profile",
+            "artifact_type": "model_object",
+            "version": 1,
+            "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+          },
+          "rationale": "The result is computed from this exact model."
+        },
+        {
+          "assertion_id": "rel:analysis-validated",
+          "type": "validated_by",
+          "target": {
+            "artifact_id": "artifact:validation_record:analysis-validation",
+            "artifact_type": "validation_record",
+            "version": 1,
+            "content_hash": "sha256:7921dff2d7baa54830e3d8f3994ff8f09b6e1cad0fca8fec21736522c7878878"
+          },
+          "rationale": "The validation record assessed the named contract."
+        }
+      ],
+      "payload": {
+        "reachable_pairs": [
+          [
+            "a",
+            "b"
+          ]
+        ]
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "artifact_id": "artifact:decision_reference:adopt-analysis",
+      "artifact_type": "decision_reference",
+      "version": 1,
+      "producer": {
+        "id": "synapse/reference-fixture",
+        "kind": "software",
+        "version": "1.0.0"
+      },
+      "inputs": [
+        {
+          "artifact_id": "artifact:analysis_result:reachability-analysis",
+          "artifact_type": "analysis_result",
+          "version": 1,
+          "content_hash": "sha256:b4645c8d6fcb7a0c3b0cec7144f1606c247bc5e62c7a971ce779211bd9e153fa"
+        }
+      ],
+      "outputs": [],
+      "provenance": {
+        "origin": {
+          "locator": "https://github.com/joselunasrt8-creator/SYNAPSE",
+          "revision": "abc123"
+        },
+        "method": "deterministic canonical fixture construction",
+        "parameters": {},
+        "environment": {
+          "format": "synapse-canonical-json-v1"
+        },
+        "produced_at": "2026-08-26T00:05:00Z"
+      },
+      "content_hash": "sha256:fea557ebd8f45f6cf18dab52254752ec528e05cdb575809d1c5d29c4e1ffda6b",
+      "lifecycle_state": "active",
+      "validity": {
+        "state": "unassessed",
+        "confidence": 0,
+        "basis": ""
+      },
+      "supersession": {},
+      "relationships": [
+        {
+          "assertion_id": "rel:decision-authorized",
+          "type": "authorized_by",
+          "target": {
+            "artifact_id": "artifact:authorization_record:analysis-authorization",
+            "artifact_type": "authorization_record",
+            "version": 1,
+            "content_hash": "sha256:24017cdb2de3aa718ee72cb0a82a228950ead6752937cc79be08b9f5fa7146c6"
+          },
+          "rationale": "The authorization permits this bounded decision use."
+        }
+      ],
+      "payload": {
+        "decision": "adopt"
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "artifact_id": "artifact:validation_record:analysis-validation",
+      "artifact_type": "validation_record",
+      "version": 1,
+      "producer": {
+        "id": "synapse/reference-fixture",
+        "kind": "software",
+        "version": "1.0.0"
+      },
+      "inputs": [],
+      "outputs": [],
+      "provenance": {
+        "origin": {
+          "locator": "https://github.com/joselunasrt8-creator/SYNAPSE",
+          "revision": "abc123"
+        },
+        "method": "deterministic canonical fixture construction",
+        "parameters": {},
+        "environment": {
+          "format": "synapse-canonical-json-v1"
+        },
+        "produced_at": "2026-08-26T00:06:00Z"
+      },
+      "content_hash": "sha256:7921dff2d7baa54830e3d8f3994ff8f09b6e1cad0fca8fec21736522c7878878",
+      "lifecycle_state": "active",
+      "validity": {
+        "state": "unassessed",
+        "confidence": 0,
+        "basis": ""
+      },
+      "supersession": {},
+      "relationships": [],
+      "payload": {
+        "contract": "reachability-v1",
+        "outcome": "pass"
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "artifact_id": "artifact:authorization_record:analysis-authorization",
+      "artifact_type": "authorization_record",
+      "version": 1,
+      "producer": {
+        "id": "synapse/reference-fixture",
+        "kind": "software",
+        "version": "1.0.0"
+      },
+      "inputs": [],
+      "outputs": [],
+      "provenance": {
+        "origin": {
+          "locator": "https://github.com/joselunasrt8-creator/SYNAPSE",
+          "revision": "abc123"
+        },
+        "method": "deterministic canonical fixture construction",
+        "parameters": {},
+        "environment": {
+          "format": "synapse-canonical-json-v1"
+        },
+        "produced_at": "2026-08-26T00:07:00Z"
+      },
+      "content_hash": "sha256:24017cdb2de3aa718ee72cb0a82a228950ead6752937cc79be08b9f5fa7146c6",
+      "lifecycle_state": "active",
+      "validity": {
+        "state": "unassessed",
+        "confidence": 0,
+        "basis": ""
+      },
+      "supersession": {},
+      "relationships": [],
+      "payload": {
+        "scope": "use-analysis-in-decision"
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "artifact_id": "artifact:execution_record:analysis-run",
+      "artifact_type": "execution_record",
+      "version": 1,
+      "producer": {
+        "id": "synapse/reference-fixture",
+        "kind": "software",
+        "version": "1.0.0"
+      },
+      "inputs": [],
+      "outputs": [],
+      "provenance": {
+        "origin": {
+          "locator": "https://github.com/joselunasrt8-creator/SYNAPSE",
+          "revision": "abc123"
+        },
+        "method": "deterministic canonical fixture construction",
+        "parameters": {},
+        "environment": {
+          "format": "synapse-canonical-json-v1"
+        },
+        "produced_at": "2026-08-26T00:08:00Z"
+      },
+      "content_hash": "sha256:6260b1232619b3b08ac1a2b7a5bdd0b346d1bb10ed871f94b273cdee4facf04a",
+      "lifecycle_state": "active",
+      "validity": {
+        "state": "unassessed",
+        "confidence": 0,
+        "basis": ""
+      },
+      "supersession": {},
+      "relationships": [],
+      "payload": {
+        "command": "reference-adapter",
+        "exit_code": 0
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "artifact_id": "artifact:observation:reachable-nodes",
+      "artifact_type": "observation",
+      "version": 2,
+      "producer": {
+        "id": "synapse/reference-fixture",
+        "kind": "software",
+        "version": "1.0.0"
+      },
+      "inputs": [
+        {
+          "artifact_id": "artifact:repository_snapshot:synapse-at-abc",
+          "artifact_type": "repository_snapshot",
+          "version": 1,
+          "content_hash": "sha256:b037b1b2629a9d5bc8c94c05d8e6157545f5b074c396a1d415120880d090d2d7"
+        }
+      ],
+      "outputs": [],
+      "provenance": {
+        "origin": {
+          "locator": "https://github.com/joselunasrt8-creator/SYNAPSE",
+          "revision": "abc123"
+        },
+        "method": "deterministic canonical fixture construction",
+        "parameters": {},
+        "environment": {
+          "format": "synapse-canonical-json-v1"
+        },
+        "produced_at": "2026-08-26T00:01:00Z"
+      },
+      "content_hash": "sha256:ca8895057cf741ebea591ce7622544aa9a0f131d1ed605c3674181c3a0fbb535",
+      "lifecycle_state": "active",
+      "validity": {
+        "state": "unassessed",
+        "confidence": 0,
+        "basis": ""
+      },
+      "supersession": {
+        "previous": {
+          "artifact_id": "artifact:observation:reachable-nodes",
+          "artifact_type": "observation",
+          "version": 1,
+          "content_hash": "sha256:21cebeb16dc3bbac7a2e4a98631773177fc2afdc8bf3ba05619904e68ac619ee"
+        }
+      },
+      "relationships": [
+        {
+          "assertion_id": "rel:observation-supersedes-v1",
+          "type": "supersedes",
+          "target": {
+            "artifact_id": "artifact:observation:reachable-nodes",
+            "artifact_type": "observation",
+            "version": 1,
+            "content_hash": "sha256:21cebeb16dc3bbac7a2e4a98631773177fc2afdc8bf3ba05619904e68ac619ee"
+          },
+          "rationale": "Corrected observation replaces version 1 while preserving history."
+        },
+        {
+          "assertion_id": "rel:observation-contradicts-result",
+          "type": "contradicts",
+          "target": {
+            "artifact_id": "artifact:analysis_result:reachability-analysis",
+            "artifact_type": "analysis_result",
+            "version": 1,
+            "content_hash": "sha256:b4645c8d6fcb7a0c3b0cec7144f1606c247bc5e62c7a971ce779211bd9e153fa"
+          },
+          "rationale": "The additional node conflicts with the earlier bounded result."
+        }
+      ],
+      "payload": {
+        "nodes": [
+          "a",
+          "b",
+          "c"
+        ]
+      }
+    }
+  ]
+}

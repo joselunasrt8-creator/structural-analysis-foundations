@@ -1,0 +1,696 @@
+{
+  "fixture_id": "artifact-registry-invalid-v1",
+  "schema_path": "schemas/artifact.schema.json",
+  "cases": [
+    {
+      "name": "latest-reference",
+      "artifact": {
+        "schema_version": "1.0.0",
+        "artifact_id": "artifact:analysis_result:reachability-analysis",
+        "artifact_type": "analysis_result",
+        "version": 1,
+        "producer": {
+          "id": "synapse/reference-fixture",
+          "kind": "software",
+          "version": "1.0.0"
+        },
+        "inputs": [
+          {
+            "artifact_id": "artifact:model_object:reachability-profile",
+            "artifact_type": "model_object",
+            "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+          }
+        ],
+        "outputs": [
+          {
+            "artifact_id": "artifact:decision_reference:adopt-analysis",
+            "artifact_type": "decision_reference",
+            "version": 1,
+            "content_hash": "sha256:fea557ebd8f45f6cf18dab52254752ec528e05cdb575809d1c5d29c4e1ffda6b"
+          }
+        ],
+        "provenance": {
+          "origin": {
+            "locator": "https://github.com/joselunasrt8-creator/SYNAPSE",
+            "revision": "abc123"
+          },
+          "method": "deterministic canonical fixture construction",
+          "parameters": {},
+          "environment": {
+            "format": "synapse-canonical-json-v1"
+          },
+          "produced_at": "2026-08-26T00:04:00Z"
+        },
+        "content_hash": "sha256:b4645c8d6fcb7a0c3b0cec7144f1606c247bc5e62c7a971ce779211bd9e153fa",
+        "lifecycle_state": "active",
+        "validity": {
+          "state": "unassessed",
+          "confidence": 0,
+          "basis": ""
+        },
+        "supersession": {},
+        "relationships": [
+          {
+            "assertion_id": "rel:analysis-derived-from-model",
+            "type": "derived_from",
+            "target": {
+              "artifact_id": "artifact:model_object:reachability-profile",
+              "artifact_type": "model_object",
+              "version": 1,
+              "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+            },
+            "rationale": "The result is computed from this exact model."
+          },
+          {
+            "assertion_id": "rel:analysis-validated",
+            "type": "validated_by",
+            "target": {
+              "artifact_id": "artifact:validation_record:analysis-validation",
+              "artifact_type": "validation_record",
+              "version": 1,
+              "content_hash": "sha256:7921dff2d7baa54830e3d8f3994ff8f09b6e1cad0fca8fec21736522c7878878"
+            },
+            "rationale": "The validation record assessed the named contract."
+          }
+        ],
+        "payload": {
+          "reachable_pairs": [
+            [
+              "a",
+              "b"
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "path": "$/inputs/0",
+        "constraint": "required"
+      }
+    },
+    {
+      "name": "malformed-content-hash",
+      "artifact": {
+        "schema_version": "1.0.0",
+        "artifact_id": "artifact:analysis_result:reachability-analysis",
+        "artifact_type": "analysis_result",
+        "version": 1,
+        "producer": {
+          "id": "synapse/reference-fixture",
+          "kind": "software",
+          "version": "1.0.0"
+        },
+        "inputs": [
+          {
+            "artifact_id": "artifact:model_object:reachability-profile",
+            "artifact_type": "model_object",
+            "version": 1,
+            "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+          }
+        ],
+        "outputs": [
+          {
+            "artifact_id": "artifact:decision_reference:adopt-analysis",
+            "artifact_type": "decision_reference",
+            "version": 1,
+            "content_hash": "sha256:fea557ebd8f45f6cf18dab52254752ec528e05cdb575809d1c5d29c4e1ffda6b"
+          }
+        ],
+        "provenance": {
+          "origin": {
+            "locator": "https://github.com/joselunasrt8-creator/SYNAPSE",
+            "revision": "abc123"
+          },
+          "method": "deterministic canonical fixture construction",
+          "parameters": {},
+          "environment": {
+            "format": "synapse-canonical-json-v1"
+          },
+          "produced_at": "2026-08-26T00:04:00Z"
+        },
+        "content_hash": "sha256:ABC",
+        "lifecycle_state": "active",
+        "validity": {
+          "state": "unassessed",
+          "confidence": 0,
+          "basis": ""
+        },
+        "supersession": {},
+        "relationships": [
+          {
+            "assertion_id": "rel:analysis-derived-from-model",
+            "type": "derived_from",
+            "target": {
+              "artifact_id": "artifact:model_object:reachability-profile",
+              "artifact_type": "model_object",
+              "version": 1,
+              "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+            },
+            "rationale": "The result is computed from this exact model."
+          },
+          {
+            "assertion_id": "rel:analysis-validated",
+            "type": "validated_by",
+            "target": {
+              "artifact_id": "artifact:validation_record:analysis-validation",
+              "artifact_type": "validation_record",
+              "version": 1,
+              "content_hash": "sha256:7921dff2d7baa54830e3d8f3994ff8f09b6e1cad0fca8fec21736522c7878878"
+            },
+            "rationale": "The validation record assessed the named contract."
+          }
+        ],
+        "payload": {
+          "reachable_pairs": [
+            [
+              "a",
+              "b"
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "path": "$/content_hash",
+        "constraint": "pattern"
+      }
+    },
+    {
+      "name": "valid-without-assessor",
+      "artifact": {
+        "schema_version": "1.0.0",
+        "artifact_id": "artifact:analysis_result:reachability-analysis",
+        "artifact_type": "analysis_result",
+        "version": 1,
+        "producer": {
+          "id": "synapse/reference-fixture",
+          "kind": "software",
+          "version": "1.0.0"
+        },
+        "inputs": [
+          {
+            "artifact_id": "artifact:model_object:reachability-profile",
+            "artifact_type": "model_object",
+            "version": 1,
+            "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+          }
+        ],
+        "outputs": [
+          {
+            "artifact_id": "artifact:decision_reference:adopt-analysis",
+            "artifact_type": "decision_reference",
+            "version": 1,
+            "content_hash": "sha256:fea557ebd8f45f6cf18dab52254752ec528e05cdb575809d1c5d29c4e1ffda6b"
+          }
+        ],
+        "provenance": {
+          "origin": {
+            "locator": "https://github.com/joselunasrt8-creator/SYNAPSE",
+            "revision": "abc123"
+          },
+          "method": "deterministic canonical fixture construction",
+          "parameters": {},
+          "environment": {
+            "format": "synapse-canonical-json-v1"
+          },
+          "produced_at": "2026-08-26T00:04:00Z"
+        },
+        "content_hash": "sha256:b4645c8d6fcb7a0c3b0cec7144f1606c247bc5e62c7a971ce779211bd9e153fa",
+        "lifecycle_state": "active",
+        "validity": {
+          "state": "valid",
+          "confidence": 1,
+          "basis": "passed"
+        },
+        "supersession": {},
+        "relationships": [
+          {
+            "assertion_id": "rel:analysis-derived-from-model",
+            "type": "derived_from",
+            "target": {
+              "artifact_id": "artifact:model_object:reachability-profile",
+              "artifact_type": "model_object",
+              "version": 1,
+              "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+            },
+            "rationale": "The result is computed from this exact model."
+          },
+          {
+            "assertion_id": "rel:analysis-validated",
+            "type": "validated_by",
+            "target": {
+              "artifact_id": "artifact:validation_record:analysis-validation",
+              "artifact_type": "validation_record",
+              "version": 1,
+              "content_hash": "sha256:7921dff2d7baa54830e3d8f3994ff8f09b6e1cad0fca8fec21736522c7878878"
+            },
+            "rationale": "The validation record assessed the named contract."
+          }
+        ],
+        "payload": {
+          "reachable_pairs": [
+            [
+              "a",
+              "b"
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "path": "$/validity",
+        "constraint": "required"
+      }
+    },
+    {
+      "name": "validated-by-wrong-type",
+      "artifact": {
+        "schema_version": "1.0.0",
+        "artifact_id": "artifact:analysis_result:reachability-analysis",
+        "artifact_type": "analysis_result",
+        "version": 1,
+        "producer": {
+          "id": "synapse/reference-fixture",
+          "kind": "software",
+          "version": "1.0.0"
+        },
+        "inputs": [
+          {
+            "artifact_id": "artifact:model_object:reachability-profile",
+            "artifact_type": "model_object",
+            "version": 1,
+            "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+          }
+        ],
+        "outputs": [
+          {
+            "artifact_id": "artifact:decision_reference:adopt-analysis",
+            "artifact_type": "decision_reference",
+            "version": 1,
+            "content_hash": "sha256:fea557ebd8f45f6cf18dab52254752ec528e05cdb575809d1c5d29c4e1ffda6b"
+          }
+        ],
+        "provenance": {
+          "origin": {
+            "locator": "https://github.com/joselunasrt8-creator/SYNAPSE",
+            "revision": "abc123"
+          },
+          "method": "deterministic canonical fixture construction",
+          "parameters": {},
+          "environment": {
+            "format": "synapse-canonical-json-v1"
+          },
+          "produced_at": "2026-08-26T00:04:00Z"
+        },
+        "content_hash": "sha256:b4645c8d6fcb7a0c3b0cec7144f1606c247bc5e62c7a971ce779211bd9e153fa",
+        "lifecycle_state": "active",
+        "validity": {
+          "state": "unassessed",
+          "confidence": 0,
+          "basis": ""
+        },
+        "supersession": {},
+        "relationships": [
+          {
+            "assertion_id": "rel:wrong-validation-target",
+            "type": "validated_by",
+            "target": {
+              "artifact_id": "artifact:authorization_record:analysis-authorization",
+              "artifact_type": "authorization_record",
+              "version": 1,
+              "content_hash": "sha256:24017cdb2de3aa718ee72cb0a82a228950ead6752937cc79be08b9f5fa7146c6"
+            },
+            "rationale": "Wrong target type."
+          }
+        ],
+        "payload": {
+          "reachable_pairs": [
+            [
+              "a",
+              "b"
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "path": "$/relationships/0/target/artifact_type",
+        "constraint": "const"
+      }
+    },
+    {
+      "name": "duplicate-assertion-id",
+      "artifact": {
+        "schema_version": "1.0.0",
+        "artifact_id": "artifact:analysis_result:reachability-analysis",
+        "artifact_type": "analysis_result",
+        "version": 1,
+        "producer": {
+          "id": "synapse/reference-fixture",
+          "kind": "software",
+          "version": "1.0.0"
+        },
+        "inputs": [
+          {
+            "artifact_id": "artifact:model_object:reachability-profile",
+            "artifact_type": "model_object",
+            "version": 1,
+            "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+          }
+        ],
+        "outputs": [
+          {
+            "artifact_id": "artifact:decision_reference:adopt-analysis",
+            "artifact_type": "decision_reference",
+            "version": 1,
+            "content_hash": "sha256:fea557ebd8f45f6cf18dab52254752ec528e05cdb575809d1c5d29c4e1ffda6b"
+          }
+        ],
+        "provenance": {
+          "origin": {
+            "locator": "https://github.com/joselunasrt8-creator/SYNAPSE",
+            "revision": "abc123"
+          },
+          "method": "deterministic canonical fixture construction",
+          "parameters": {},
+          "environment": {
+            "format": "synapse-canonical-json-v1"
+          },
+          "produced_at": "2026-08-26T00:04:00Z"
+        },
+        "content_hash": "sha256:b4645c8d6fcb7a0c3b0cec7144f1606c247bc5e62c7a971ce779211bd9e153fa",
+        "lifecycle_state": "active",
+        "validity": {
+          "state": "unassessed",
+          "confidence": 0,
+          "basis": ""
+        },
+        "supersession": {},
+        "relationships": [
+          {
+            "assertion_id": "rel:analysis-derived-from-model",
+            "type": "derived_from",
+            "target": {
+              "artifact_id": "artifact:model_object:reachability-profile",
+              "artifact_type": "model_object",
+              "version": 1,
+              "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+            },
+            "rationale": "The result is computed from this exact model."
+          },
+          {
+            "assertion_id": "rel:analysis-validated",
+            "type": "validated_by",
+            "target": {
+              "artifact_id": "artifact:validation_record:analysis-validation",
+              "artifact_type": "validation_record",
+              "version": 1,
+              "content_hash": "sha256:7921dff2d7baa54830e3d8f3994ff8f09b6e1cad0fca8fec21736522c7878878"
+            },
+            "rationale": "The validation record assessed the named contract."
+          },
+          {
+            "assertion_id": "rel:analysis-derived-from-model",
+            "type": "derived_from",
+            "target": {
+              "artifact_id": "artifact:model_object:reachability-profile",
+              "artifact_type": "model_object",
+              "version": 1,
+              "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+            },
+            "rationale": "The result is computed from this exact model."
+          },
+          {
+            "assertion_id": "rel:analysis-validated",
+            "type": "validated_by",
+            "target": {
+              "artifact_id": "artifact:validation_record:analysis-validation",
+              "artifact_type": "validation_record",
+              "version": 1,
+              "content_hash": "sha256:7921dff2d7baa54830e3d8f3994ff8f09b6e1cad0fca8fec21736522c7878878"
+            },
+            "rationale": "The validation record assessed the named contract."
+          }
+        ],
+        "payload": {
+          "reachable_pairs": [
+            [
+              "a",
+              "b"
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "path": "$/relationships/2/assertion_id",
+        "constraint": "uniqueAssertionId"
+      }
+    },
+    {
+      "name": "reference-hash-mismatch",
+      "artifact": {
+        "schema_version": "1.0.0",
+        "artifact_id": "artifact:analysis_result:reachability-analysis",
+        "artifact_type": "analysis_result",
+        "version": 1,
+        "producer": {
+          "id": "synapse/reference-fixture",
+          "kind": "software",
+          "version": "1.0.0"
+        },
+        "inputs": [
+          {
+            "artifact_id": "artifact:model_object:reachability-profile",
+            "artifact_type": "model_object",
+            "version": 1,
+            "content_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ],
+        "outputs": [
+          {
+            "artifact_id": "artifact:decision_reference:adopt-analysis",
+            "artifact_type": "decision_reference",
+            "version": 1,
+            "content_hash": "sha256:fea557ebd8f45f6cf18dab52254752ec528e05cdb575809d1c5d29c4e1ffda6b"
+          }
+        ],
+        "provenance": {
+          "origin": {
+            "locator": "https://github.com/joselunasrt8-creator/SYNAPSE",
+            "revision": "abc123"
+          },
+          "method": "deterministic canonical fixture construction",
+          "parameters": {},
+          "environment": {
+            "format": "synapse-canonical-json-v1"
+          },
+          "produced_at": "2026-08-26T00:04:00Z"
+        },
+        "content_hash": "sha256:b4645c8d6fcb7a0c3b0cec7144f1606c247bc5e62c7a971ce779211bd9e153fa",
+        "lifecycle_state": "active",
+        "validity": {
+          "state": "unassessed",
+          "confidence": 0,
+          "basis": ""
+        },
+        "supersession": {},
+        "relationships": [
+          {
+            "assertion_id": "rel:analysis-derived-from-model",
+            "type": "derived_from",
+            "target": {
+              "artifact_id": "artifact:model_object:reachability-profile",
+              "artifact_type": "model_object",
+              "version": 1,
+              "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+            },
+            "rationale": "The result is computed from this exact model."
+          },
+          {
+            "assertion_id": "rel:analysis-validated",
+            "type": "validated_by",
+            "target": {
+              "artifact_id": "artifact:validation_record:analysis-validation",
+              "artifact_type": "validation_record",
+              "version": 1,
+              "content_hash": "sha256:7921dff2d7baa54830e3d8f3994ff8f09b6e1cad0fca8fec21736522c7878878"
+            },
+            "rationale": "The validation record assessed the named contract."
+          }
+        ],
+        "payload": {
+          "reachable_pairs": [
+            [
+              "a",
+              "b"
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "path": "$/inputs/0/content_hash",
+        "constraint": "referenceIntegrity"
+      }
+    },
+    {
+      "name": "cross-identity-supersession",
+      "artifact": {
+        "schema_version": "1.0.0",
+        "artifact_id": "artifact:analysis_result:reachability-analysis",
+        "artifact_type": "analysis_result",
+        "version": 2,
+        "producer": {
+          "id": "synapse/reference-fixture",
+          "kind": "software",
+          "version": "1.0.0"
+        },
+        "inputs": [
+          {
+            "artifact_id": "artifact:model_object:reachability-profile",
+            "artifact_type": "model_object",
+            "version": 1,
+            "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+          }
+        ],
+        "outputs": [
+          {
+            "artifact_id": "artifact:decision_reference:adopt-analysis",
+            "artifact_type": "decision_reference",
+            "version": 1,
+            "content_hash": "sha256:fea557ebd8f45f6cf18dab52254752ec528e05cdb575809d1c5d29c4e1ffda6b"
+          }
+        ],
+        "provenance": {
+          "origin": {
+            "locator": "https://github.com/joselunasrt8-creator/SYNAPSE",
+            "revision": "abc123"
+          },
+          "method": "deterministic canonical fixture construction",
+          "parameters": {},
+          "environment": {
+            "format": "synapse-canonical-json-v1"
+          },
+          "produced_at": "2026-08-26T00:04:00Z"
+        },
+        "content_hash": "sha256:b4645c8d6fcb7a0c3b0cec7144f1606c247bc5e62c7a971ce779211bd9e153fa",
+        "lifecycle_state": "active",
+        "validity": {
+          "state": "unassessed",
+          "confidence": 0,
+          "basis": ""
+        },
+        "supersession": {
+          "previous": {
+            "artifact_id": "artifact:model_object:reachability-profile",
+            "artifact_type": "model_object",
+            "version": 1,
+            "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+          }
+        },
+        "relationships": [
+          {
+            "assertion_id": "rel:bad-supersession",
+            "type": "supersedes",
+            "target": {
+              "artifact_id": "artifact:model_object:reachability-profile",
+              "artifact_type": "model_object",
+              "version": 1,
+              "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+            },
+            "rationale": "Wrong logical identity."
+          }
+        ],
+        "payload": {
+          "reachable_pairs": [
+            [
+              "a",
+              "b"
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "path": "$/relationships/0/target/artifact_id",
+        "constraint": "supersessionIdentity"
+      }
+    },
+    {
+      "name": "lineage-disagreement",
+      "artifact": {
+        "schema_version": "1.0.0",
+        "artifact_id": "artifact:analysis_result:reachability-analysis",
+        "artifact_type": "analysis_result",
+        "version": 2,
+        "producer": {
+          "id": "synapse/reference-fixture",
+          "kind": "software",
+          "version": "1.0.0"
+        },
+        "inputs": [
+          {
+            "artifact_id": "artifact:model_object:reachability-profile",
+            "artifact_type": "model_object",
+            "version": 1,
+            "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+          }
+        ],
+        "outputs": [
+          {
+            "artifact_id": "artifact:decision_reference:adopt-analysis",
+            "artifact_type": "decision_reference",
+            "version": 1,
+            "content_hash": "sha256:fea557ebd8f45f6cf18dab52254752ec528e05cdb575809d1c5d29c4e1ffda6b"
+          }
+        ],
+        "provenance": {
+          "origin": {
+            "locator": "https://github.com/joselunasrt8-creator/SYNAPSE",
+            "revision": "abc123"
+          },
+          "method": "deterministic canonical fixture construction",
+          "parameters": {},
+          "environment": {
+            "format": "synapse-canonical-json-v1"
+          },
+          "produced_at": "2026-08-26T00:04:00Z"
+        },
+        "content_hash": "sha256:b4645c8d6fcb7a0c3b0cec7144f1606c247bc5e62c7a971ce779211bd9e153fa",
+        "lifecycle_state": "active",
+        "validity": {
+          "state": "unassessed",
+          "confidence": 0,
+          "basis": ""
+        },
+        "supersession": {
+          "previous": {
+            "artifact_id": "artifact:model_object:reachability-profile",
+            "artifact_type": "model_object",
+            "version": 1,
+            "content_hash": "sha256:08cfc121cdb796b37265103c93066c813a47c1b6faec629eb6663be34ad7c52f"
+          }
+        },
+        "relationships": [
+          {
+            "assertion_id": "rel:lineage-disagreement",
+            "type": "supersedes",
+            "target": {
+              "artifact_id": "artifact:analysis_result:reachability-analysis",
+              "artifact_type": "analysis_result",
+              "version": 1,
+              "content_hash": "sha256:b4645c8d6fcb7a0c3b0cec7144f1606c247bc5e62c7a971ce779211bd9e153fa"
+            },
+            "rationale": "Edge and lineage disagree."
+          }
+        ],
+        "payload": {
+          "reachable_pairs": [
+            [
+              "a",
+              "b"
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "path": "$/supersession/previous",
+        "constraint": "supersessionAgreement"
+      }
+    }
+  ]
+}

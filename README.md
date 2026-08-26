@@ -58,6 +58,10 @@ For the same research meaning, authority is ordered: **authoritative research ob
 
 Implementations are conformance hypotheses against authoritative research objects, not the source of their authority.
 
+Canonical artifact exchange documentation includes:
+
+- [Canonical Artifact Registry Object Model](docs/artifact-registry-object-model.md) — the immutable, content-addressed Artifact envelope, provenance and lineage rules, relationship semantics, lifecycle/validity separation, and deterministic contract fixtures.
+
 Current governance and review documentation includes:
 
 - [Minimal Promotion Contract](docs/minimal-promotion-contract.md) — the consumer-side review contract for immutable Promotion Packages and bounded formalization authorization.
