@@ -7,84 +7,227 @@
     width="100%">
 </p>
 
-Structural Analysis Foundations is a three-paper research program investigating the mathematical foundations of structural analysis.
+Structural Analysis Foundations is a three-paper research program developing bounded mathematical models for structural analysis.
 
-The program develops progressively:
+The program asks three progressively broader questions:
 
-- **Paper 1** formalizes workload-relative dependency.
-- **Paper 2** defines canonical structural objects and deterministic, representation-invariant structural analysis.
-- **Paper 3** investigates the minimal mathematical interface required for admissible structural analysis operators.
+- **Paper 1:** How can workload-relative dependency be formalized?
+- **Paper 2:** Under what definitions can structural analysis be made canonical and representation-invariant?
+- **Paper 3:** What mathematical interface can characterize a class of admissible structural-analysis operators?
 
-Together, the papers progress from a specific structural analysis, to canonical structural representations, to the general theory of structural analysis itself.
+The papers develop formal objects and propositions inside explicitly declared models. They do not establish that those models are the unique, complete, or universally correct description of real software systems.
 
-## Research Program
+```text
+Formal definition ≠ empirical discovery
+Proof within assumptions ≠ truth outside assumptions
+Canonical representation ≠ uniquely natural representation
+Representation invariance ≠ external validity
+Mathematical admissibility ≠ operational usefulness
+```
+
+## Research program
 
 ### Paper 1 — The Mathematics of Dependency
 
-**Research Question:** What is dependency?
+**Research question:** How can workload-relative dependency be formalized?
 
-**Contribution:**
-Formalizes workload-relative dependency as a mathematical object, treating dependency as a property relative to a specified workload and observational context rather than as an informal graph relation.
+**Contribution:** Defines dependency relative to a specified workload and observational/modeling context rather than treating dependency as an undefined informal graph relation.
 
----
+Its results are conditional on the paper's definitions, structural object, workload model, and assumptions. The formalism does not by itself establish that every real-world notion of software dependency is captured by the predicate.
 
 ### Paper 2 — Canonical Structural Analysis
 
-**Research Question:** What is the canonical structural object?
+**Research question:** Under what declared equivalences can a structural object and analysis be canonical?
 
-**Contribution:**
-Develops deterministic, representation-invariant structural analysis over canonical structural objects, separating structural meaning from implementation-specific graph representations.
+**Contribution:** Develops deterministic, representation-invariant structural analysis over defined canonical structural objects.
 
----
+Here, “canonical” means canonical under the paper's formal representation/equivalence contract. It does not mean that the representation is the only legitimate ontology of a real system or that all consequential runtime structure is observable in it.
 
 ### Paper 3 — Foundations for Structural Analysis
 
-**Research Question:** What characterizes a structural analysis?
+**Research question:** What properties characterize the proposed class of structural analyses?
 
-**Contribution:**
-Investigates the minimal mathematical interface required for admissible structural analysis operators and studies the foundational properties shared by structural analyses independent of any specific application.
+**Contribution:** Investigates a minimal mathematical interface for admissible structural-analysis operators under the paper's definitions.
 
+“Admissible” is a formal property within that framework. It is not execution permission, scientific authority, safety certification, or proof that an operator is useful for a particular engineering decision.
+
+## Formal claim boundary
+
+This repository can establish claims of the form:
+
+> Given definitions D, assumptions A, and model M, proposition P follows by the stated argument/proof.
+
+It cannot obtain empirical premises merely by formalizing them.
+
+A valid theorem can coexist with a poor real-world model. Therefore every downstream use must distinguish:
+
+1. **internal validity** — does the result follow from the definitions and assumptions?;
+2. **model adequacy** — does the mathematical object preserve the real-system properties relevant to the intended claim?;
+3. **external correspondence** — do predictions/conclusions survive observation of real systems?; and
+4. **decision usefulness** — does using the formal result improve a concrete engineering outcome?
+
+The papers primarily address the first. The others require evidence outside mathematical derivation alone.
+
+## Canonicality boundary
+
+Canonicalization is useful when multiple encodings should denote the same structural object. But a canonical representation requires a declared equivalence relation and information-preservation boundary.
+
+Accordingly:
+
+```text
+Same canonical object
+    means
+Equivalent under the declared structural semantics
+
+It does not automatically mean
+Equivalent for every possible software property
+```
+
+If two systems collapse to the same canonical representation while differing on a property important to the intended analysis, the representation is insufficient for that use even if the canonicalization theorem is correct.
+
+## Dependency boundary
+
+Workload-relative dependency should be interpreted at the level established by Paper 1's formal model.
+
+A dependency result does not automatically imply:
+
+- causal necessity in every execution environment;
+- operational criticality;
+- performance sensitivity;
+- security significance;
+- organizational ownership;
+- economic importance;
+- inability to substitute another component; or
+- universal dependency across all workloads.
+
+Those require additional definitions or empirical evidence.
 
 ## Research authority and artifact terms
 
-The repository uses four separate terms. The JSON records currently under `paper-*/research-objects/` are **seed records**, not authoritative research objects:
+The repository uses separate artifact roles. The JSON records currently under `paper-*/research-objects/` are **seed records**, not automatically authoritative research objects.
 
-- **Authoritative research object:** an accepted, versioned research object that fixes research meaning, including its stable schema, invariants, and evidence contract. It is authoritative only for the meaning within its declared scope.
-- **Human-authored manuscript source:** paper-local `main.tex`, bibliography, included prose, figures, and appendices maintained by authors and reviewers to express the paper's narrative and typesetting. It is not a substitute for an authoritative research object.
-- **Generated candidate artifact:** a rebuildable output such as `main.pdf`, an HTML preview, graph export, or validation report. It is evidence for review and has no publication status.
-- **Immutable release artifact:** the reviewed, committed `pdf/paperN.pdf` (or a future versioned release bundle) published from an identified source commit and then left unchanged. A correction creates a new release artifact rather than mutating the released bytes.
+- **Authoritative research object:** an accepted, versioned object that fixes research meaning within a declared scope, including its schema, invariants, and evidence contract.
+- **Human-authored manuscript source:** paper-local `main.tex`, bibliography, prose, figures, and appendices used to express the paper's argument and presentation.
+- **Generated candidate artifact:** rebuildable output such as `main.pdf`, HTML preview, graph export, or validation report. It has no publication authority by itself.
+- **Immutable release artifact:** reviewed committed publication bytes associated with an identified source state.
 
-For the same research meaning, authority is ordered: **authoritative research object, then human-authored manuscript source, then immutable release artifact**. If an object, `main.tex`, and a committed PDF disagree, the accepted object wins; `main.tex` and a generated candidate PDF must be corrected, validated, and published as a new immutable release artifact. A committed PDF never overrides either research meaning or manuscript source. Where no accepted research object covers a statement, the human-authored manuscript source governs that statement and a differing committed PDF is stale.
+“Authoritative” here is repository governance over the intended meaning of an artifact. It is not authority over external reality and does not make a proposition true.
 
-Implementations are conformance hypotheses against authoritative research objects, not the source of their authority.
+For the same declared research meaning, repository precedence may order accepted research objects, manuscript source, and release artifacts. That precedence resolves internal artifact disagreement; it does not replace scientific review or mathematical verification.
 
-Current governance and review documentation includes:
+Implementations are conformance hypotheses against research objects, not the source of mathematical or scientific truth.
 
-- [Minimal Promotion Contract](docs/minimal-promotion-contract.md) — the consumer-side review contract for immutable Promotion Packages and bounded formalization authorization.
-- [Consumer Promotion Records](promotion-records/README.md) — immutable package snapshots, admissibility reviews, and bounded promotion decisions emitted under that contract.
+Current governance/review documentation includes:
 
-Canonical authority is an explicit status, separate from maturity (`seed`, `extracted`, `verified`) and editorial lifecycle (`draft`, `reviewed`, `published`, `deprecated`). A seed remains noncanonical until its source extraction and dependencies are checked, validation evidence and a review are recorded, and canonical authority is explicitly assigned. See [Research-object lifecycle and authority](docs/research-object-lifecycle.md) for the transition criteria and required references.
+- [Minimal Promotion Contract](docs/minimal-promotion-contract.md)
+- [Consumer Promotion Records](promotion-records/README.md)
+- [Research-object lifecycle and authority](docs/research-object-lifecycle.md)
 
-Current seed and canonical-specification documentation includes:
+Promotion is bounded repository governance. A promotion decision may authorize a downstream repository to treat an artifact as admitted under its own contract; it cannot strengthen the theorem, empirical evidence, or external validity contained in that artifact.
 
-- [Dependency Predicate seed](paper-1-dependency/research-objects/definition.dependency.dependency-predicate.json) — a source-linked seed grounded in Paper 1's workload-relative dependency predicate.
-- [Reachability Profile seed](paper-3-foundations-structural-analysis/research-objects/concept.structural-observation.reachability-profile.json) — a source-linked seed whose separate [canonical specification](docs/research-objects/canonical-reachability-profile.md) does not, by itself, promote the seed record.
+## Seed and specification boundary
 
-Additional research objects should be added by defining the scientific purpose, inputs, outputs, invariants, preconditions, postconditions, evidence contract, reproducibility requirements, canonical schema, and deterministic fixture before introducing any implementation-specific adapter. This preserves the architecture:
+Current seed/specification materials include:
 
-Canonical fixtures are validated against their declared Draft 2020-12 JSON Schemas with `python tools/validate_canonical_fixtures.py` after installing `requirements.txt`; CI runs the same check before conformance adapters. See [Canonical Fixture Schema Validation](docs/canonical-fixture-schema-validation.md).
+- [Dependency Predicate seed](paper-1-dependency/research-objects/definition.dependency.dependency-predicate.json)
+- [Reachability Profile seed](paper-3-foundations-structural-analysis/research-objects/concept.structural-observation.reachability-profile.json)
+- [Canonical Reachability Profile specification](docs/research-objects/canonical-reachability-profile.md)
+
+A seed becoming canonical means its repository lifecycle requirements were satisfied. It does not mean the represented concept has been established as a universal property of software systems.
+
+Additional research objects should define their scientific purpose, inputs, outputs, invariants, preconditions, postconditions, evidence contract, reproducibility requirements, schema, and deterministic fixtures before implementation-specific adapters are treated as reference behavior.
+
+## From real system to formal object
+
+The current architecture can be summarized as:
 
 ```text
-Real System
-  ↓
-Canonical Structural Object
-  ↓
-Canonical Research Object
-  ↓
-Specific Analysis
+Real system
+    ↓ observation / abstraction
+Structural representation
+    ↓ canonicalization under declared semantics
+Canonical structural object
+    ↓ formal definition
+Research object / proposition
+    ↓
+Specific analysis
 ```
 
-## Current repository status
+The most consequential boundary is the first arrow. Mathematics can reason precisely over the structural object once supplied; it cannot prove that the abstraction retained every real-system property relevant to the intended use.
+
+That correspondence must be investigated empirically.
+
+## Relationship to ABR
+
+Architectural Boundary Research can provide bounded empirical evidence about recurring structures in observed software systems. Structural Analysis Foundations can formalize precisely stated propositions once their premises and scope are independently justified.
+
+```text
+Empirical recurrence ≠ theorem
+Theorem ≠ empirical recurrence
+```
+
+ABR evidence may motivate or constrain formalization, but empirical recurrence alone does not establish mathematical necessity. Conversely, a theorem about a model does not establish that real systems satisfy its premises.
+
+## Relationship to Structology
+
+Structology is a provisional candidate structural vocabulary. Structural Analysis Foundations may formalize concepts compatible with it, but the validity of a proof cannot validate Structology's broader transfer/generalization claims.
+
+Formal work should remain interpretable from its explicit definitions even if Structology is later revised or rejected.
+
+## Relationship to SYNAPSE
+
+SYNAPSE may implement deterministic analyses corresponding to formal definitions from this repository.
+
+```text
+Formal specification
+        ↓ implementation
+SYNAPSE analysis
+        ↓ conformance evidence
+Deterministic result
+```
+
+Passing implementation tests can establish conformance to an encoded specification. It cannot establish that the specification is mathematically correct or externally adequate unless those questions are tested separately.
+
+## Relationship to ContinuityOS
+
+Formal structural results may become inputs to a legitimacy system, but structural truth does not create authority.
+
+```text
+Structural proposition ≠ permission
+Formal validity ≠ execution eligibility
+```
+
+Any downstream mapping from a formal result to execution policy belongs to the consuming legitimacy/governance system and requires independent authority.
+
+## Validation program
+
+The next high-value work is not simply adding more formal objects. The program should test both mathematical robustness and external correspondence.
+
+Priority work includes:
+
+1. **Independent proof review** — have qualified reviewers attempt to verify, find counterexamples to, or weaken the principal propositions without relying on repository tests.
+2. **Assumption audit** — enumerate which conclusions fail when each assumption is removed or weakened.
+3. **Representation challenge** — construct non-isomorphic or behaviorally distinct systems that map to the same canonical object and determine which distinctions are intentionally discarded versus consequentially lost.
+4. **Alternative-formalism comparison** — compare the proposed definitions against established graph, dependency, program-analysis, architecture, and category-theoretic formulations where applicable.
+5. **Empirical correspondence** — use ABR or another empirical environment to test whether the formal structural predicates correspond to observed system behavior.
+6. **Implementation conformance** — verify that SYNAPSE or other implementations reproduce the formal semantics without treating implementation agreement as proof.
+
+## Falsification and revision boundary
+
+Formal results should be revised if a proof is invalid, a counterexample violates a stated theorem, or hidden assumptions are discovered.
+
+The broader research program should be narrowed if:
+
+- the proposed canonical representation loses information required for its intended analyses;
+- dependency definitions fail to capture consequential forms of dependency in target domains;
+- the Paper 3 interface excludes important structural analyses without principled reason;
+- existing mathematical frameworks express the same results more simply or generally;
+- external-system correspondence is weak; or
+- formal machinery adds no consequential engineering value beyond simpler representations.
+
+A mathematically valid but externally unhelpful framework is still a legitimate mathematical result; it should simply carry a narrower claim.
+
+## Repository status
 
 Immutable PDF release artifacts are present at:
 
@@ -92,24 +235,13 @@ Immutable PDF release artifacts are present at:
 - [paper-2-canonical-structural-analysis/pdf/paper2.pdf](paper-2-canonical-structural-analysis/pdf/paper2.pdf)
 - [paper-3-foundations-structural-analysis/pdf/paper3.pdf](paper-3-foundations-structural-analysis/pdf/paper3.pdf)
 
-Current source status: `main.tex` and `references.bib` are present in each paper directory; local LaTeX builds require LaTeX tooling such as `latexmk` or `pdflatex`.
-
+Paper-local `main.tex` and `references.bib` sources are present for each paper.
 
 ## Continuous LaTeX validation
 
-This repository is self-validating through the GitHub Actions workflow at `.github/workflows/latex.yml`. The workflow builds each paper independently with `latexmk -pdf main.tex` in a maintained TeX Live environment:
+GitHub Actions builds each paper independently with `latexmk -pdf main.tex`. Generated PDFs are candidate build artifacts; committed PDFs under `paper-*/pdf/` remain immutable release artifacts under the repository's release process.
 
-- `paper-1-dependency/`
-- `paper-2-canonical-structural-analysis/`
-- `paper-3-foundations-structural-analysis/`
-
-Each matrix job runs in the paper directory so the bibliography, cross-references, labels, included files, figures, and appendices must resolve from that paper's own source tree. A failure in any paper fails the workflow, while `fail-fast: false` lets the run report which papers passed or failed.
-
-The workflow treats the committed PDFs under `paper-*/pdf/paper*.pdf` as immutable release artifacts and never writes to those paths. Generated candidate PDFs are transient CI outputs and are uploaded only as workflow artifacts together with `build.log` and useful auxiliary files for debugging.
-
-### Local build instructions
-
-To reproduce the CI build locally, install a TeX Live distribution with `latexmk`, then run each paper from its own directory:
+To reproduce the build locally:
 
 ```sh
 cd paper-1-dependency && latexmk -pdf main.tex
@@ -117,15 +249,27 @@ cd ../paper-2-canonical-structural-analysis && latexmk -pdf main.tex
 cd ../paper-3-foundations-structural-analysis && latexmk -pdf main.tex
 ```
 
-Local builds generate the candidate artifact `main.pdf` and LaTeX auxiliary files beside each `main.tex`. Do not copy those generated files over immutable release artifacts in the `pdf/` directories. Publication requires the acceptance and release transition defined in `REPRODUCIBILITY.md`.
+A successful LaTeX build establishes source/build consistency, not theorem correctness.
+
+Canonical fixtures can be checked against their declared schemas with:
+
+```sh
+python tools/validate_canonical_fixtures.py
+```
+
+Schema validity establishes conformance to the schema, not validity of the represented scientific claim.
 
 ## Repository organization
-
-Each paper is organized as a self-contained directory intended to hold its manuscript source, bibliography, appendices, figures, and generated PDF output.
 
 - `paper-1-dependency/` — Paper 1: The Mathematics of Dependency
 - `paper-2-canonical-structural-analysis/` — Paper 2: Canonical Structural Analysis
 - `paper-3-foundations-structural-analysis/` — Paper 3: Foundations for Structural Analysis
-- `figures/` — top-level figure organization by paper
+- `figures/` — shared figure organization
+- `docs/` — research-object lifecycle, promotion, and specification documentation
+- `promotion-records/` — consumer-side evidence admission/promotion records
 
-Each paper can be compiled independently once its manuscript sources are present in its directory. The trilogy forms a progressive research program: Paper 1 develops workload-relative dependency, Paper 2 develops canonical structural representations, and Paper 3 develops the foundations for structural analysis.
+## Current conclusion
+
+Structural Analysis Foundations contains a coherent formal research program spanning workload-relative dependency, canonical structural representations, and candidate foundations for structural-analysis operators.
+
+Its strongest legitimate claims are conditional mathematical claims inside explicit definitions and assumptions. The next claims to earn are independent mathematical verification and demonstrated correspondence between those formal objects and consequential properties of real software systems.
